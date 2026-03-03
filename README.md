@@ -1,23 +1,27 @@
-🧬 ASGARD Pipeline
+# 🧬 ASGARD Pipeline
 
-A modular, reproducible bioinformatics workflow framework built using Snakemake, designed for structured protein set extraction, curation, and downstream analysis.
+A modular, reproducible bioinformatics workflow framework built using **Snakemake**, designed for structured protein set extraction, curation, and downstream analysis.
 
-🚀 Overview
+---
 
-ASGARD Pipeline is designed as a multi-pipeline framework.
-Each biological workflow lives in its own modular pipeline directory, while sharing:
+## 🚀 Overview
 
-Unified executor (run_pipeline.sh)
+**ASGARD Pipeline** is a multi-pipeline framework where each biological workflow lives in its own modular directory while sharing:
 
-Config-driven execution
+* A unified executor (`run_pipeline.sh`)
+* Config-driven execution
+* Structured logging
+* Conda-based reproducibility
+* Human-in-the-loop review gates
+* Clear separation between infrastructure and biological logic
 
-Structured logging
+The system is designed to scale as more pipelines are added.
 
-Conda-based reproducibility
+---
 
-Manual review gates (human-in-the-loop design)
+## 🏗 Repository Structure
 
-🏗 Architecture
+```
 asgard_pipeline/
 │
 ├── bin/
@@ -36,114 +40,178 @@ asgard_pipeline/
 ├── database/
 ├── logs/
 └── README.md
-🧠 Execution Model
+```
+
+### Key Components
+
+| Component         | Purpose                                        |
+| ----------------- | ---------------------------------------------- |
+| `run_pipeline.sh` | Unified executor for all pipelines             |
+| `pipelines/`      | Modular workflow definitions                   |
+| `processes/`      | Config files for individual runs               |
+| `envs/`           | Conda environment YAML files                   |
+| `logs/`           | Structured execution logs                      |
+| `.snakemake/`     | Auto-generated workflow state and environments |
+
+---
+
+## ▶️ Running a Pipeline
 
 Pipelines are executed via:
 
+```bash
 bash bin/run_pipeline.sh processes/<config.yaml>
+```
 
-The config file determines:
+The configuration file determines:
 
-Which pipeline to run
+* Which pipeline to run
+* Input files
+* Target protein
+* Run ID
+* Log directory
+* Execution cores
 
-Input files
+---
 
-Target protein
+## 📄 Configuration File Structure
 
-Run ID
+Example:
 
-Log directory
-
-Execution cores
-
-📄 Config Structure
-
-Minimal example:
-
+```yaml
 pipeline: protein_pipeline
 protein_name: ftsz
 run_id: ftsz_test_run
+
 log_dir: logs/
 cores: 24
 
 database: path/to/interpro.parquet
 protein_file: path/to/protein.csv
-fasta_file: path/to/all.fasta
+fasta_file: path/to/all_sequences.fasta
 
 search_string: ftsz
 rstring: null
-📜 Logging System
+```
+
+### Important Notes
+
+* Exactly one of `search_string` or `rstring` must be set.
+* `run_id` determines log continuity across reruns.
+* If `run_id` is unchanged, logs append to the same file.
+
+---
+
+## 📜 Logging System
 
 Each run generates a structured log:
 
+```
 <log_dir>/<pipeline>_<protein>_<run_id>.log
+```
 
 The log contains:
 
-Run metadata
+* Run metadata
+* Config snapshot
+* Execution timestamps
+* Full Snakemake output
+* Rule-level execution details
 
-Config snapshot
+If a pipeline includes manual checkpoints, rerunning with the same `run_id` appends to the same log.
 
-Full Snakemake output
+---
 
-Timestamps
+## 🧪 Conda Environments
 
-Execution details
+* Managed automatically via `--use-conda`
+* Stored under `.snakemake/conda/`
+* Hash-based isolation ensures reproducibility
+* Uses modern Conda solver (libmamba backend)
 
-Manual reruns append to the same log file if run_id remains unchanged.
+Environments are recreated only if:
 
-🧪 Conda Environments
+* The YAML changes
+* Dependencies change
+* Channels change
 
-Environments are created automatically by Snakemake.
+---
 
-Stored under .snakemake/conda/.
+## 🔍 Manual Review Gates
 
-Hash-based isolation ensures reproducibility.
+Some pipelines implement human-in-the-loop review steps.
 
-Built using libmamba backend.
+Typical behavior:
 
-🔍 Manual Review Gates
+1. Pipeline generates `.unr.fasta`
+2. Execution pauses
+3. User manually curates file
+4. Save curated file as `.rev.fasta`
+5. Create marker:
 
-Certain pipelines may include manual curation steps.
-
-Workflow pauses when:
-
-.rev.fasta does not exist
-
-REVIEW_DONE.flag not present
-
-User must:
-
-Curate .unr.fasta
-
-Save as .rev.fasta
-
-Create marker:
-
+```bash
 touch REVIEW_DONE.flag
+```
 
-Re-run pipeline
+6. Re-run pipeline to continue
 
-🛡 Design Principles
+This ensures controlled biological validation.
 
-Config-driven execution
+---
 
-Modular pipeline separation
+## 🛡 Design Principles
 
-File-state driven workflow control
+* Modular workflow separation
+* Config-driven execution
+* File-state driven logic
+* Reproducible environments
+* Structured logging
+* Human validation checkpoints
+* Scalable pipeline architecture
 
-Human-in-the-loop validation
+---
 
-Reproducibility first
+## 📈 Future Extensions
 
-🔮 Future Extensions
+Planned expansions may include:
 
-Additional pipelines (alignment, phylogeny, annotation, etc.)
+* Alignment pipelines
+* Phylogeny pipelines
+* Annotation workflows
+* Automated report generation
+* Cluster/HPC profile integration
+* Config schema validation
+* Pipeline registry system
 
-Cluster profile support
+---
 
-Automated report generation
+## 🧠 Philosophy
 
-Pipeline registry
+ASGARD Pipeline is designed not just to run workflows, but to:
 
-Schema-based config validation
+* Ensure reproducibility
+* Enforce structured execution
+* Maintain traceability
+* Enable clean expansion
+* Support research-grade bioinformatics
+
+---
+
+## 📌 Pipeline-Specific Documentation
+
+Each pipeline should contain its own `README.md` describing:
+
+* Biological objective
+* Input/output structure
+* Special rules
+* Manual steps
+* Required config parameters
+
+This keeps infrastructure documentation separate from biological workflow documentation.
+
+---
+
+## 🏁 Summary
+
+ASGARD Pipeline provides a structured, extensible, and reproducible framework for bioinformatics workflows, designed for long-term maintainability and scalability.
+
