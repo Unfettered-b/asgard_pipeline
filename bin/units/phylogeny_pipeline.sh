@@ -69,8 +69,8 @@ iqtree3 \
     -bb 1000 \
     -alrt 1000 \
     -pre "${PREFIX}" \
-    --quiet
-
+    2>&1 | tee "${PREFIX}.iqtree_console.log"
+    
 echo "✅ Phylogeny complete"
 
 ############################################

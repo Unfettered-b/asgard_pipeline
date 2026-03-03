@@ -3,7 +3,7 @@
 Pipeline: protein_pipeline
 Protein: ftsz
 Config: processes/protein_pipeline_IPS_ftsz.yaml
-Start Time: Tue Mar  3 19:15:45 IST 2026
+Start Time: Tue Mar  3 19:51:18 IST 2026
 Cores: 24
 ----------------------------------------------
 Reason:
@@ -98,12 +98,9 @@ host: DESKTOP-VPSEKSF
 Building DAG of jobs...
 Need to rerun job upload_main_tree_to_itol because job run_phylogeny has to be rerun.
 Need to rerun job all because job upload_main_tree_to_itol has to be rerun.
-Need to rerun job archive_config because of missing output required by all.
-Need to rerun job all because job archive_config has to be rerun.
-: False 2
-/home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/config_used.yaml: True 0
-/home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_main_itol_uploaded.flag: False 1
+: False 1
 /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.treefile: True 0
+/home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_main_itol_uploaded.flag: False 1
 shared_storage_local_copies: True
 remote_exec: False
 Submitting maximum 100 job(s) over 1.0 second(s).
@@ -114,28 +111,18 @@ Job stats:
 job                         count
 ------------------------  -------
 all                             1
-archive_config                  1
 run_phylogeny                   1
 upload_main_tree_to_itol        1
-total                           4
+total                           3
 
 Resources before job selection: {'_cores': 24, '_nodes': 9223372036854775807, '_job_count': 9223372036854775807}
-Ready jobs: 2
+Ready jobs: 1
 Select jobs to execute...
-Selected jobs: 2
-Resources after job selection: {'_cores': 11, '_nodes': 9223372036854775805, '_job_count': 100}
-Execute 2 jobs...
+Selected jobs: 1
+Resources after job selection: {'_cores': 24, '_nodes': 9223372036854775807, '_job_count': 100}
+Execute 1 jobs...
 
-[Tue Mar  3 19:15:46 2026]
-localrule archive_config:
-    output: /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/config_used.yaml
-    jobid: 9
-    reason: Missing output files: /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/config_used.yaml
-    resources: tmpdir=/tmp
-Shell command: None
-General args: ['--force', '--target-files-omit-workdir-adjustment', '', '--max-inventory-time 0', '--retries 0', '--nocolor', '--no-hooks', '--nolock', '--ignore-incomplete', '', '--verbose ', '--rerun-triggers software-env params code mtime input', '', '', '', '--deployment-method conda', "--conda-frontend 'conda'", '', "--conda-base-path '/root/miniconda3'", '', '', '', '--shared-fs-usage storage-local-copies sources software-deployment persistence input-output source-cache', '', "--wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/'", '', '', '', '--printshellcmds ', '', '--latency-wait 5', "--scheduler 'ilp'", '', '--local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl', "--scheduler-solver-path '/root/miniconda3/envs/snakemake/bin'", "--runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmphyno2_pz'", '', '', '--configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml', '', '', '', '--default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI=']
-
-[Tue Mar  3 19:15:46 2026]
+[Tue Mar  3 19:51:19 2026]
 Job 8: 
         ==========================================
         🌳 Running Final Phylogeny
@@ -145,25 +132,17 @@ Job 8:
         ==========================================
         
 Reason: Missing output files: /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.treefile; Code has changed since last execution
-spawned job: cd /home/anirudh/asgard_pipeline && /root/miniconda3/envs/snakemake/bin/python3.13 -m snakemake --snakefile '/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile' --target-jobs 'archive_config:' --allowed-rules archive_config --cores 24 --attempt 1 --force-use-threads  --force --target-files-omit-workdir-adjustment --max-inventory-time 0 --retries 0 --nocolor --no-hooks --nolock --ignore-incomplete --verbose  --rerun-triggers software-env params code mtime input --deployment-method conda --conda-frontend 'conda' --conda-base-path '/root/miniconda3' --shared-fs-usage storage-local-copies sources software-deployment persistence input-output source-cache --wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/' --printshellcmds  --latency-wait 5 --scheduler 'ilp' --local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl --scheduler-solver-path '/root/miniconda3/envs/snakemake/bin' --runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmphyno2_pz' --configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml --default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI= --quiet progress rules host --mode 'subprocess' --local-groupid 'local'
 Shell command: 
         bash bin/units/phylogeny_pipeline.sh             /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz.rev.fasta             /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo             12
         
 Activating conda environment: .snakemake/conda/2a768bb5b4e6b38125b8659f21b3011d_
 Waiting for running jobs to complete.
-RuleException:
-AttributeError in file "/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile", line 102:
-'dict' object has no attribute '_source'
-  File "/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile", line 102, in __rule_archive_config
-Exiting because a job execution failed. Look below for error messages
-WorkflowError:
-At least one job did not complete successfully.
 ==============================================
 🌳 PHYLOGENY PIPELINE STARTED
 Input: /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz.rev.fasta
 Prefix: /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo
 Threads: 12
-Start Time: Tue Mar  3 19:15:47 IST 2026
+Start Time: Tue Mar  3 19:51:19 IST 2026
 ==============================================
 🧬 Running MAFFT alignment...
 nthread = 12
@@ -177,7 +156,7 @@ Gap Penalty = -1.53, +0.00, +0.00
 
 
 Making a distance matrix ..
-    1 / 1192 (thread    0)  101 / 1192 (thread    5)  201 / 1192 (thread    1)  301 / 1192 (thread   11)  401 / 1192 (thread    9)  501 / 1192 (thread    6)  601 / 1192 (thread    3)  701 / 1192 (thread   10)  801 / 1192 (thread    2)  901 / 1192 (thread    1) 1001 / 1192 (thread    2) 1101 / 1192 (thread   11)
+    1 / 1192 (thread    1)  101 / 1192 (thread    7)  201 / 1192 (thread   10)  301 / 1192 (thread   10)  401 / 1192 (thread    0)  501 / 1192 (thread    8)  601 / 1192 (thread    8)  701 / 1192 (thread    2)  801 / 1192 (thread    2)  901 / 1192 (thread    0) 1001 / 1192 (thread    8) 1101 / 1192 (thread    8)
 done.
 
 Constructing a UPGMA tree (efffree=0) ... 
@@ -185,13 +164,13 @@ Constructing a UPGMA tree (efffree=0) ...
 done.
 
 Progressive alignment 1/2... 
-STEP     1 / 1191 (thread    0) fSTEP     2 / 1191 (thread    1) fSTEP     3 / 1191 (thread    3) fSTEP     7 / 1191 (thread    6) fSTEP     5 / 1191 (thread    4)STEP    10 / 1191 (thread    9) fSTEP     9 / 1191 (thread    8) f fSTEP     4 / 1191 (thread    2) fSTEP    15 / 1191 (thread    6) fSTEP     8 / 1191 (thread    7) fSTEP    17 / 1191 (thread    8) fSTEP    19 / 1191 (thread    6) fSTEP     6 / 1191 (thread    5) fSTEP    16 / 1191 (thread    9) fSTEP    11 / 1191 (thread   10) fSTEP    21 / 1191 (thread    8) fSTEP    18 / 1191 (thread    4) fSTEP    22 / 1191 (thread    6) fSTEP    20 / 1191 (thread    1) fSTEP    24 / 1191 (thread    2) fSTEP    25 / 1191 (thread    7) fSTEP    27 / 1191 (thread    6) fSTEP    29 / 1191 (thread    2) fSTEP    23 / 1191 (thread    8) fSTEP    30 / 1191 (thread    6) fSTEP    31 / 1191 (thread    7) fSTEP    28 / 1191 (thread    9) fSTEP    26 / 1191 (thread    4) fSTEP    12 / 1191 (thread   11) fSTEP    35 / 1191 (thread    5) fSTEP    32 / 1191 (thread   10) fSTEP    40 / 1191 (thread    5) fSTEP    41 / 1191 (thread    8) fSTEP    36 / 1191 (thread    4) fSTEP    43 / 1191 (thread   11) fSTEP    13 / 1191 (thread    0) fSTEP    44 / 1191 (thread    5) fSTEP    33 / 1191 (thread    1) fSTEP    42 / 1191 (thread   10) fSTEP    45 / 1191 (thread    8) fSTEP    37 / 1191 (thread    9) fSTEP    48 / 1191 (thread   11) fSTEP    49 / 1191 (thread    8) fSTEP    46 / 1191 (thread    5) fSTEP    50 / 1191 (thread    9) fSTEP    38 / 1191 (thread    6) fSTEP    14 / 1191 (thread    3) fSTEP    51 / 1191 (thread    0) fSTEP    52 / 1191 (thread   11) fSTEP    53 / 1191 (thread    1) fSTEP    34 / 1191 (thread    2) fSTEP    39 / 1191 (thread    7) fSTEP    54 / 1191 (thread    8) fSTEP    47 / 1191 (thread    4) fSTEP    55 / 1191 (thread   10) fSTEP    66 / 1191 (thread    4) fSTEP    56 / 1191 (thread    9) fSTEP    67 / 1191 (thread   10) fSTEP    68 / 1191 (thread    4) fSTEP    57 / 1191 (thread    1) fSTEP    58 / 1191 (thread   11) fSTEP    69 / 1191 (thread    9) fSTEP    59 / 1191 (thread    6) fSTEP    70 / 1191 (thread   10) fSTEP    60 / 1191 (thread    0) fSTEP    71 / 1191 (thread    4) fSTEP    77 / 1191 (thread    0) fSTEP    61 / 1191 (thread    5) fSTEP    78 / 1191 (thread    4) fSTEP    72 / 1191 (thread    1) fSTEP    79 / 1191 (thread    0) fSTEP    80 / 1191 (thread    4) fSTEP    81 / 1191 (thread    5) fSTEP    82 / 1191 (thread    0) fSTEP    62 / 1191 (thread    2) fSTEP    84 / 1191 (thread    1) fSTEP    73 / 1191 (thread    9) fSTEP    83 / 1191 (thread    4) fSTEP    63 / 1191 (thread    3) fSTEP    85 / 1191 (thread    0) fSTEP    89 / 1191 (thread    9) fSTEP    74 / 1191 (thread   11) fSTEP    90 / 1191 (thread    4) fSTEP    64 / 1191 (thread    7) fSTEP    86 / 1191 (thread    5) fSTEP    94 / 1191 (thread   11) fSTEP    75 / 1191 (thread    6) fSTEP    91 / 1191 (thread    9) fSTEP    65 / 1191 (thread    8) fSTEP    87 / 1191 (thread    2) fSTEP    95 / 1191 (thread    4) fSTEP    99 / 1191 (thread    6) fSTEP    76 / 1191 (thread   10) fSTEP    92 / 1191 (thread    3) fSTEP   101 / 1191 (thread    6) fSTEP   100 / 1191 (thread    9) fSTEP   102 / 1191 (thread    2) fSTEP    88 / 1191 (thread    1) fSTEP    96 / 1191 (thread    7) fSTEP   103 / 1191 (thread    6) fSTEP   106 / 1191 (thread    3) fSTEP    93 / 1191 (thread    0) fSTEP   109 / 1191 (thread    3) fSTEP   107 / 1191 (thread    9) fSTEP   104 / 1191 (thread    2) fSTEP   111 / 1191 (thread    6) fSTEP   113 / 1191 (thread    3) fSTEP   110 / 1191 (thread    8) fSTEP    97 / 1191 (thread    5) fSTEP   115 / 1191 (thread    9) fSTEP   112 / 1191 (thread    7) fSTEP   108 / 1191 (thread   10) fSTEP   117 / 1191 (thread    3) fSTEP   114 / 1191 (thread    1) fSTEP   118 / 1191 (thread    0) fSTEP   119 / 1191 (thread    8) fSTEP   121 / 1191 (thread    2)STEP   120 / 1191 (thread    9)STEP   105 / 1191 (thread    4) f f fSTEP   116 / 1191 (thread    6) fSTEP   122 / 1191 (thread    3) fSTEP    98 / 1191 (thread   11) fSTEP   124 / 1191 (thread   10) fSTEP   126 / 1191 (thread    8) fSTEP   128 / 1191 (thread    3) fSTEP   123 / 1191 (thread    5) fSTEP   129 / 1191 (thread    2) fSTEP   131 / 1191 (thread    8) fSTEP   127 / 1191 (thread    0) fSTEP   130 / 1191 (thread    9) fSTEP   134 / 1191 (thread   10) fSTEP   125 / 1191 (thread    7) fSTEP   136 / 1191 (thread    1) fSTEP   137 / 1191 (thread    6) fSTEP   138 / 1191 (thread    5) fSTEP   139 / 1191 (thread    8) fSTEP   132 / 1191 (thread    3) fSTEP   135 / 1191 (thread    4)STEP   141 / 1191 (thread   10)STEP   140 / 1191 (thread    1) f f fSTEP   142 / 1191 (thread    7) fSTEP   143 / 1191 (thread    6) fSTEP   150 / 1191 (thread    6) fSTEP   144 / 1191 (thread   11) fSTEP   151 / 1191 (thread   10) fSTEP   145 / 1191 (thread    8) fSTEP   152 / 1191 (thread    5) fSTEP   157 / 1191 (thread    8) fSTEP   146 / 1191 (thread    0) fSTEP   153 / 1191 (thread    4) fSTEP   158 / 1191 (thread    5) fSTEP   133 / 1191 (thread    2) fSTEP   147 / 1191 (thread    1) fSTEP   154 / 1191 (thread    6) fSTEP   159 / 1191 (thread    3) fSTEP   164 / 1191 (thread    6) fSTEP   165 / 1191 (thread    1) fSTEP   148 / 1191 (thread    9)STEP   155 / 1191 (thread   11) f fSTEP   166 / 1191 (thread    6) fSTEP   167 / 1191 (thread    2) fSTEP   169 / 1191 (thread    3) fSTEP   160 / 1191 (thread    8)STEP   172 / 1191 (thread    6) f fSTEP   168 / 1191 (thread    1) fSTEP   170 / 1191 (thread   11) fSTEP   156 / 1191 (thread   10) fSTEP   171 / 1191 (thread    2)STEP   149 / 1191 (thread    7) f fSTEP   175 / 1191 (thread    6) fSTEP   173 / 1191 (thread    9) fSTEP   179 / 1191 (thread   10) fSTEP   181 / 1191 (thread    6) fSTEP   176 / 1191 (thread   11) fSTEP   182 / 1191 (thread    9) fSTEP   183 / 1191 (thread   10) fSTEP   184 / 1191 (thread    8) fSTEP   174 / 1191 (thread    3) fSTEP   161 / 1191 (thread    0) fSTEP   185 / 1191 (thread    6) fSTEP   180 / 1191 (thread    7) fSTEP   186 / 1191 (thread   10) fSTEP   177 / 1191 (thread    1) fSTEP   188 / 1191 (thread   11) fSTEP   189 / 1191 (thread    9) fSTEP   191 / 1191 (thread   10) fSTEP   187 / 1191 (thread    8) fSTEP   193 / 1191 (thread    9) fSTEP   178 / 1191 (thread    2) fSTEP   195 / 1191 (thread   10) fSTEP   192 / 1191 (thread   11) fSTEP   190 / 1191 (thread    6) fSTEP   197 / 1191 (thread   10) fSTEP   196 / 1191 (thread    0) fSTEP   199 / 1191 (thread    7) fSTEP   201 / 1191 (thread    6) fSTEP   194 / 1191 (thread    1) fSTEP   162 / 1191 (thread    4) fSTEP   202 / 1191 (thread    9) fSTEP   198 / 1191 (thread    3) fSTEP   203 / 1191 (thread    2) fSTEP   204 / 1191 (thread   10) fSTEP   207 / 1191 (thread   10) fSTEP   205 / 1191 (thread    6) fSTEP   211 / 1191 (thread    8) fSTEP   212 / 1191 (thread   10) fSTEP   163 / 1191 (thread    5) fSTEP   214 / 1191 (thread    1) fSTEP   208 / 1191 (thread    2) fSTEP   200 / 1191 (thread   11) fSTEP   217 / 1191 (thread    6) fSTEP   218 / 1191 (thread    1)STEP   206 / 1191 (thread    9) f fSTEP   219 / 1191 (thread   10) fSTEP   215 / 1191 (thread    4) fSTEP   213 / 1191 (thread    3) fSTEP   220 / 1191 (thread    1) fSTEP   223 / 1191 (thread    2) fSTEP   209 / 1191 (thread    0) fSTEP   216 / 1191 (thread    8) fSTEP   221 / 1191 (thread    6) fSTEP   227 / 1191 (thread    1) fSTEP   228 / 1191 (thread   11) fSTEP   224 / 1191 (thread    9) fSTEP   230 / 1191 (thread    1) fSTEP   210 / 1191 (thread    7) fSTEP   232 / 1191 (thread    0) fSTEP   233 / 1191 (thread    3) fSTEP   229 / 1191 (thread    2) fSTEP   231 / 1191 (thread    8) fSTEP   236 / 1191 (thread    0) fSTEP   225 / 1191 (thread    4) fSTEP   234 / 1191 (thread   11) fSTEP   238 / 1191 (thread    3) fSTEP   237 / 1191 (thread    9) fSTEP   222 / 1191 (thread   10) fSTEP   242 / 1191 (thread    8) fSTEP   243 / 1191 (thread    3) fSTEP   239 / 1191 (thread    6) fSTEP   244 / 1191 (thread    9) fSTEP   249 / 1191 (thread    9) fSTEP   245 / 1191 (thread    8) fSTEP   250 / 1191 (thread    6) fSTEP   251 / 1191 (thread    4) fSTEP   240 / 1191 (thread    7) fSTEP   226 / 1191 (thread    5) fSTEP   235 / 1191 (thread    1) fSTEP   253 / 1191 (thread    9) fSTEP   255 / 1191 (thread    4) fSTEP   252 / 1191 (thread   11) fSTEP   246 / 1191 (thread    2) fSTEP   257 / 1191 (thread    7) fSTEP   254 / 1191 (thread    6) fSTEP   241 / 1191 (thread    0) fSTEP   260 / 1191 (thread    9) fSTEP   259 / 1191 (thread    4)STEP   261 / 1191 (thread    7) fSTEP   256 / 1191 (thread    8) fSTEP   258 / 1191 (thread    5) f fSTEP   263 / 1191 (thread    2) fSTEP   247 / 1191 (thread   10) fSTEP   265 / 1191 (thread    9) fSTEP   262 / 1191 (thread    1) fSTEP   266 / 1191 (thread    4) fSTEP   269 / 1191 (thread    2) fSTEP   264 / 1191 (thread    7)STEP   270 / 1191 (thread    9) f fSTEP   267 / 1191 (thread   11) fSTEP   271 / 1191 (thread    4) fSTEP   272 / 1191 (thread    0)STEP   275 / 1191 (thread    2) fSTEP   276 / 1191 (thread    5) f fSTEP   273 / 1191 (thread   10) fSTEP   248 / 1191 (thread    3)STEP   274 / 1191 (thread    9) f fSTEP   277 / 1191 (thread    8) fSTEP   278 / 1191 (thread    4) fSTEP   279 / 1191 (thread    2) fSTEP   280 / 1191 (thread    5) fSTEP   281 / 1191 (thread   10) fSTEP   282 / 1191 (thread    1) fSTEP   283 / 1191 (thread    9) fSTEP   284 / 1191 (thread    0) fSTEP   285 / 1191 (thread   11) fSTEP   268 / 1191 (thread    6) fSTEP   287 / 1191 (thread    2) fSTEP   288 / 1191 (thread   10) fSTEP   289 / 1191 (thread    5) fSTEP   290 / 1191 (thread    9) fSTEP   291 / 1191 (thread    4) fSTEP   292 / 1191 (thread    3) fSTEP   293 / 1191 (thread    8) fSTEP   294 / 1191 (thread    0) fSTEP   295 / 1191 (thread   11) fSTEP   286 / 1191 (thread    7) fSTEP   296 / 1191 (thread   10) fSTEP   297 / 1191 (thread    2) fSTEP   299 / 1191 (thread    1) fSTEP   300 / 1191 (thread    9) fSTEP   304 / 1191 (thread    4) fSTEP   298 / 1191 (thread    5) fSTEP   305 / 1191 (thread    8) fSTEP   306 / 1191 (thread    0) fSTEP   308 / 1191 (thread    2) fSTEP   309 / 1191 (thread    9) fSTEP   301 / 1191 (thread    3) fSTEP   313 / 1191 (thread    8) fSTEP   307 / 1191 (thread    1) fSTEP   310 / 1191 (thread    6) fSTEP   317 / 1191 (thread    5) fSTEP   314 / 1191 (thread    2) fSTEP   318 / 1191 (thread    8) fSTEP   302 / 1191 (thread   11) fSTEP   321 / 1191 (thread    6) fSTEP   311 / 1191 (thread    4) fSTEP   322 / 1191 (thread    1) fSTEP   323 / 1191 (thread    2) fSTEP   324 / 1191 (thread    6) fSTEP   315 / 1191 (thread    9) fSTEP   319 / 1191 (thread    5) fSTEP   326 / 1191 (thread    8) fSTEP   327 / 1191 (thread    2) fSTEP   328 / 1191 (thread    4) fSTEP   312 / 1191 (thread    0) fSTEP   325 / 1191 (thread    1) fSTEP   331 / 1191 (thread   11) fSTEP   303 / 1191 (thread   10) fSTEP   329 / 1191 (thread    6) fSTEP   335 / 1191 (thread    0) fSTEP   320 / 1191 (thread    3) fSTEP   316 / 1191 (thread    7) fSTEP   337 / 1191 (thread    9) fSTEP   332 / 1191 (thread    2) fSTEP   336 / 1191 (thread   11) fSTEP   339 / 1191 (thread    6) fSTEP   338 / 1191 (thread    0) fSTEP   341 / 1191 (thread    1) fSTEP   342 / 1191 (thread   10) fSTEP   330 / 1191 (thread    8) fSTEP   343 / 1191 (thread    3) fSTEP   344 / 1191 (thread    2) fSTEP   346 / 1191 (thread    7) fSTEP   333 / 1191 (thread    4) fSTEP   340 / 1191 (thread    9) fSTEP   350 / 1191 (thread   10) fSTEP   347 / 1191 (thread   11) fSTEP   345 / 1191 (thread    1) fSTEP   354 / 1191 (thread   10) fSTEP   351 / 1191 (thread    7) fSTEP   355 / 1191 (thread    8) fSTEP   356 / 1191 (thread   10) fSTEP   358 / 1191 (thread   11) fSTEP   334 / 1191 (thread    5) fSTEP   348 / 1191 (thread    6) fSTEP   360 / 1191 (thread    7) fSTEP   352 / 1191 (thread    0) fSTEP   362 / 1191 (thread    9) fSTEP   364 / 1191 (thread   10) fSTEP   357 / 1191 (thread    1) fSTEP   361 / 1191 (thread    8) fSTEP   359 / 1191 (thread    4) fSTEP   363 / 1191 (thread    7)STEP   366 / 1191 (thread    5) f fSTEP   365 / 1191 (thread   11) fSTEP   353 / 1191 (thread    2) fSTEP   372 / 1191 (thread    5) fSTEP   367 / 1191 (thread    9) fSTEP   349 / 1191 (thread    3) fSTEP   373 / 1191 (thread    6) fSTEP   378 / 1191 (thread    9) fSTEP   368 / 1191 (thread    0) fSTEP   379 / 1191 (thread    7) fSTEP   374 / 1191 (thread    4) fSTEP   369 / 1191 (thread   10) fSTEP   384 / 1191 (thread    7) fSTEP   380 / 1191 (thread    3) fSTEP   375 / 1191 (thread    2) fSTEP   386 / 1191 (thread   10) fSTEP   370 / 1191 (thread    8) fSTEP   388 / 1191 (thread    3) fSTEP   385 / 1191 (thread    4) fSTEP   381 / 1191 (thread    9) fSTEP   387 / 1191 (thread    7) fSTEP   390 / 1191 (thread    3) fSTEP   389 / 1191 (thread   10) fSTEP   391 / 1191 (thread    2) fSTEP   394 / 1191 (thread    4) fSTEP   396 / 1191 (thread    3) fSTEP   376 / 1191 (thread   11) fSTEP   382 / 1191 (thread    6)STEP   371 / 1191 (thread    1) f fSTEP   399 / 1191 (thread    4) fSTEP   392 / 1191 (thread    8) fSTEP   397 / 1191 (thread   10) fSTEP   395 / 1191 (thread    7) fSTEP   401 / 1191 (thread    4) fSTEP   377 / 1191 (thread    5) fSTEP   403 / 1191 (thread    1) fSTEP   400 / 1191 (thread    3) fSTEP   404 / 1191 (thread    6) fSTEP   383 / 1191 (thread    0) fSTEP   393 / 1191 (thread    9) fSTEP   402 / 1191 (thread   11) fSTEP   409 / 1191 (thread    3) fSTEP   398 / 1191 (thread    2) fSTEP   405 / 1191 (thread    4) fSTEP   412 / 1191 (thread    3) fSTEP   410 / 1191 (thread   10) fSTEP   413 / 1191 (thread    5) fSTEP   414 / 1191 (thread    9) fSTEP   415 / 1191 (thread    3) fSTEP   416 / 1191 (thread    5) fSTEP   417 / 1191 (thread    9) fSTEP   418 / 1191 (thread   11)STEP   411 / 1191 (thread    6) fSTEP   419 / 1191 (thread    0) f fSTEP   420 / 1191 (thread   10) fSTEP   424 / 1191 (thread   10)STEP   421 / 1191 (thread    3) f fSTEP   425 / 1191 (thread    9) fSTEP   406 / 1191 (thread    8)STEP   426 / 1191 (thread    6) f fSTEP   427 / 1191 (thread    0) fSTEP   428 / 1191 (thread    9) fSTEP   429 / 1191 (thread   11) fSTEP   430 / 1191 (thread   10) fSTEP   431 / 1191 (thread    4) fSTEP   432 / 1191 (thread    6) fSTEP   434 / 1191 (thread   11)STEP   433 / 1191 (thread    3) f fSTEP   422 / 1191 (thread    5) fSTEP   435 / 1191 (thread    4) fSTEP   436 / 1191 (thread    9) fSTEP   437 / 1191 (thread    3) fSTEP   423 / 1191 (thread    2) fSTEP   438 / 1191 (thread   10) fSTEP   439 / 1191 (thread    5) fSTEP   440 / 1191 (thread    6) fSTEP   441 / 1191 (thread   11) fSTEP   442 / 1191 (thread    9) fSTEP   443 / 1191 (thread    4) fSTEP   444 / 1191 (thread    5) fSTEP   445 / 1191 (thread    3) fSTEP   446 / 1191 (thread    2) fSTEP   447 / 1191 (thread    9) fSTEP   448 / 1191 (thread   10) fSTEP   449 / 1191 (thread    2) fSTEP   450 / 1191 (thread    6) fSTEP   451 / 1191 (thread    0) fSTEP   452 / 1191 (thread    4) fSTEP   453 / 1191 (thread   10) fSTEP   454 / 1191 (thread    5) fSTEP   455 / 1191 (thread    9) fSTEP   456 / 1191 (thread    6) fSTEP   457 / 1191 (thread    8) fSTEP   458 / 1191 (thread   11) fSTEP   459 / 1191 (thread    2) fSTEP   407 / 1191 (thread    1) fSTEP   460 / 1191 (thread   10) fSTEP   461 / 1191 (thread    4) fSTEP   462 / 1191 (thread    3) fSTEP   463 / 1191 (thread    5) fSTEP   464 / 1191 (thread    9) fSTEP   465 / 1191 (thread    4) fSTEP   466 / 1191 (thread   10) fSTEP   467 / 1191 (thread   11) fSTEP   468 / 1191 (thread    8) fSTEP   469 / 1191 (thread    0) fSTEP   470 / 1191 (thread    5) fSTEP   471 / 1191 (thread    6) fSTEP   472 / 1191 (thread    2) fSTEP   473 / 1191 (thread    0) fSTEP   474 / 1191 (thread    9) fSTEP   475 / 1191 (thread    4) fSTEP   476 / 1191 (thread    8) fSTEP   477 / 1191 (thread   11) fSTEP   478 / 1191 (thread    9) fSTEP   479 / 1191 (thread    2) fSTEP   480 / 1191 (thread    3) fSTEP   481 / 1191 (thread    0) fSTEP   482 / 1191 (thread   10) fSTEP   483 / 1191 (thread    5) fSTEP   484 / 1191 (thread    9) fSTEP   486 / 1191 (thread    4) fSTEP   408 / 1191 (thread    7) fSTEP   487 / 1191 (thread    6) fSTEP   488 / 1191 (thread    1) fSTEP   489 / 1191 (thread   11) fSTEP   490 / 1191 (thread    0) fSTEP   485 / 1191 (thread    2) fSTEP   491 / 1191 (thread    8) fSTEP   493 / 1191 (thread   10) fSTEP   494 / 1191 (thread    4)STEP   496 / 1191 (thread    6) f fSTEP   495 / 1191 (thread    3) fSTEP   497 / 1191 (thread    1) fSTEP   498 / 1191 (thread    5) fSTEP   499 / 1191 (thread    7) fSTEP   501 / 1191 (thread   10) fSTEP   492 / 1191 (thread    9) fSTEP   500 / 1191 (thread    6) fSTEP   601 / 1191 (thread    7) fSTEP   701 / 1191 (thread   11) fSTEP   801 / 1191 (thread    9) fSTEP   901 / 1191 (thread    3) fSTEP  1001 / 1191 (thread    7) fSTEP  1101 / 1191 (thread    5) f
+STEP     1 / 1191 (thread    0) fSTEP     2 / 1191 (thread    1) fSTEP     5 / 1191 (thread    4) fSTEP     3 / 1191 (thread    2) fSTEP     7 / 1191 (thread    6) fSTEP     9 / 1191 (thread    8) fSTEP    10 / 1191 (thread    9) fSTEP    15 / 1191 (thread    4) fSTEP     6 / 1191 (thread    5) fSTEP     8 / 1191 (thread    7) fSTEP    17 / 1191 (thread    2) fSTEP    19 / 1191 (thread    4) fSTEP    16 / 1191 (thread    6) fSTEP     4 / 1191 (thread    3) fSTEP    21 / 1191 (thread    9) fSTEP    11 / 1191 (thread   10) fSTEP    18 / 1191 (thread    8) fSTEP    20 / 1191 (thread    2) fSTEP    22 / 1191 (thread    4) fSTEP    24 / 1191 (thread    5) fSTEP    25 / 1191 (thread    7) fSTEP    27 / 1191 (thread    3) fSTEP    29 / 1191 (thread    7) fSTEP    26 / 1191 (thread    6) fSTEP    30 / 1191 (thread    2) fSTEP    31 / 1191 (thread    8) fSTEP    23 / 1191 (thread    9) fSTEP    35 / 1191 (thread   10) fSTEP    28 / 1191 (thread    5) fSTEP    12 / 1191 (thread   11) fSTEP    32 / 1191 (thread    4) fSTEP    40 / 1191 (thread    5) fSTEP    41 / 1191 (thread   10) fSTEP    36 / 1191 (thread    2) fSTEP    43 / 1191 (thread   11) fSTEP    44 / 1191 (thread   10) fSTEP    42 / 1191 (thread    5)STEP    13 / 1191 (thread    1) f fSTEP    33 / 1191 (thread    7) fSTEP    45 / 1191 (thread    4) fSTEP    48 / 1191 (thread   11) fSTEP    37 / 1191 (thread    6) fSTEP    49 / 1191 (thread    5) fSTEP    50 / 1191 (thread    1) fSTEP    14 / 1191 (thread    0) fSTEP    51 / 1191 (thread    5) fSTEP    52 / 1191 (thread   11) fSTEP    53 / 1191 (thread    7) fSTEP    34 / 1191 (thread    3) fSTEP    46 / 1191 (thread   10) fSTEP    54 / 1191 (thread    1) fSTEP    38 / 1191 (thread    8) fSTEP    47 / 1191 (thread    2) fSTEP    39 / 1191 (thread    9) fSTEP    55 / 1191 (thread    4) fSTEP    66 / 1191 (thread    4) fSTEP    56 / 1191 (thread   11) fSTEP    67 / 1191 (thread    9) fSTEP    57 / 1191 (thread    5) fSTEP    68 / 1191 (thread    4) fSTEP    58 / 1191 (thread    0) fSTEP    69 / 1191 (thread   11) fSTEP    59 / 1191 (thread    7) fSTEP    70 / 1191 (thread    9) fSTEP    60 / 1191 (thread    6) fSTEP    71 / 1191 (thread    5) fSTEP    77 / 1191 (thread    6) fSTEP    61 / 1191 (thread    3) fSTEP    78 / 1191 (thread    5) fSTEP    79 / 1191 (thread    6) fSTEP    72 / 1191 (thread    4) fSTEP    80 / 1191 (thread    5) fSTEP    81 / 1191 (thread    3) fSTEP    82 / 1191 (thread    6) fSTEP    62 / 1191 (thread   10) fSTEP    84 / 1191 (thread    5) fSTEP    73 / 1191 (thread    0) fSTEP    83 / 1191 (thread    3) fSTEP    85 / 1191 (thread    4) fSTEP    63 / 1191 (thread    8) fSTEP    89 / 1191 (thread    0) fSTEP    74 / 1191 (thread   11) fSTEP    90 / 1191 (thread    3) fSTEP    86 / 1191 (thread    6) fSTEP    64 / 1191 (thread    1) fSTEP    94 / 1191 (thread   11) fSTEP    75 / 1191 (thread    7) fSTEP    91 / 1191 (thread    0) fSTEP    95 / 1191 (thread    3) fSTEP    87 / 1191 (thread    5) fSTEP    65 / 1191 (thread    2) fSTEP    99 / 1191 (thread    7) fSTEP    76 / 1191 (thread    9) fSTEP   100 / 1191 (thread    7) fSTEP   101 / 1191 (thread    3) fSTEP    96 / 1191 (thread   11) fSTEP   102 / 1191 (thread    5) fSTEP    92 / 1191 (thread    4) fSTEP    88 / 1191 (thread   10) fSTEP   106 / 1191 (thread    3) fSTEP   103 / 1191 (thread    0) fSTEP   109 / 1191 (thread    3) fSTEP   107 / 1191 (thread    7) fSTEP   111 / 1191 (thread    4) fSTEP    93 / 1191 (thread    8) fSTEP    97 / 1191 (thread    1) fSTEP   104 / 1191 (thread    2) fSTEP   113 / 1191 (thread    4) fSTEP   110 / 1191 (thread   11) fSTEP   112 / 1191 (thread    0) fSTEP   115 / 1191 (thread    7) fSTEP   108 / 1191 (thread    5) fSTEP   117 / 1191 (thread    1) fSTEP   114 / 1191 (thread    3) fSTEP   118 / 1191 (thread   10) fSTEP   119 / 1191 (thread    8) fSTEP    98 / 1191 (thread    6) fSTEP   120 / 1191 (thread    2) fSTEP   105 / 1191 (thread    9) fSTEP   121 / 1191 (thread    7)STEP   116 / 1191 (thread    4) f fSTEP   122 / 1191 (thread    1) fSTEP   124 / 1191 (thread    8) fSTEP   126 / 1191 (thread    2) fSTEP   128 / 1191 (thread    1) fSTEP   123 / 1191 (thread    5) fSTEP   129 / 1191 (thread    0) fSTEP   127 / 1191 (thread   11) fSTEP   131 / 1191 (thread    4) fSTEP   125 / 1191 (thread   10) fSTEP   134 / 1191 (thread    9) fSTEP   136 / 1191 (thread    6) fSTEP   137 / 1191 (thread    3) fSTEP   130 / 1191 (thread    2) fSTEP   138 / 1191 (thread    0) fSTEP   139 / 1191 (thread    6) fSTEP   140 / 1191 (thread    4) fSTEP   141 / 1191 (thread    3) fSTEP   132 / 1191 (thread    8) fSTEP   142 / 1191 (thread    9) fSTEP   135 / 1191 (thread    7)STEP   143 / 1191 (thread    5) f fSTEP   150 / 1191 (thread    9) fSTEP   144 / 1191 (thread    0) fSTEP   151 / 1191 (thread    5) fSTEP   145 / 1191 (thread    4) fSTEP   157 / 1191 (thread    5) fSTEP   152 / 1191 (thread    3) fSTEP   133 / 1191 (thread    1) fSTEP   146 / 1191 (thread   10) fSTEP   158 / 1191 (thread    4) fSTEP   153 / 1191 (thread    9) fSTEP   159 / 1191 (thread    5) fSTEP   147 / 1191 (thread    2) fSTEP   164 / 1191 (thread    1) fSTEP   154 / 1191 (thread    7) fSTEP   165 / 1191 (thread    1) fSTEP   166 / 1191 (thread    2) fSTEP   148 / 1191 (thread   11) fSTEP   167 / 1191 (thread    5) fSTEP   160 / 1191 (thread    3) fSTEP   169 / 1191 (thread    2) fSTEP   170 / 1191 (thread    5) fSTEP   171 / 1191 (thread    7)STEP   168 / 1191 (thread    1) fSTEP   155 / 1191 (thread    0) f fSTEP   172 / 1191 (thread    5) fSTEP   175 / 1191 (thread   11) fSTEP   149 / 1191 (thread    6) fSTEP   173 / 1191 (thread    2) fSTEP   156 / 1191 (thread    8) fSTEP   161 / 1191 (thread   10) fSTEP   179 / 1191 (thread   11) fSTEP   176 / 1191 (thread    0) fSTEP   181 / 1191 (thread    8)STEP   183 / 1191 (thread    6) f fSTEP   182 / 1191 (thread    2) fSTEP   184 / 1191 (thread   11) fSTEP   174 / 1191 (thread    3) fSTEP   180 / 1191 (thread    1) fSTEP   185 / 1191 (thread   11) fSTEP   177 / 1191 (thread    5) fSTEP   186 / 1191 (thread    6) fSTEP   188 / 1191 (thread   10) fSTEP   189 / 1191 (thread    0) fSTEP   162 / 1191 (thread    4) fSTEP   191 / 1191 (thread   11) fSTEP   187 / 1191 (thread    2) fSTEP   193 / 1191 (thread   10) fSTEP   194 / 1191 (thread   10) fSTEP   195 / 1191 (thread    5) fSTEP   197 / 1191 (thread    0) fSTEP   190 / 1191 (thread    8) fSTEP   178 / 1191 (thread    7) fSTEP   199 / 1191 (thread    1) fSTEP   192 / 1191 (thread    6) fSTEP   196 / 1191 (thread   11) fSTEP   198 / 1191 (thread    3) fSTEP   201 / 1191 (thread    5) fSTEP   202 / 1191 (thread    2) fSTEP   203 / 1191 (thread   10) fSTEP   204 / 1191 (thread    8) fSTEP   200 / 1191 (thread    0) fSTEP   207 / 1191 (thread    4) fSTEP   163 / 1191 (thread    9) fSTEP   205 / 1191 (thread    2) fSTEP   211 / 1191 (thread    4) fSTEP   212 / 1191 (thread    8) fSTEP   208 / 1191 (thread   10) fSTEP   214 / 1191 (thread    7) fSTEP   217 / 1191 (thread    8) fSTEP   213 / 1191 (thread   11) fSTEP   218 / 1191 (thread    0) fSTEP   219 / 1191 (thread    2) fSTEP   220 / 1191 (thread    7) fSTEP   215 / 1191 (thread    6) fSTEP   206 / 1191 (thread    1) fSTEP   223 / 1191 (thread    2) fSTEP   209 / 1191 (thread    5) fSTEP   216 / 1191 (thread    4) fSTEP   221 / 1191 (thread    8) fSTEP   227 / 1191 (thread    2) fSTEP   224 / 1191 (thread   10) fSTEP   228 / 1191 (thread    9) fSTEP   230 / 1191 (thread    2) fSTEP   232 / 1191 (thread    9) fSTEP   233 / 1191 (thread    4) fSTEP   222 / 1191 (thread    0) fSTEP   229 / 1191 (thread    7) fSTEP   236 / 1191 (thread    2) fSTEP   225 / 1191 (thread   11) fSTEP   237 / 1191 (thread    9) fSTEP   210 / 1191 (thread    3) fSTEP   238 / 1191 (thread    5) fSTEP   234 / 1191 (thread    8) fSTEP   231 / 1191 (thread    1) fSTEP   242 / 1191 (thread    5) fSTEP   243 / 1191 (thread    0) fSTEP   244 / 1191 (thread    3) fSTEP   239 / 1191 (thread    4) fSTEP   226 / 1191 (thread    6) fSTEP   249 / 1191 (thread    5) fSTEP   235 / 1191 (thread   10) fSTEP   245 / 1191 (thread    7) fSTEP   250 / 1191 (thread    1) fSTEP   251 / 1191 (thread    3) fSTEP   253 / 1191 (thread    5) fSTEP   255 / 1191 (thread    3) fSTEP   252 / 1191 (thread    4) fSTEP   240 / 1191 (thread    2) fSTEP   246 / 1191 (thread    8) fSTEP   257 / 1191 (thread    3) fSTEP   254 / 1191 (thread    6) fSTEP   259 / 1191 (thread    5) fSTEP   260 / 1191 (thread    7) fSTEP   256 / 1191 (thread    1) fSTEP   261 / 1191 (thread    3) fSTEP   258 / 1191 (thread   10) fSTEP   263 / 1191 (thread    2) fSTEP   241 / 1191 (thread    9) fSTEP   265 / 1191 (thread    8) fSTEP   266 / 1191 (thread    7) fSTEP   247 / 1191 (thread   11) fSTEP   262 / 1191 (thread    4) fSTEP   264 / 1191 (thread    5) fSTEP   269 / 1191 (thread    7) fSTEP   267 / 1191 (thread    3) fSTEP   270 / 1191 (thread    6) fSTEP   273 / 1191 (thread    9) fSTEP   274 / 1191 (thread    7) fSTEP   271 / 1191 (thread    8) fSTEP   272 / 1191 (thread    1) fSTEP   275 / 1191 (thread    5) fSTEP   276 / 1191 (thread    4) fSTEP   277 / 1191 (thread   10) fSTEP   278 / 1191 (thread    7) fSTEP   279 / 1191 (thread    9) fSTEP   281 / 1191 (thread    5) fSTEP   280 / 1191 (thread    8) fSTEP   268 / 1191 (thread    2) fSTEP   283 / 1191 (thread    6) fSTEP   282 / 1191 (thread    3) fSTEP   284 / 1191 (thread    4) fSTEP   248 / 1191 (thread    0) fSTEP   285 / 1191 (thread   11) fSTEP   287 / 1191 (thread    5) fSTEP   288 / 1191 (thread    9) fSTEP   289 / 1191 (thread    8) fSTEP   290 / 1191 (thread    1) fSTEP   292 / 1191 (thread    4) fSTEP   291 / 1191 (thread    6) fSTEP   293 / 1191 (thread    3) fSTEP   294 / 1191 (thread   11) fSTEP   286 / 1191 (thread    7) fSTEP   295 / 1191 (thread   10) fSTEP   296 / 1191 (thread    8) fSTEP   297 / 1191 (thread    9) fSTEP   299 / 1191 (thread    4) fSTEP   300 / 1191 (thread    6) fSTEP   304 / 1191 (thread    4) fSTEP   305 / 1191 (thread   10) fSTEP   306 / 1191 (thread    2) fSTEP   308 / 1191 (thread    9)STEP   309 / 1191 (thread    6) f fSTEP   298 / 1191 (thread    5) fSTEP   301 / 1191 (thread    3) fSTEP   313 / 1191 (thread   10) fSTEP   307 / 1191 (thread   11) fSTEP   310 / 1191 (thread    0) fSTEP   317 / 1191 (thread    5) fSTEP   314 / 1191 (thread    7) fSTEP   311 / 1191 (thread    4) fSTEP   321 / 1191 (thread    5) fSTEP   318 / 1191 (thread   10) fSTEP   322 / 1191 (thread    5) fSTEP   323 / 1191 (thread    5) fSTEP   324 / 1191 (thread   10) fSTEP   315 / 1191 (thread    6) fSTEP   319 / 1191 (thread   11) fSTEP   326 / 1191 (thread    4) fSTEP   312 / 1191 (thread    2) fSTEP   327 / 1191 (thread    3)STEP   328 / 1191 (thread   10) f fSTEP   302 / 1191 (thread    1) fSTEP   325 / 1191 (thread    7) fSTEP   316 / 1191 (thread    9) fSTEP   331 / 1191 (thread    6) fSTEP   329 / 1191 (thread    4) fSTEP   335 / 1191 (thread    7) fSTEP   320 / 1191 (thread    0)STEP   303 / 1191 (thread    8) f fSTEP   332 / 1191 (thread   10) fSTEP   337 / 1191 (thread    1) fSTEP   339 / 1191 (thread    9) fSTEP   336 / 1191 (thread   11) fSTEP   341 / 1191 (thread    4) fSTEP   330 / 1191 (thread    5) fSTEP   342 / 1191 (thread    1) fSTEP   338 / 1191 (thread    6) fSTEP   344 / 1191 (thread    8) fSTEP   343 / 1191 (thread    9) fSTEP   340 / 1191 (thread    7) fSTEP   346 / 1191 (thread   10) fSTEP   333 / 1191 (thread    2) fSTEP   345 / 1191 (thread    4) fSTEP   350 / 1191 (thread    0) fSTEP   347 / 1191 (thread    1) fSTEP   354 / 1191 (thread    6) fSTEP   355 / 1191 (thread    7) fSTEP   356 / 1191 (thread    0) fSTEP   351 / 1191 (thread    9) fSTEP   358 / 1191 (thread    2) fSTEP   334 / 1191 (thread    3) fSTEP   360 / 1191 (thread    4) fSTEP   348 / 1191 (thread    8) fSTEP   362 / 1191 (thread    0) fSTEP   357 / 1191 (thread    6) fSTEP   364 / 1191 (thread    9) fSTEP   359 / 1191 (thread    7) fSTEP   352 / 1191 (thread   11) fSTEP   361 / 1191 (thread    1) fSTEP   366 / 1191 (thread    0) fSTEP   363 / 1191 (thread    2) fSTEP   349 / 1191 (thread    5) fSTEP   365 / 1191 (thread    4) fSTEP   353 / 1191 (thread   10) fSTEP   367 / 1191 (thread    8) fSTEP   372 / 1191 (thread    0) fSTEP   373 / 1191 (thread    3) fSTEP   378 / 1191 (thread    4) fSTEP   368 / 1191 (thread    9) fSTEP   374 / 1191 (thread    6) fSTEP   379 / 1191 (thread    8) fSTEP   380 / 1191 (thread   10) fSTEP   369 / 1191 (thread    1) fSTEP   384 / 1191 (thread    6) fSTEP   375 / 1191 (thread    0) fSTEP   386 / 1191 (thread   10) fSTEP   381 / 1191 (thread    3) fSTEP   385 / 1191 (thread    9) fSTEP   388 / 1191 (thread   10) fSTEP   387 / 1191 (thread    6) fSTEP   370 / 1191 (thread   11) fSTEP   390 / 1191 (thread   10) fSTEP   389 / 1191 (thread    1) fSTEP   391 / 1191 (thread    3) fSTEP   376 / 1191 (thread    2) fSTEP   394 / 1191 (thread    9) fSTEP   382 / 1191 (thread    4) fSTEP   396 / 1191 (thread   11) fSTEP   371 / 1191 (thread    7) fSTEP   392 / 1191 (thread    0) fSTEP   395 / 1191 (thread   10) fSTEP   399 / 1191 (thread    9) fSTEP   377 / 1191 (thread    5) fSTEP   401 / 1191 (thread   11) fSTEP   397 / 1191 (thread    3) fSTEP   400 / 1191 (thread    2) fSTEP   383 / 1191 (thread    8) fSTEP   403 / 1191 (thread   11) fSTEP   402 / 1191 (thread    9) fSTEP   404 / 1191 (thread    4) fSTEP   393 / 1191 (thread    6) fSTEP   409 / 1191 (thread    4) fSTEP   405 / 1191 (thread   10) fSTEP   412 / 1191 (thread    3) fSTEP   413 / 1191 (thread    2) fSTEP   398 / 1191 (thread    1) fSTEP   414 / 1191 (thread    9) fSTEP   415 / 1191 (thread    3) fSTEP   410 / 1191 (thread   11) fSTEP   416 / 1191 (thread    4) fSTEP   417 / 1191 (thread    6) fSTEP   418 / 1191 (thread    2) fSTEP   419 / 1191 (thread    9) fSTEP   420 / 1191 (thread    3) fSTEP   424 / 1191 (thread   11) fSTEP   425 / 1191 (thread    6) fSTEP   411 / 1191 (thread    8) fSTEP   426 / 1191 (thread    3) fSTEP   427 / 1191 (thread   10) fSTEP   421 / 1191 (thread    2) fSTEP   406 / 1191 (thread    0) fSTEP   428 / 1191 (thread    1) fSTEP   429 / 1191 (thread   11) fSTEP   430 / 1191 (thread    6) fSTEP   431 / 1191 (thread    3) fSTEP   432 / 1191 (thread   11) fSTEP   433 / 1191 (thread    8) fSTEP   434 / 1191 (thread    1) fSTEP   436 / 1191 (thread    3)STEP   437 / 1191 (thread    8) f fSTEP   435 / 1191 (thread    6) fSTEP   438 / 1191 (thread   10) fSTEP   422 / 1191 (thread    9) fSTEP   439 / 1191 (thread   11) fSTEP   440 / 1191 (thread    2) fSTEP   441 / 1191 (thread    1) fSTEP   442 / 1191 (thread    8) fSTEP   443 / 1191 (thread    6) fSTEP   444 / 1191 (thread   10) fSTEP   445 / 1191 (thread    9) fSTEP   423 / 1191 (thread    4) fSTEP   446 / 1191 (thread    2) fSTEP   447 / 1191 (thread    3) fSTEP   448 / 1191 (thread    8) fSTEP   449 / 1191 (thread   11) fSTEP   450 / 1191 (thread    8) fSTEP   451 / 1191 (thread    1) fSTEP   452 / 1191 (thread   10) fSTEP   453 / 1191 (thread    6) fSTEP   454 / 1191 (thread    2) fSTEP   455 / 1191 (thread    9) fSTEP   456 / 1191 (thread    0)STEP   407 / 1191 (thread    7) fSTEP   457 / 1191 (thread    6) f fSTEP   458 / 1191 (thread   10) fSTEP   459 / 1191 (thread    4) fSTEP   460 / 1191 (thread    8) fSTEP   461 / 1191 (thread    6) fSTEP   462 / 1191 (thread    1) fSTEP   463 / 1191 (thread   11) fSTEP   464 / 1191 (thread    3) fSTEP   465 / 1191 (thread    2) fSTEP   466 / 1191 (thread    9) fSTEP   467 / 1191 (thread   10) fSTEP   468 / 1191 (thread    6) fSTEP   469 / 1191 (thread    0) fSTEP   470 / 1191 (thread    4) fSTEP   471 / 1191 (thread    8) fSTEP   472 / 1191 (thread   11) fSTEP   473 / 1191 (thread    6) fSTEP   475 / 1191 (thread    0) fSTEP   474 / 1191 (thread    1) fSTEP   476 / 1191 (thread    2) fSTEP   477 / 1191 (thread   10) fSTEP   478 / 1191 (thread    9) fSTEP   479 / 1191 (thread    6) fSTEP   480 / 1191 (thread    3) fSTEP   481 / 1191 (thread    4) fSTEP   482 / 1191 (thread    9) fSTEP   483 / 1191 (thread    1) fSTEP   484 / 1191 (thread    6) fSTEP   486 / 1191 (thread    0) fSTEP   487 / 1191 (thread    7) fSTEP   488 / 1191 (thread   10) fSTEP   408 / 1191 (thread    5) fSTEP   489 / 1191 (thread    2) fSTEP   485 / 1191 (thread   11) fSTEP   490 / 1191 (thread    4) fSTEP   491 / 1191 (thread    9) fSTEP   493 / 1191 (thread    6) fSTEP   495 / 1191 (thread    0) fSTEP   496 / 1191 (thread    1) fSTEP   494 / 1191 (thread    8) fSTEP   497 / 1191 (thread    3) fSTEP   498 / 1191 (thread    0) fSTEP   499 / 1191 (thread    4) fSTEP   492 / 1191 (thread   10) fSTEP   501 / 1191 (thread    7) fSTEP   500 / 1191 (thread    6) fSTEP   601 / 1191 (thread   11) fSTEP   701 / 1191 (thread    6) fSTEP   801 / 1191 (thread    9) fSTEP   901 / 1191 (thread    5) fSTEP  1001 / 1191 (thread    4) fSTEP  1101 / 1191 (thread    8) f
 Reallocating..done. *alloclen = 2166
 
 done.
 
 Making a distance matrix from msa.. 
-    0 / 1192 (thread    0)  100 / 1192 (thread    0)  200 / 1192 (thread   10)  300 / 1192 (thread    4)  400 / 1192 (thread    5)  500 / 1192 (thread    7)  600 / 1192 (thread    1)  700 / 1192 (thread   11)  800 / 1192 (thread    4)  900 / 1192 (thread    3) 1000 / 1192 (thread   11) 1100 / 1192 (thread   11)
+    0 / 1192 (thread    0)  100 / 1192 (thread    1)  200 / 1192 (thread    5)  300 / 1192 (thread    2)  400 / 1192 (thread    2)  500 / 1192 (thread    6)  600 / 1192 (thread    1)  700 / 1192 (thread    7)  800 / 1192 (thread    5)  900 / 1192 (thread    4) 1000 / 1192 (thread    5) 1100 / 1192 (thread    9)
 done.
 
 Constructing a UPGMA tree (efffree=1) ... 
@@ -199,7 +178,7 @@ Constructing a UPGMA tree (efffree=1) ...
 done.
 
 Progressive alignment 2/2... 
-STEP     1 / 1191 (thread    0) fSTEP     2 / 1191 (thread    1) fSTEP     3 / 1191 (thread    2) fSTEP     4 / 1191 (thread    3) fSTEP     5 / 1191 (thread    5) fSTEP     7 / 1191 (thread    6) fSTEP     8 / 1191 (thread    7) fSTEP    10 / 1191 (thread    9) fSTEP    11 / 1191 (thread   10) fSTEP    13 / 1191 (thread    1) fSTEP    14 / 1191 (thread    1) fSTEP     6 / 1191 (thread    4) fSTEP    16 / 1191 (thread    9) fSTEP    17 / 1191 (thread    0) fSTEP    18 / 1191 (thread    7) fSTEP    19 / 1191 (thread    0) fSTEP     9 / 1191 (thread    8) fSTEP    20 / 1191 (thread    9) fSTEP    12 / 1191 (thread   11) fSTEP    15 / 1191 (thread    5) fSTEP    21 / 1191 (thread    2) fSTEP    25 / 1191 (thread    9) fSTEP    26 / 1191 (thread    3) fSTEP    27 / 1191 (thread    3) fSTEP    28 / 1191 (thread    9) fSTEP    22 / 1191 (thread   10) fSTEP    32 / 1191 (thread    3) fSTEP    33 / 1191 (thread    9) fSTEP    29 / 1191 (thread    5) fSTEP    34 / 1191 (thread    3) fSTEP    35 / 1191 (thread   10) fSTEP    23 / 1191 (thread    0) fSTEP    36 / 1191 (thread   10) fSTEP    30 / 1191 (thread    2) fSTEP    24 / 1191 (thread    1) fSTEP    37 / 1191 (thread    3) fSTEP    31 / 1191 (thread    7) fSTEP    38 / 1191 (thread    9) fSTEP    47 / 1191 (thread    9) fSTEP    39 / 1191 (thread    5) fSTEP    48 / 1191 (thread    9) fSTEP    40 / 1191 (thread    0) fSTEP    49 / 1191 (thread    5) fSTEP    41 / 1191 (thread   10) fSTEP    50 / 1191 (thread    9) fSTEP    42 / 1191 (thread    2) fSTEP    51 / 1191 (thread    0) fSTEP    52 / 1191 (thread    5) fSTEP    43 / 1191 (thread    6) fSTEP    53 / 1191 (thread   10) fSTEP    58 / 1191 (thread    6) fSTEP    44 / 1191 (thread    1) fSTEP    59 / 1191 (thread   10) fSTEP    60 / 1191 (thread    6) fSTEP    54 / 1191 (thread    9) fSTEP    61 / 1191 (thread   11) fSTEP    62 / 1191 (thread   10) fSTEP    63 / 1191 (thread    1) fSTEP    45 / 1191 (thread    3) fSTEP    65 / 1191 (thread   10) fSTEP    64 / 1191 (thread    6) fSTEP    55 / 1191 (thread    0) fSTEP    70 / 1191 (thread   10) fSTEP    66 / 1191 (thread    1) fSTEP    46 / 1191 (thread    7) fSTEP    71 / 1191 (thread    6) fSTEP    56 / 1191 (thread    2) fSTEP    75 / 1191 (thread    1) fSTEP    67 / 1191 (thread   11) fSTEP    72 / 1191 (thread    3) fSTEP    76 / 1191 (thread    7) fSTEP    80 / 1191 (thread    2) fSTEP    57 / 1191 (thread    5) fSTEP    81 / 1191 (thread    2) fSTEP    82 / 1191 (thread   11) fSTEP    83 / 1191 (thread    3) fSTEP    68 / 1191 (thread    9) fSTEP    84 / 1191 (thread    7) fSTEP    77 / 1191 (thread    8) fSTEP    73 / 1191 (thread   10) fSTEP    86 / 1191 (thread    3) fSTEP    85 / 1191 (thread   11) fSTEP    89 / 1191 (thread    5) fSTEP    91 / 1191 (thread   10) fSTEP    87 / 1191 (thread    2) fSTEP    69 / 1191 (thread    4) fSTEP    74 / 1191 (thread    0) fSTEP    78 / 1191 (thread    1) fSTEP    95 / 1191 (thread   11) fSTEP    93 / 1191 (thread    9) fSTEP    92 / 1191 (thread    8) fSTEP    90 / 1191 (thread    3) fSTEP    97 / 1191 (thread   11) fSTEP    98 / 1191 (thread    9) fSTEP    96 / 1191 (thread    5) fSTEP    94 / 1191 (thread   10) fSTEP    99 / 1191 (thread    3) fSTEP   100 / 1191 (thread    2)STEP   101 / 1191 (thread    8) fSTEP    88 / 1191 (thread    7) fSTEP   102 / 1191 (thread   11) f fSTEP   104 / 1191 (thread    3) fSTEP   106 / 1191 (thread   11) fSTEP   103 / 1191 (thread    9) fSTEP   108 / 1191 (thread   10) fSTEP   109 / 1191 (thread    3) fSTEP   105 / 1191 (thread    0) fSTEP   110 / 1191 (thread    8) fSTEP   112 / 1191 (thread    2) fSTEP   114 / 1191 (thread    9) fSTEP    79 / 1191 (thread    6) fSTEP   115 / 1191 (thread    3) fSTEP   116 / 1191 (thread    5) fSTEP   117 / 1191 (thread   11) fSTEP   107 / 1191 (thread    4) fSTEP   111 / 1191 (thread    7) fSTEP   118 / 1191 (thread    8) fSTEP   124 / 1191 (thread    0) fSTEP   113 / 1191 (thread    1) fSTEP   125 / 1191 (thread    2) fSTEP   119 / 1191 (thread   10) fSTEP   131 / 1191 (thread    1) fSTEP   126 / 1191 (thread    6) fSTEP   120 / 1191 (thread    9) fSTEP   132 / 1191 (thread    2) fSTEP   127 / 1191 (thread    0) fSTEP   121 / 1191 (thread   11) fSTEP   133 / 1191 (thread    1) fSTEP   138 / 1191 (thread    0) fSTEP   128 / 1191 (thread    4) fSTEP   139 / 1191 (thread   11) fSTEP   122 / 1191 (thread    3) fSTEP   140 / 1191 (thread    0) fSTEP   141 / 1191 (thread   11) fSTEP   134 / 1191 (thread   10) fSTEP   143 / 1191 (thread    0)STEP   144 / 1191 (thread    3) f fSTEP   123 / 1191 (thread    5) fSTEP   129 / 1191 (thread    8) fSTEP   142 / 1191 (thread    1) fSTEP   147 / 1191 (thread    0) fSTEP   145 / 1191 (thread    4) fSTEP   149 / 1191 (thread    0) fSTEP   148 / 1191 (thread    3) fSTEP   151 / 1191 (thread   10) fSTEP   130 / 1191 (thread    7) fSTEP   152 / 1191 (thread    5) fSTEP   135 / 1191 (thread    6) fSTEP   153 / 1191 (thread    1) fSTEP   154 / 1191 (thread    0) fSTEP   150 / 1191 (thread    8) fSTEP   155 / 1191 (thread   10) fSTEP   156 / 1191 (thread    4) fSTEP   146 / 1191 (thread   11) fSTEP   157 / 1191 (thread    3) fSTEP   159 / 1191 (thread    0) fSTEP   161 / 1191 (thread   10) fSTEP   158 / 1191 (thread    1) fSTEP   163 / 1191 (thread    5) fSTEP   160 / 1191 (thread    7) fSTEP   165 / 1191 (thread    0) fSTEP   162 / 1191 (thread    3) fSTEP   167 / 1191 (thread    1) fSTEP   169 / 1191 (thread    8) fSTEP   168 / 1191 (thread    0) fSTEP   172 / 1191 (thread    5) fSTEP   166 / 1191 (thread   10) fSTEP   164 / 1191 (thread    4) fSTEP   136 / 1191 (thread    9) fSTEP   176 / 1191 (thread    0) fSTEP   170 / 1191 (thread   11) fSTEP   173 / 1191 (thread    7) fSTEP   178 / 1191 (thread    3) fSTEP   179 / 1191 (thread   10) fSTEP   180 / 1191 (thread    0) fSTEP   177 / 1191 (thread    5) fSTEP   181 / 1191 (thread    9) fSTEP   182 / 1191 (thread    3) fSTEP   137 / 1191 (thread    2) fSTEP   185 / 1191 (thread    4) fSTEP   186 / 1191 (thread    9) fSTEP   183 / 1191 (thread   10) fSTEP   188 / 1191 (thread    5) fSTEP   171 / 1191 (thread    6) fSTEP   190 / 1191 (thread    7) fSTEP   174 / 1191 (thread    1) fSTEP   191 / 1191 (thread    4) fSTEP   187 / 1191 (thread    3) fSTEP   194 / 1191 (thread    5) fSTEP   189 / 1191 (thread   11) fSTEP   195 / 1191 (thread    4) fSTEP   196 / 1191 (thread    7) fSTEP   192 / 1191 (thread    9) fSTEP   175 / 1191 (thread    8) fSTEP   200 / 1191 (thread    6) fSTEP   202 / 1191 (thread    7) fSTEP   201 / 1191 (thread   10) fSTEP   184 / 1191 (thread    0) fSTEP   197 / 1191 (thread    5) fSTEP   203 / 1191 (thread    7) fSTEP   207 / 1191 (thread   11) fSTEP   208 / 1191 (thread   10) fSTEP   193 / 1191 (thread    2) fSTEP   210 / 1191 (thread    0) fSTEP   198 / 1191 (thread    1) fSTEP   211 / 1191 (thread    9) fSTEP   204 / 1191 (thread    3) fSTEP   213 / 1191 (thread   11) fSTEP   209 / 1191 (thread    5) fSTEP   215 / 1191 (thread    9) fSTEP   212 / 1191 (thread   10) fSTEP   216 / 1191 (thread    0) fSTEP   218 / 1191 (thread    2) fSTEP   199 / 1191 (thread    4) fSTEP   220 / 1191 (thread    5)STEP   205 / 1191 (thread    6) f fSTEP   222 / 1191 (thread    9)STEP   221 / 1191 (thread    3) f fSTEP   219 / 1191 (thread   11)STEP   224 / 1191 (thread   10) f fSTEP   223 / 1191 (thread    0) fSTEP   225 / 1191 (thread    2) fSTEP   226 / 1191 (thread    4) fSTEP   217 / 1191 (thread    1) fSTEP   214 / 1191 (thread    7) fSTEP   227 / 1191 (thread    5) fSTEP   228 / 1191 (thread    4) fSTEP   229 / 1191 (thread    5) fSTEP   230 / 1191 (thread   10) fSTEP   231 / 1191 (thread    6) fSTEP   206 / 1191 (thread    8) fSTEP   235 / 1191 (thread    7) fSTEP   232 / 1191 (thread    9)STEP   233 / 1191 (thread    2) fSTEP   237 / 1191 (thread    0) f fSTEP   238 / 1191 (thread    5) fSTEP   234 / 1191 (thread    3) fSTEP   236 / 1191 (thread    4) fSTEP   239 / 1191 (thread    6) fSTEP   240 / 1191 (thread   11) fSTEP   242 / 1191 (thread    7) fSTEP   241 / 1191 (thread   10) fSTEP   244 / 1191 (thread    2) fSTEP   246 / 1191 (thread    0) fSTEP   245 / 1191 (thread    9) fSTEP   249 / 1191 (thread    3) fSTEP   243 / 1191 (thread    5) fSTEP   252 / 1191 (thread    9) fSTEP   256 / 1191 (thread    0) fSTEP   247 / 1191 (thread    6) fSTEP   250 / 1191 (thread    7) fSTEP   253 / 1191 (thread    2) fSTEP   260 / 1191 (thread    0) fSTEP   261 / 1191 (thread    5) fSTEP   257 / 1191 (thread    3) fSTEP   262 / 1191 (thread    6) fSTEP   263 / 1191 (thread    0) fSTEP   248 / 1191 (thread    8) fSTEP   251 / 1191 (thread   11) fSTEP   266 / 1191 (thread    6) fSTEP   264 / 1191 (thread    7) fSTEP   268 / 1191 (thread    3) fSTEP   258 / 1191 (thread   10) fSTEP   269 / 1191 (thread    8) fSTEP   254 / 1191 (thread    1) fSTEP   270 / 1191 (thread    2) fSTEP   271 / 1191 (thread    6) fSTEP   267 / 1191 (thread    0) fSTEP   274 / 1191 (thread    2) fSTEP   259 / 1191 (thread    9) fSTEP   265 / 1191 (thread    5) fSTEP   278 / 1191 (thread    1) fSTEP   280 / 1191 (thread    2) fSTEP   255 / 1191 (thread    4) fSTEP   272 / 1191 (thread   11) fSTEP   275 / 1191 (thread    8) fSTEP   279 / 1191 (thread    6) fSTEP   282 / 1191 (thread    9) fSTEP   284 / 1191 (thread    2) fSTEP   281 / 1191 (thread    1) fSTEP   285 / 1191 (thread    5) fSTEP   286 / 1191 (thread    4) fSTEP   287 / 1191 (thread    8) fSTEP   283 / 1191 (thread    0) fSTEP   276 / 1191 (thread   10) fSTEP   291 / 1191 (thread    6) fSTEP   273 / 1191 (thread    3) fSTEP   288 / 1191 (thread    9) fSTEP   295 / 1191 (thread   11) fSTEP   296 / 1191 (thread    6) fSTEP   292 / 1191 (thread    1) fSTEP   297 / 1191 (thread    0) fSTEP   299 / 1191 (thread    0) fSTEP   298 / 1191 (thread    6) fSTEP   302 / 1191 (thread   10) fSTEP   301 / 1191 (thread    1) fSTEP   289 / 1191 (thread    5) fSTEP   277 / 1191 (thread    7) fSTEP   293 / 1191 (thread    2) fSTEP   300 / 1191 (thread   11) fSTEP   304 / 1191 (thread    0) fSTEP   306 / 1191 (thread    1) fSTEP   303 / 1191 (thread    9) fSTEP   294 / 1191 (thread    8) fSTEP   305 / 1191 (thread   10) fSTEP   290 / 1191 (thread    4) fSTEP   312 / 1191 (thread    1) fSTEP   307 / 1191 (thread    3) fSTEP   318 / 1191 (thread    9) fSTEP   313 / 1191 (thread   11) fSTEP   319 / 1191 (thread    1) fSTEP   308 / 1191 (thread    0) fSTEP   314 / 1191 (thread    7) fSTEP   320 / 1191 (thread    9) fSTEP   324 / 1191 (thread    0) fSTEP   326 / 1191 (thread    7) fSTEP   309 / 1191 (thread    5) fSTEP   321 / 1191 (thread    3) fSTEP   315 / 1191 (thread    8) fSTEP   327 / 1191 (thread    7) fSTEP   328 / 1191 (thread    0) fSTEP   325 / 1191 (thread    9) fSTEP   322 / 1191 (thread   11) fSTEP   330 / 1191 (thread    0) fSTEP   329 / 1191 (thread    3) fSTEP   331 / 1191 (thread    7) fSTEP   316 / 1191 (thread   10) fSTEP   333 / 1191 (thread    0) fSTEP   335 / 1191 (thread    5) fSTEP   323 / 1191 (thread    1) fSTEP   310 / 1191 (thread    2) fSTEP   332 / 1191 (thread    8) fSTEP   337 / 1191 (thread    9) fSTEP   338 / 1191 (thread    3) fSTEP   339 / 1191 (thread    0) fSTEP   334 / 1191 (thread   11) fSTEP   340 / 1191 (thread    5) fSTEP   336 / 1191 (thread    7) fSTEP   341 / 1191 (thread    0) fSTEP   344 / 1191 (thread    5) fSTEP   311 / 1191 (thread    6) fSTEP   347 / 1191 (thread    8) fSTEP   348 / 1191 (thread    7) fSTEP   349 / 1191 (thread   10) fSTEP   317 / 1191 (thread    4) fSTEP   350 / 1191 (thread    5) fSTEP   345 / 1191 (thread    3) fSTEP   351 / 1191 (thread    0) fSTEP   342 / 1191 (thread    1) fSTEP   352 / 1191 (thread   11) fSTEP   353 / 1191 (thread    8) fSTEP   354 / 1191 (thread    7) fSTEP   358 / 1191 (thread   11) fSTEP   359 / 1191 (thread    8) fSTEP   360 / 1191 (thread    7) fSTEP   355 / 1191 (thread   10) fSTEP   362 / 1191 (thread   11) fSTEP   361 / 1191 (thread    8) fSTEP   363 / 1191 (thread    7) fSTEP   364 / 1191 (thread    6) fSTEP   346 / 1191 (thread    2) fSTEP   365 / 1191 (thread    3) fSTEP   343 / 1191 (thread    9) fSTEP   356 / 1191 (thread    0) fSTEP   367 / 1191 (thread    1) fSTEP   366 / 1191 (thread   10) fSTEP   369 / 1191 (thread    7) fSTEP   368 / 1191 (thread   11) fSTEP   370 / 1191 (thread    4) fSTEP   371 / 1191 (thread    8) fSTEP   372 / 1191 (thread    1) fSTEP   373 / 1191 (thread    6) fSTEP   374 / 1191 (thread    2) fSTEP   375 / 1191 (thread    9) fSTEP   376 / 1191 (thread    8) fSTEP   377 / 1191 (thread    3) fSTEP   378 / 1191 (thread    7) fSTEP   379 / 1191 (thread    0) fSTEP   380 / 1191 (thread    2) fSTEP   381 / 1191 (thread    8) fSTEP   382 / 1191 (thread    4) fSTEP   383 / 1191 (thread    1) fSTEP   384 / 1191 (thread    6) fSTEP   385 / 1191 (thread    3) fSTEP   386 / 1191 (thread    7) fSTEP   387 / 1191 (thread    9) fSTEP   357 / 1191 (thread    5) fSTEP   388 / 1191 (thread   10) fSTEP   389 / 1191 (thread    8) fSTEP   390 / 1191 (thread   11) fSTEP   391 / 1191 (thread    3) fSTEP   392 / 1191 (thread    2) fSTEP   393 / 1191 (thread    8) fSTEP   394 / 1191 (thread    1) fSTEP   395 / 1191 (thread    6) fSTEP   396 / 1191 (thread    3) fSTEP   397 / 1191 (thread    5) fSTEP   398 / 1191 (thread    0) fSTEP   399 / 1191 (thread    7) fSTEP   400 / 1191 (thread    8) fSTEP   401 / 1191 (thread   11) fSTEP   402 / 1191 (thread    4) fSTEP   403 / 1191 (thread    9) fSTEP   404 / 1191 (thread    2) fSTEP   405 / 1191 (thread    7) fSTEP   407 / 1191 (thread    8) fSTEP   408 / 1191 (thread    6) fSTEP   409 / 1191 (thread    3) fSTEP   410 / 1191 (thread    1) fSTEP   411 / 1191 (thread    5) fSTEP   412 / 1191 (thread    9) fSTEP   406 / 1191 (thread   10) fSTEP   413 / 1191 (thread   11) fSTEP   414 / 1191 (thread    6) fSTEP   415 / 1191 (thread    3) fSTEP   416 / 1191 (thread    5) fSTEP   417 / 1191 (thread    7) fSTEP   418 / 1191 (thread    1) fSTEP   419 / 1191 (thread    8) fSTEP   420 / 1191 (thread    2) fSTEP   421 / 1191 (thread    9) fSTEP   423 / 1191 (thread    0) fSTEP   424 / 1191 (thread    2) fSTEP   425 / 1191 (thread    6) fSTEP   426 / 1191 (thread    9) fSTEP   427 / 1191 (thread    1) fSTEP   428 / 1191 (thread   11) fSTEP   422 / 1191 (thread    4) fSTEP   429 / 1191 (thread    7) fSTEP   430 / 1191 (thread   10) fSTEP   432 / 1191 (thread    8) fSTEP   431 / 1191 (thread    3) fSTEP   433 / 1191 (thread    5) fSTEP   435 / 1191 (thread    2) fSTEP   436 / 1191 (thread   11) fSTEP   437 / 1191 (thread    9) fSTEP   438 / 1191 (thread    7) fSTEP   439 / 1191 (thread    0) fSTEP   434 / 1191 (thread    6) fSTEP   440 / 1191 (thread   10) fSTEP   441 / 1191 (thread    4) fSTEP   442 / 1191 (thread    8) fSTEP   443 / 1191 (thread    5) fSTEP   444 / 1191 (thread    9) fSTEP   445 / 1191 (thread    1)STEP   446 / 1191 (thread    7) f fSTEP   447 / 1191 (thread    2) fSTEP   448 / 1191 (thread    8) fSTEP   451 / 1191 (thread    5) fSTEP   450 / 1191 (thread    3) fSTEP   452 / 1191 (thread    4) fSTEP   453 / 1191 (thread   11) fSTEP   454 / 1191 (thread    2) fSTEP   455 / 1191 (thread    5) fSTEP   456 / 1191 (thread    7) fSTEP   457 / 1191 (thread    4) fSTEP   458 / 1191 (thread    8) fSTEP   459 / 1191 (thread    5) fSTEP   461 / 1191 (thread    4) fSTEP   462 / 1191 (thread    6) fSTEP   449 / 1191 (thread    9) fSTEP   464 / 1191 (thread   10)STEP   460 / 1191 (thread    0)STEP   463 / 1191 (thread    2)STEP   466 / 1191 (thread    5) f fSTEP   465 / 1191 (thread    1) f f fSTEP   467 / 1191 (thread    7) fSTEP   468 / 1191 (thread    3) fSTEP   469 / 1191 (thread    8) fSTEP   470 / 1191 (thread   11) fSTEP   471 / 1191 (thread    5) fSTEP   472 / 1191 (thread    8) fSTEP   473 / 1191 (thread    4) fSTEP   474 / 1191 (thread   11) fSTEP   475 / 1191 (thread   10) fSTEP   477 / 1191 (thread    5) fSTEP   478 / 1191 (thread    1) fSTEP   480 / 1191 (thread    9) fSTEP   481 / 1191 (thread    6) fSTEP   479 / 1191 (thread    3) fSTEP   482 / 1191 (thread    4) fSTEP   483 / 1191 (thread    8) fSTEP   476 / 1191 (thread    7) fSTEP   484 / 1191 (thread    2) fSTEP   486 / 1191 (thread    0) fSTEP   487 / 1191 (thread   10) fSTEP   489 / 1191 (thread    4) fSTEP   488 / 1191 (thread    5) fSTEP   490 / 1191 (thread    6) fSTEP   485 / 1191 (thread   11) fSTEP   493 / 1191 (thread    4) fSTEP   492 / 1191 (thread    2) fSTEP   494 / 1191 (thread    9) fSTEP   496 / 1191 (thread   10) fSTEP   497 / 1191 (thread    5) fSTEP   498 / 1191 (thread    6) fSTEP   495 / 1191 (thread    8) fSTEP   499 / 1191 (thread    7) fSTEP   491 / 1191 (thread    1) fSTEP   500 / 1191 (thread    0) fSTEP   501 / 1191 (thread   11) fSTEP   601 / 1191 (thread    6) fSTEP   701 / 1191 (thread    3) fSTEP   801 / 1191 (thread    5) fSTEP   901 / 1191 (thread    3) fSTEP  1001 / 1191 (thread    9) fSTEP  1101 / 1191 (thread    2) f
+STEP     1 / 1191 (thread    0) fSTEP     2 / 1191 (thread    1) fSTEP     3 / 1191 (thread    2) fSTEP     4 / 1191 (thread    3) fSTEP     5 / 1191 (thread    4) fSTEP     7 / 1191 (thread    6) fSTEP     8 / 1191 (thread    7) fSTEP    10 / 1191 (thread    9) fSTEP    11 / 1191 (thread   10) fSTEP    13 / 1191 (thread    4) fSTEP     6 / 1191 (thread    5) fSTEP    16 / 1191 (thread    3) fSTEP    17 / 1191 (thread    4) fSTEP    14 / 1191 (thread    2) fSTEP    12 / 1191 (thread   11) fSTEP    19 / 1191 (thread    3) fSTEP    20 / 1191 (thread    4) fSTEP    18 / 1191 (thread   10) fSTEP     9 / 1191 (thread    8) fSTEP    21 / 1191 (thread    6) fSTEP    15 / 1191 (thread    1) fSTEP    25 / 1191 (thread    3) fSTEP    26 / 1191 (thread    0) fSTEP    27 / 1191 (thread    1) fSTEP    28 / 1191 (thread    3) fSTEP    22 / 1191 (thread    7) fSTEP    32 / 1191 (thread    0) fSTEP    33 / 1191 (thread    1) fSTEP    34 / 1191 (thread    3) fSTEP    35 / 1191 (thread    0) fSTEP    29 / 1191 (thread   10) fSTEP    36 / 1191 (thread    1) fSTEP    23 / 1191 (thread    4) fSTEP    30 / 1191 (thread    6) fSTEP    37 / 1191 (thread    0) fSTEP    24 / 1191 (thread    2) fSTEP    31 / 1191 (thread    9) fSTEP    38 / 1191 (thread    7) fSTEP    47 / 1191 (thread    7) fSTEP    39 / 1191 (thread    3) fSTEP    48 / 1191 (thread    7) fSTEP    40 / 1191 (thread   10) fSTEP    49 / 1191 (thread    3) fSTEP    41 / 1191 (thread    1) fSTEP    50 / 1191 (thread    7) fSTEP    42 / 1191 (thread    4) fSTEP    51 / 1191 (thread    5) fSTEP    58 / 1191 (thread    4) fSTEP    43 / 1191 (thread    6) fSTEP    59 / 1191 (thread    4) fSTEP    60 / 1191 (thread    5) fSTEP    52 / 1191 (thread   10) fSTEP    44 / 1191 (thread    2) fSTEP    61 / 1191 (thread    4) fSTEP    62 / 1191 (thread    6) fSTEP    63 / 1191 (thread    5) fSTEP    65 / 1191 (thread    6) fSTEP    45 / 1191 (thread    9) fSTEP    64 / 1191 (thread    4) fSTEP    66 / 1191 (thread    2) fSTEP    53 / 1191 (thread    3) fSTEP    70 / 1191 (thread    9) fSTEP    46 / 1191 (thread    0) fSTEP    54 / 1191 (thread   11) fSTEP    67 / 1191 (thread    5) fSTEP    71 / 1191 (thread    3) fSTEP    55 / 1191 (thread    1) fSTEP    75 / 1191 (thread   11) fSTEP    68 / 1191 (thread    6) fSTEP    72 / 1191 (thread    2) fSTEP    80 / 1191 (thread   11) fSTEP    56 / 1191 (thread    7) fSTEP    76 / 1191 (thread    5) fSTEP    81 / 1191 (thread   11) fSTEP    82 / 1191 (thread    7) fSTEP    57 / 1191 (thread    8) fSTEP    83 / 1191 (thread    6) fSTEP    84 / 1191 (thread    2) fSTEP    86 / 1191 (thread    7) fSTEP    69 / 1191 (thread   10) fSTEP    85 / 1191 (thread   11) fSTEP    73 / 1191 (thread    4) fSTEP    89 / 1191 (thread    8) fSTEP    87 / 1191 (thread    2) fSTEP    91 / 1191 (thread    5) fSTEP    77 / 1191 (thread    3) fSTEP    93 / 1191 (thread    4) fSTEP    95 / 1191 (thread   10) fSTEP    74 / 1191 (thread    9) fSTEP    88 / 1191 (thread    6)STEP    90 / 1191 (thread    7) f fSTEP    92 / 1191 (thread   11)STEP    97 / 1191 (thread    5) f fSTEP    98 / 1191 (thread   10) fSTEP    99 / 1191 (thread    4) fSTEP    96 / 1191 (thread    2) fSTEP   101 / 1191 (thread   10) fSTEP   102 / 1191 (thread    5) fSTEP   100 / 1191 (thread    3) fSTEP    78 / 1191 (thread    0) fSTEP   104 / 1191 (thread    4) fSTEP    94 / 1191 (thread    8) fSTEP   106 / 1191 (thread   10) fSTEP   103 / 1191 (thread    9) fSTEP   108 / 1191 (thread    2) fSTEP   109 / 1191 (thread    5) fSTEP   110 / 1191 (thread    4) fSTEP   105 / 1191 (thread    7) fSTEP   112 / 1191 (thread   10) fSTEP   114 / 1191 (thread    3) fSTEP   107 / 1191 (thread    6) fSTEP   115 / 1191 (thread    5) fSTEP   111 / 1191 (thread   11) fSTEP   116 / 1191 (thread    4) fSTEP   113 / 1191 (thread    2) fSTEP   117 / 1191 (thread   10) fSTEP    79 / 1191 (thread    1) fSTEP   124 / 1191 (thread    8) fSTEP   118 / 1191 (thread    9) fSTEP   125 / 1191 (thread   10) fSTEP   126 / 1191 (thread    7) fSTEP   131 / 1191 (thread    9) fSTEP   119 / 1191 (thread    5) fSTEP   132 / 1191 (thread    1) fSTEP   127 / 1191 (thread    2) fSTEP   120 / 1191 (thread    0) fSTEP   128 / 1191 (thread    8) fSTEP   138 / 1191 (thread    0) fSTEP   133 / 1191 (thread    9) fSTEP   121 / 1191 (thread    4) fSTEP   139 / 1191 (thread    0) fSTEP   140 / 1191 (thread    8) fSTEP   129 / 1191 (thread    6) fSTEP   141 / 1191 (thread    9) fSTEP   143 / 1191 (thread    4) fSTEP   134 / 1191 (thread    7) fSTEP   122 / 1191 (thread    3) fSTEP   144 / 1191 (thread    8) fSTEP   142 / 1191 (thread    0) fSTEP   147 / 1191 (thread    8) fSTEP   123 / 1191 (thread   11) fSTEP   145 / 1191 (thread    4) fSTEP   135 / 1191 (thread    5) fSTEP   149 / 1191 (thread    6) fSTEP   130 / 1191 (thread   10) fSTEP   151 / 1191 (thread    0) fSTEP   152 / 1191 (thread    8) fSTEP   148 / 1191 (thread    3) fSTEP   153 / 1191 (thread    6) fSTEP   154 / 1191 (thread    8) fSTEP   155 / 1191 (thread    0) fSTEP   150 / 1191 (thread    7) fSTEP   156 / 1191 (thread   11) fSTEP   157 / 1191 (thread    4) fSTEP   146 / 1191 (thread    9) fSTEP   159 / 1191 (thread    6) fSTEP   161 / 1191 (thread    0) fSTEP   158 / 1191 (thread    3) fSTEP   163 / 1191 (thread   11) fSTEP   165 / 1191 (thread   10) fSTEP   160 / 1191 (thread    8) fSTEP   167 / 1191 (thread    0) fSTEP   168 / 1191 (thread    5) fSTEP   162 / 1191 (thread    4) fSTEP   136 / 1191 (thread    2) fSTEP   166 / 1191 (thread    6) fSTEP   169 / 1191 (thread   11) fSTEP   172 / 1191 (thread    0) fSTEP   164 / 1191 (thread    7) fSTEP   176 / 1191 (thread    9) fSTEP   173 / 1191 (thread    3) fSTEP   178 / 1191 (thread    7) fSTEP   179 / 1191 (thread    8) fSTEP   170 / 1191 (thread   10) fSTEP   180 / 1191 (thread    9) fSTEP   177 / 1191 (thread   11) fSTEP   181 / 1191 (thread    6) fSTEP   182 / 1191 (thread    7) fSTEP   185 / 1191 (thread    2) fSTEP   186 / 1191 (thread    9) fSTEP   174 / 1191 (thread    0) fSTEP   137 / 1191 (thread    1) fSTEP   188 / 1191 (thread    7) fSTEP   183 / 1191 (thread    8) fSTEP   171 / 1191 (thread    5) fSTEP   190 / 1191 (thread    2) fSTEP   191 / 1191 (thread    9) fSTEP   187 / 1191 (thread    6) fSTEP   189 / 1191 (thread   10) fSTEP   194 / 1191 (thread    9) fSTEP   192 / 1191 (thread    7) fSTEP   195 / 1191 (thread    5) fSTEP   196 / 1191 (thread    6) fSTEP   200 / 1191 (thread   10) fSTEP   201 / 1191 (thread    8) fSTEP   175 / 1191 (thread    4) fSTEP   202 / 1191 (thread    6) fSTEP   197 / 1191 (thread    9) fSTEP   193 / 1191 (thread   11) fSTEP   184 / 1191 (thread    3) fSTEP   203 / 1191 (thread    5) fSTEP   207 / 1191 (thread    6) fSTEP   208 / 1191 (thread    8) fSTEP   198 / 1191 (thread    2) fSTEP   210 / 1191 (thread    4) fSTEP   211 / 1191 (thread    6) fSTEP   213 / 1191 (thread    3) fSTEP   209 / 1191 (thread    9) fSTEP   215 / 1191 (thread    4) fSTEP   216 / 1191 (thread    2) fSTEP   199 / 1191 (thread    0) fSTEP   212 / 1191 (thread    8) fSTEP   214 / 1191 (thread   11) fSTEP   218 / 1191 (thread    6) fSTEP   204 / 1191 (thread   10) fSTEP   220 / 1191 (thread    4) fSTEP   221 / 1191 (thread    9) fSTEP   222 / 1191 (thread    2) fSTEP   217 / 1191 (thread    5) fSTEP   223 / 1191 (thread    6) fSTEP   224 / 1191 (thread    9) fSTEP   225 / 1191 (thread    0) fSTEP   219 / 1191 (thread    3) fSTEP   226 / 1191 (thread   11) fSTEP   227 / 1191 (thread    4) fSTEP   228 / 1191 (thread    2)STEP   229 / 1191 (thread    9) fSTEP   205 / 1191 (thread    7) fSTEP   230 / 1191 (thread   10) f fSTEP   231 / 1191 (thread    8) fSTEP   232 / 1191 (thread   11) fSTEP   233 / 1191 (thread    6) fSTEP   234 / 1191 (thread    0) fSTEP   235 / 1191 (thread    9) fSTEP   236 / 1191 (thread    4) fSTEP   237 / 1191 (thread    2)STEP   238 / 1191 (thread    3) f fSTEP   241 / 1191 (thread   10) fSTEP   239 / 1191 (thread    8)STEP   242 / 1191 (thread    5) fSTEP   240 / 1191 (thread    6) fSTEP   206 / 1191 (thread    1) fSTEP   244 / 1191 (thread    9) f fSTEP   245 / 1191 (thread   11) fSTEP   246 / 1191 (thread    0) fSTEP   243 / 1191 (thread    7) fSTEP   249 / 1191 (thread   10) fSTEP   252 / 1191 (thread    6) fSTEP   250 / 1191 (thread    5) fSTEP   256 / 1191 (thread    8) fSTEP   247 / 1191 (thread    4) fSTEP   253 / 1191 (thread    2) fSTEP   260 / 1191 (thread    7) fSTEP   261 / 1191 (thread    8) fSTEP   257 / 1191 (thread    1) fSTEP   262 / 1191 (thread    7) fSTEP   254 / 1191 (thread   11) fSTEP   258 / 1191 (thread    0) fSTEP   266 / 1191 (thread    5) fSTEP   263 / 1191 (thread    8) fSTEP   251 / 1191 (thread    3) fSTEP   248 / 1191 (thread    9) fSTEP   268 / 1191 (thread    7) fSTEP   267 / 1191 (thread    4)STEP   264 / 1191 (thread    1) f fSTEP   269 / 1191 (thread    8) fSTEP   271 / 1191 (thread    7) fSTEP   270 / 1191 (thread    5) fSTEP   255 / 1191 (thread   10) fSTEP   259 / 1191 (thread    6) fSTEP   274 / 1191 (thread    7) fSTEP   272 / 1191 (thread   11) fSTEP   278 / 1191 (thread    1) fSTEP   265 / 1191 (thread    2) fSTEP   280 / 1191 (thread    7) fSTEP   282 / 1191 (thread    6) fSTEP   275 / 1191 (thread    8) fSTEP   284 / 1191 (thread    1) fSTEP   285 / 1191 (thread    7) fSTEP   279 / 1191 (thread    9) fSTEP   281 / 1191 (thread   10) fSTEP   286 / 1191 (thread    6) fSTEP   283 / 1191 (thread    4) fSTEP   287 / 1191 (thread    1) fSTEP   291 / 1191 (thread    7) fSTEP   276 / 1191 (thread    3) fSTEP   273 / 1191 (thread    0) fSTEP   288 / 1191 (thread    2) fSTEP   295 / 1191 (thread    7) fSTEP   292 / 1191 (thread    8) fSTEP   296 / 1191 (thread   10) fSTEP   297 / 1191 (thread    7) fSTEP   299 / 1191 (thread   10) fSTEP   301 / 1191 (thread    2) fSTEP   302 / 1191 (thread   10)STEP   300 / 1191 (thread    4) f fSTEP   289 / 1191 (thread   11) fSTEP   298 / 1191 (thread    0) fSTEP   304 / 1191 (thread    3) fSTEP   277 / 1191 (thread    5) fSTEP   293 / 1191 (thread    1) fSTEP   306 / 1191 (thread    2) fSTEP   303 / 1191 (thread    7) fSTEP   305 / 1191 (thread    8) fSTEP   307 / 1191 (thread   10) fSTEP   290 / 1191 (thread    6) fSTEP   312 / 1191 (thread    5) fSTEP   294 / 1191 (thread    9) fSTEP   318 / 1191 (thread   10) fSTEP   313 / 1191 (thread    1) fSTEP   308 / 1191 (thread    3) fSTEP   319 / 1191 (thread    9) fSTEP   309 / 1191 (thread    2) fSTEP   314 / 1191 (thread    8) fSTEP   324 / 1191 (thread    9) fSTEP   320 / 1191 (thread   10) fSTEP   310 / 1191 (thread   11) fSTEP   326 / 1191 (thread    9) fSTEP   325 / 1191 (thread    2) fSTEP   315 / 1191 (thread    4) fSTEP   328 / 1191 (thread    8) fSTEP   321 / 1191 (thread    6) fSTEP   327 / 1191 (thread   10) fSTEP   330 / 1191 (thread   11) fSTEP   311 / 1191 (thread    0) fSTEP   329 / 1191 (thread    9) fSTEP   331 / 1191 (thread    8) fSTEP   322 / 1191 (thread    3) fSTEP   333 / 1191 (thread    2) fSTEP   335 / 1191 (thread    8) fSTEP   332 / 1191 (thread    6) fSTEP   337 / 1191 (thread    4) fSTEP   338 / 1191 (thread    2) fSTEP   339 / 1191 (thread   10) fSTEP   334 / 1191 (thread   11)STEP   340 / 1191 (thread    0) f fSTEP   336 / 1191 (thread    9) fSTEP   316 / 1191 (thread    7) fSTEP   344 / 1191 (thread    0) fSTEP   341 / 1191 (thread    8) fSTEP   347 / 1191 (thread    4) fSTEP   323 / 1191 (thread    1) fSTEP   348 / 1191 (thread    0) fSTEP   349 / 1191 (thread    9) fSTEP   350 / 1191 (thread    4) fSTEP   345 / 1191 (thread    6) fSTEP   351 / 1191 (thread    8) fSTEP   353 / 1191 (thread    7) fSTEP   352 / 1191 (thread    0) fSTEP   354 / 1191 (thread    1) fSTEP   342 / 1191 (thread    2) fSTEP   317 / 1191 (thread    5) fSTEP   358 / 1191 (thread    8) fSTEP   359 / 1191 (thread    1) fSTEP   360 / 1191 (thread    6) fSTEP   346 / 1191 (thread    3) fSTEP   361 / 1191 (thread    0) fSTEP   355 / 1191 (thread   11) fSTEP   362 / 1191 (thread    2) fSTEP   343 / 1191 (thread   10) fSTEP   363 / 1191 (thread    8) fSTEP   364 / 1191 (thread    7) fSTEP   365 / 1191 (thread    6) fSTEP   366 / 1191 (thread    5) fSTEP   367 / 1191 (thread    1) fSTEP   368 / 1191 (thread    2) fSTEP   369 / 1191 (thread    3) fSTEP   370 / 1191 (thread    8) fSTEP   371 / 1191 (thread    0) fSTEP   372 / 1191 (thread   10) fSTEP   373 / 1191 (thread    8) fSTEP   376 / 1191 (thread    5) fSTEP   374 / 1191 (thread    2) fSTEP   377 / 1191 (thread    0) fSTEP   375 / 1191 (thread    1) fSTEP   378 / 1191 (thread    6) fSTEP   379 / 1191 (thread    3) fSTEP   380 / 1191 (thread   11) fSTEP   381 / 1191 (thread   10) fSTEP   382 / 1191 (thread    5) fSTEP   356 / 1191 (thread    9) fSTEP   383 / 1191 (thread    7) fSTEP   385 / 1191 (thread    2) fSTEP   384 / 1191 (thread    0) fSTEP   386 / 1191 (thread    8) fSTEP   387 / 1191 (thread   10) fSTEP   388 / 1191 (thread    2) fSTEP   389 / 1191 (thread    6) fSTEP   390 / 1191 (thread    3) fSTEP   391 / 1191 (thread    9) fSTEP   357 / 1191 (thread    4) fSTEP   393 / 1191 (thread    5) fSTEP   394 / 1191 (thread    7) fSTEP   392 / 1191 (thread    1) fSTEP   395 / 1191 (thread    0) fSTEP   396 / 1191 (thread   10) fSTEP   397 / 1191 (thread    9) fSTEP   398 / 1191 (thread    3) fSTEP   399 / 1191 (thread    8) fSTEP   400 / 1191 (thread    2) fSTEP   401 / 1191 (thread    6) fSTEP   402 / 1191 (thread   11) fSTEP   403 / 1191 (thread    5) fSTEP   405 / 1191 (thread    1) fSTEP   404 / 1191 (thread    8) fSTEP   407 / 1191 (thread    2) fSTEP   408 / 1191 (thread   10) fSTEP   409 / 1191 (thread    9) fSTEP   406 / 1191 (thread    0) fSTEP   410 / 1191 (thread    3) fSTEP   411 / 1191 (thread    7) fSTEP   412 / 1191 (thread    4) fSTEP   413 / 1191 (thread   10) fSTEP   414 / 1191 (thread    9) fSTEP   415 / 1191 (thread    6) fSTEP   416 / 1191 (thread    5)STEP   417 / 1191 (thread    1) f fSTEP   418 / 1191 (thread    3) fSTEP   419 / 1191 (thread    2) fSTEP   420 / 1191 (thread    7) fSTEP   421 / 1191 (thread   10) fSTEP   423 / 1191 (thread    7) fSTEP   424 / 1191 (thread   10) fSTEP   425 / 1191 (thread    9) fSTEP   426 / 1191 (thread    0)STEP   428 / 1191 (thread    2) fSTEP   429 / 1191 (thread    1) f fSTEP   430 / 1191 (thread    8)STEP   427 / 1191 (thread    3) fSTEP   422 / 1191 (thread   11) fSTEP   432 / 1191 (thread    9) fSTEP   433 / 1191 (thread    2) fSTEP   435 / 1191 (thread    7) f fSTEP   431 / 1191 (thread    4) fSTEP   436 / 1191 (thread   10) fSTEP   437 / 1191 (thread    1) fSTEP   438 / 1191 (thread    5)STEP   440 / 1191 (thread   11) f fSTEP   439 / 1191 (thread    3) fSTEP   441 / 1191 (thread    2) fSTEP   442 / 1191 (thread    9) fSTEP   443 / 1191 (thread    1) fSTEP   444 / 1191 (thread    7) fSTEP   445 / 1191 (thread    4)STEP   447 / 1191 (thread    8) f fSTEP   446 / 1191 (thread   10) fSTEP   448 / 1191 (thread    0) fSTEP   450 / 1191 (thread    7) fSTEP   451 / 1191 (thread    5) fSTEP   452 / 1191 (thread    3) fSTEP   434 / 1191 (thread    6) fSTEP   454 / 1191 (thread    1) fSTEP   453 / 1191 (thread    2) fSTEP   455 / 1191 (thread   11) fSTEP   456 / 1191 (thread    4) fSTEP   457 / 1191 (thread    3) fSTEP   458 / 1191 (thread   10) fSTEP   459 / 1191 (thread   11) fSTEP   461 / 1191 (thread    8) fSTEP   462 / 1191 (thread    1) fSTEP   463 / 1191 (thread    2) fSTEP   460 / 1191 (thread    5)STEP   465 / 1191 (thread    4) fSTEP   464 / 1191 (thread    3) f fSTEP   466 / 1191 (thread    7) fSTEP   467 / 1191 (thread    0) fSTEP   468 / 1191 (thread    4) fSTEP   469 / 1191 (thread    3) fSTEP   470 / 1191 (thread   11) fSTEP   471 / 1191 (thread    2) fSTEP   472 / 1191 (thread    1) fSTEP   473 / 1191 (thread    7) fSTEP   474 / 1191 (thread    3) fSTEP   477 / 1191 (thread   10) fSTEP   478 / 1191 (thread    0) fSTEP   475 / 1191 (thread   11) fSTEP   479 / 1191 (thread    8) fSTEP   480 / 1191 (thread    4) fSTEP   481 / 1191 (thread    1) fSTEP   449 / 1191 (thread    9)STEP   482 / 1191 (thread    6)STEP   483 / 1191 (thread    5) f f fSTEP   484 / 1191 (thread    7) fSTEP   476 / 1191 (thread    2) fSTEP   486 / 1191 (thread    3) fSTEP   487 / 1191 (thread    0) fSTEP   485 / 1191 (thread    4) fSTEP   489 / 1191 (thread    1) fSTEP   490 / 1191 (thread    5) fSTEP   488 / 1191 (thread   10) fSTEP   492 / 1191 (thread   11) fSTEP   493 / 1191 (thread    3) fSTEP   494 / 1191 (thread    4) fSTEP   496 / 1191 (thread    8) fSTEP   497 / 1191 (thread    7) fSTEP   498 / 1191 (thread    2) fSTEP   499 / 1191 (thread    1) fSTEP   500 / 1191 (thread    5) fSTEP   495 / 1191 (thread    9) fSTEP   501 / 1191 (thread    7) fSTEP   491 / 1191 (thread    6) fSTEP   601 / 1191 (thread    6) fSTEP   701 / 1191 (thread   11) fSTEP   801 / 1191 (thread   10) fSTEP   901 / 1191 (thread   10) fSTEP  1001 / 1191 (thread    0) fSTEP  1101 / 1191 (thread    3) f
 Reallocating..done. *alloclen = 2253
 
 done.
@@ -222,88 +201,6 @@ To disable this change, add the --leavegappyregion option.
 
 ✅ Alignment complete → /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.aligned.fasta
 ✂️ Running ClipKIT trimming...
-Full Traceback (most recent call last):
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 231, in spawn_job
-    subprocess.check_call(cmd, shell=True)
-    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/subprocess.py", line 419, in check_call
-    raise CalledProcessError(retcode, cmd)
-subprocess.CalledProcessError: Command 'cd /home/anirudh/asgard_pipeline && /root/miniconda3/envs/snakemake/bin/python3.13 -m snakemake --snakefile '/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile' --target-jobs 'archive_config:' --allowed-rules archive_config --cores 24 --attempt 1 --force-use-threads  --force --target-files-omit-workdir-adjustment --max-inventory-time 0 --retries 0 --nocolor --no-hooks --nolock --ignore-incomplete --verbose  --rerun-triggers software-env params code mtime input --deployment-method conda --conda-frontend 'conda' --conda-base-path '/root/miniconda3' --shared-fs-usage storage-local-copies sources software-deployment persistence input-output source-cache --wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/' --printshellcmds  --latency-wait 5 --scheduler 'ilp' --local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl --scheduler-solver-path '/root/miniconda3/envs/snakemake/bin' --runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmphyno2_pz' --configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml --default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI= --quiet progress rules host --mode 'subprocess' --local-groupid 'local'' returned non-zero exit status 1.
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/concurrent/futures/thread.py", line 59, in run
-    result = self.fn(*self.args, **self.kwargs)
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 236, in cached_or_run
-    self.workflow.async_run(self.acached_or_run(job, run_func, *args))
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/workflow.py", line 267, in async_run
-    return runner.run(coro)
-           ~~~~~~~~~~^^^^^^
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
-    return future.result()
-           ~~~~~~~~~~~~~^^
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 249, in acached_or_run
-    run_func(*args)
-    ~~~~~~~~^^^^^^^
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 233, in spawn_job
-    raise SpawnedJobError()
-snakemake.exceptions.SpawnedJobError
-
-Traceback (most recent call last):
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 231, in spawn_job
-    subprocess.check_call(cmd, shell=True)
-    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/subprocess.py", line 419, in check_call
-    raise CalledProcessError(retcode, cmd)
-
-subprocess.CalledProcessError: Command 'cd /home/anirudh/asgard_pipeline && /root/miniconda3/envs/snakemake/bin/python3.13 -m snakemake --snakefile '/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile' --target-jobs 'archive_config:' --allowed-rules archive_config --cores 24 --attempt 1 --force-use-threads  --force --target-files-omit-workdir-adjustment --max-inventory-time 0 --retries 0 --nocolor --no-hooks --nolock --ignore-incomplete --verbose  --rerun-triggers software-env params code mtime input --deployment-method conda --conda-frontend 'conda' --conda-base-path '/root/miniconda3' --shared-fs-usage storage-local-copies sources software-deployment persistence input-output source-cache --wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/' --printshellcmds  --latency-wait 5 --scheduler 'ilp' --local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl --scheduler-solver-path '/root/miniconda3/envs/snakemake/bin' --runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmphyno2_pz' --configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml --default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI= --quiet progress rules host --mode 'subprocess' --local-groupid 'local'' returned non-zero exit status 1.
-
-
-During handling of the above exception, another exception occurred:
-
-
-Traceback (most recent call last):
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/concurrent/futures/thread.py", line 59, in run
-    result = self.fn(*self.args, **self.kwargs)
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 236, in cached_or_run
-    self.workflow.async_run(self.acached_or_run(job, run_func, *args))
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/workflow.py", line 267, in async_run
-    return runner.run(coro)
-           ~~~~~~~~~~^^^^^^
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
-    return future.result()
-           ~~~~~~~~~~~~~^^
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 249, in acached_or_run
-    run_func(*args)
-    ~~~~~~~~^^^^^^^
-
-  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 233, in spawn_job
-    raise SpawnedJobError()
-
-snakemake.exceptions.SpawnedJobError
-
-[Tue Mar  3 19:15:48 2026]
-Error in rule archive_config:
-    message: None
-    jobid: 9
-    output: /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/config_used.yaml
 
 -------------
 | Arguments |
@@ -336,7 +233,1611 @@ Number of sites kept: 1175
 Number of sites trimmed: 322
 Percentage of alignment trimmed: 21.51%
 
-Execution time: 0.129s
+Execution time: 0.133s
 
 ✅ Trimming complete → /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.trimmed.fasta
 🌲 Running IQ-TREE3 (Model selection + ML tree)...
+IQ-TREE version 3.0.1 for Linux x86 64-bit built Jul  9 2025
+Developed by Bui Quang Minh, Thomas Wong, Nhan Ly-Trong, Huaiyan Ren
+Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
+Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
+
+Host:    DESKTOP-VPSEKSF (AVX2, FMA3, 125 GB RAM)
+Command: iqtree3 -s /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.trimmed.fasta -nt 12 -m MFP -bb 1000 -alrt 1000 -pre /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo
+Seed:    50976 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Tue Mar  3 19:51:21 2026
+Kernel:  AVX+FMA - 12 threads (16 CPU cores detected)
+
+Reading alignment file /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.trimmed.fasta ... Fasta format detected
+Reading fasta file: done in 0.00945433 secs using 63.2% CPU
+Alignment most likely contains protein sequences
+Constructing alignment: done in 0.00891443 secs using 1000% CPU
+Alignment has 1192 sequences with 1175 columns, 1156 distinct patterns
+960 parsimony-informative, 136 singleton sites, 79 constant sites
+                Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 0.000391303 secs using 6165% CPU
+   1  AAIJAILA_00129   67.91%    passed     90.91%
+   2  JEDDKEKE_00129   67.91%    passed     90.91%
+   3  DIOLJGCH_00723   60.09%    failed      0.00%
+   4  DIOLJGCH_00731   63.91%    failed      2.50%
+   5  DIOLJGCH_00732   63.74%    passed     21.83%
+   6  DIOLJGCH_02923   67.66%    passed     27.48%
+   7  DIOLJGCH_04700   64.00%    failed      0.09%
+   8  AIIDIMLB_00723   60.09%    failed      0.00%
+   9  AIIDIMLB_00731   63.91%    failed      2.50%
+  10  AIIDIMLB_00732   63.74%    passed     21.83%
+  11  AIIDIMLB_02923   67.66%    passed     27.48%
+  12  AIIDIMLB_04700   64.00%    failed      0.09%
+  13  BGENDEAD_00709   60.09%    failed      0.00%
+  14  BGENDEAD_00716   63.91%    failed      2.36%
+  15  BGENDEAD_00717   64.00%    passed     19.05%
+  16  BGENDEAD_02681   67.66%    passed     27.48%
+  17  BGENDEAD_04405   64.00%    failed      0.02%
+  18  NDAMOAGK_00476   69.11%    passed     16.86%
+  19  NDAMOAGK_00628   65.79%    passed     86.17%
+  20  NDAMOAGK_01435   63.83%    failed      0.96%
+  21  KFEKJPAD_01888   66.55%    passed     25.24%
+  22  KFEKJPAD_02518   67.74%    failed      0.00%
+  23  JMEPJHAH_01781   66.55%    passed     25.30%
+  24  JMEPJHAH_02351   67.74%    failed      0.00%
+  25  JJCAMKKM_00265   65.28%    passed      7.73%
+  26  AELFJEHI_00666   61.19%    failed      1.32%
+  27  AELFJEHI_02126   64.09%    passed     98.77%
+  28  AELFJEHI_02707   62.47%    failed      3.21%
+  29  MFNEEFHD_00607   67.40%    passed     14.20%
+  30  MFNEEFHD_01344   68.60%    passed     48.39%
+  31  AAEOKEPF_00617   67.74%    passed     82.76%
+  32  ELCOMMCJ_00875   72.17%    passed     42.07%
+  33  ELCOMMCJ_01958   68.68%    passed     25.65%
+  34  ELCOMMCJ_02235   59.57%    failed      3.17%
+  35  PLLDIJIE_00782   68.85%    passed     69.30%
+  36  PLLDIJIE_02479   62.38%    failed      1.84%
+  37  EGFIHDBD_00823   62.55%    failed      1.64%
+  38  EGFIHDBD_01500   65.11%    passed     86.90%
+  39  EGFIHDBD_02570   71.40%    passed     29.37%
+  40  DOOJHKCK_00032   67.06%    passed     41.37%
+  41  DOOJHKCK_03130   70.13%    passed     24.42%
+  42  IPCAKPJN_01805   67.74%    passed     46.33%
+  43  IPCAKPJN_02456   63.23%    passed     68.24%
+  44  HNOMPBCC_00361   67.06%    failed      0.48%
+  45  HNOMPBCC_00363   59.57%    failed      0.00%
+  46  HNOMPBCC_01434   67.40%    passed     56.41%
+  47  KAKALGMK_02913   67.74%    passed     40.98%
+  48  KAKALGMK_03034   63.23%    passed     68.24%
+  49  GDIMKMID_00368   69.19%    passed      9.61%
+  50  GDIMKMID_00513   65.79%    passed     78.47%
+  51  GDIMKMID_01238   63.83%    failed      0.36%
+  52  IJJBFKFB_01316   67.06%    failed      0.07%
+  53  IJJBFKFB_01318   62.38%    failed      0.00%
+  54  IJJBFKFB_02970   65.36%    passed     45.32%
+  55  BAADKBHN_01854   67.74%    passed      9.61%
+  56  BAADKBHN_02724   68.68%    passed     89.69%
+  57  JLNMILLL_00759   67.91%    passed     20.71%
+  58  JLNMILLL_01186   63.15%    passed      8.93%
+  59  JLNMILLL_01959   60.85%    failed      1.07%
+  60  JDHPMMCG_03115   66.81%    passed     44.56%
+  61  EDBAHGEC_00528   65.96%    passed     40.31%
+  62  EDBAHGEC_01614   68.68%    passed     85.63%
+  63  ELJELAGL_01505   63.23%    passed     57.11%
+  64  ELJELAGL_02202   67.83%    passed     85.69%
+  65  GEFAOOOF_00787   67.57%    passed     33.77%
+  66  GEFAOOOF_01460   70.38%    passed     33.24%
+  67  HPJCMBBP_01300   67.23%    failed      1.77%
+  68  EDAGINKG_02457   61.79%    failed      0.50%
+  69  EDAGINKG_03361   66.13%    passed     17.88%
+  70  EDAGINKG_05117   62.38%    failed      0.16%
+  71  OEJGCHPD_02412   67.06%    passed     95.57%
+  72  OEJGCHPD_03125   67.74%    failed      0.37%
+  73  KPDFPIII_00142   63.32%    failed      0.85%
+  74  KPDFPIII_00602   61.02%    failed      2.58%
+  75  KPDFPIII_01669   67.23%    failed      1.76%
+  76  NAJGBKGL_00537   67.32%    passed     94.43%
+  77  NAJGBKGL_02756   66.13%    passed     21.72%
+  78  ALEAFCME_00341   67.57%    passed     33.77%
+  79  ALEAFCME_00591   70.38%    passed     41.09%
+  80  OHDNHCMB_00065   92.43%    passed     68.54%
+  81  OHDNHCMB_00546   67.57%    passed      7.06%
+  82  EKDGDEPA_02659   67.91%    passed     43.62%
+  83  EKDGDEPA_02956   62.55%    passed     22.07%
+  84  EKDGDEPA_03109   64.00%    passed      8.08%
+  85  CHDLOGKJ_00148   68.51%    passed     59.95%
+  86  CHDLOGKJ_02897   67.66%    passed     67.99%
+  87  HEOALBCD_00180   67.91%    passed     25.07%
+  88  HEOALBCD_01615   63.66%    failed      1.95%
+  89  HEOALBCD_02442   60.94%    passed     15.57%
+  90  HCKODAJA_01496   61.36%    failed      3.51%
+  91  HCKODAJA_02143   64.00%    passed     99.96%
+  92  CIDNLPIE_00606   67.57%    passed     31.86%
+  93  CIDNLPIE_01958   69.96%    passed     39.48%
+  94  OGPGAEMM_00230   67.57%    passed     33.77%
+  95  OGPGAEMM_01485   70.38%    passed     41.09%
+  96  JHLJFNGO_00290   67.49%    passed     26.86%
+  97  JHLJFNGO_03709   68.68%    passed     71.85%
+  98  NABLAPLN_00773   64.26%    passed     93.15%
+  99  NABLAPLN_03878   61.36%    failed      2.83%
+ 100  LAHMDPMN_00238   67.57%    passed     33.77%
+ 101  LAHMDPMN_01438   70.38%    passed     41.09%
+ 102  DEAKNLCD_00418   60.77%    failed      0.58%
+ 103  DEAKNLCD_01662   67.91%    passed     30.92%
+ 104  DEAKNLCD_02688   64.17%    passed     51.34%
+ 105  PAOKPGLH_00680   67.57%    passed     31.86%
+ 106  PAOKPGLH_02123   69.96%    passed     39.48%
+ 107  APOJBJGI_01782   67.74%    passed     65.27%
+ 108  APOJBJGI_03354   63.32%    passed     41.92%
+ 109  FDLGMPJH_02487   67.74%    passed     10.64%
+ 110  KEFDLCDI_00722   68.43%    passed     55.49%
+ 111  EBEJHJPE_00009   67.06%    passed     61.84%
+ 112  EBEJHJPE_01179   67.06%    failed      0.04%
+ 113  NKIKPHEF_00134   67.49%    passed     26.86%
+ 114  NKIKPHEF_03836   68.68%    passed     71.85%
+ 115  KMPGPDOE_00238   67.57%    passed     33.77%
+ 116  KMPGPDOE_01728   70.38%    passed     41.09%
+ 117  BEPBCOAL_00594   67.57%    passed     31.86%
+ 118  BEPBCOAL_02106   69.96%    passed     39.48%
+ 119  CMKGELHB_00905   67.40%    passed     22.62%
+ 120  CEGGCEJE_00408   61.02%    failed      2.58%
+ 121  CEGGCEJE_00863   67.23%    failed      1.76%
+ 122  CEGGCEJE_01440   63.32%    failed      0.85%
+ 123  MCONNPJD_01143   67.66%    passed     10.63%
+ 124  MCONNPJD_02885   68.34%    passed     95.84%
+ 125  DJNPLDFO_01032   68.68%    passed     93.50%
+ 126  DJNPLDFO_02948   65.96%    passed     42.86%
+ 127  LCJGLNGN_01126   66.64%    passed     87.16%
+ 128  LCJGLNGN_01392   67.49%    failed      0.10%
+ 129  BHCMOGBE_00005   62.21%    failed      2.69%
+ 130  BHCMOGBE_03706   64.00%    passed     99.21%
+ 131  BHCMOGBE_03994   61.36%    failed      4.53%
+ 132  IAKFDMEL_00317   64.00%    passed     99.96%
+ 133  IAKFDMEL_02303   61.36%    failed      3.51%
+ 134  PPOALAOP_02349   67.40%    failed      4.84%
+ 135  PPOALAOP_02664   68.60%    passed     35.39%
+ 136  KJFOIMDH_00720   60.60%    failed      2.12%
+ 137  KJFOIMDH_02449   63.66%    passed     99.52%
+ 138  KFNBMKGD_00237   67.57%    passed     33.77%
+ 139  KFNBMKGD_01038   70.38%    passed     41.09%
+ 140  PALLCPAO_03069   64.00%    passed     99.21%
+ 141  PALLCPAO_03378   61.36%    failed      4.53%
+ 142  PALLCPAO_03975   62.21%    failed      2.69%
+ 143  MMHEOHBJ_00682   63.40%    failed      2.49%
+ 144  MMHEOHBJ_00944   67.91%    passed     19.70%
+ 145  MMHEOHBJ_01754   60.51%    passed     32.06%
+ 146  NNMKHFCG_01220   61.36%    failed      4.53%
+ 147  NNMKHFCG_01724   64.00%    passed     99.21%
+ 148  NNMKHFCG_01988   62.21%    failed      2.69%
+ 149  CBCCFIPL_02104   67.06%    passed     32.05%
+ 150  CBCCFIPL_02433   68.68%    passed     42.48%
+ 151  DBDKMGEL_00368   65.96%    passed     46.62%
+ 152  DBDKMGEL_00680   61.11%    passed     11.79%
+ 153  DBDKMGEL_01294   68.17%    passed     16.49%
+ 154  BNPGAODM_00583   67.57%    passed     14.44%
+ 155  BNPGAODM_03414   68.60%    passed     49.18%
+ 156  MFKPMLBM_00074   67.57%    passed     31.86%
+ 157  MFKPMLBM_01798   69.96%    passed     35.48%
+ 158  LIEHJEOJ_00159   67.57%    passed     31.86%
+ 159  LIEHJEOJ_02140   69.96%    passed     35.48%
+ 160  IABMIGPL_00718   66.81%    passed      5.90%
+ 161  IABMIGPL_01811   68.17%    passed     72.34%
+ 162  JOHNJLHC_01543   67.91%    passed     34.41%
+ 163  JOHNJLHC_03171   68.68%    passed     53.69%
+ 164  POLBGFAI_01186   68.68%    passed     54.56%
+ 165  POLBGFAI_02848   67.49%    passed     31.82%
+ 166  AJNJNNJO_00710   68.60%    passed     38.39%
+ 167  AJNJNNJO_01767   67.40%    passed     17.24%
+ 168  PDCCFHMA_02673   67.57%    passed     10.33%
+ 169  PDCCFHMA_02972   68.60%    passed     32.98%
+ 170  GECOIDEL_01533   69.45%    passed     21.23%
+ 171  GECOIDEL_02785   68.68%    passed     88.78%
+ 172  FKPDGIDI_01533   69.45%    passed     21.23%
+ 173  FKPDGIDI_02785   68.68%    passed     88.78%
+ 174  GFHAJPPH_02236   68.68%    passed     65.73%
+ 175  GFHAJPPH_02656   67.57%    passed     32.63%
+ 176  IHNLDPNL_00203   63.23%    failed      2.59%
+ 177  IHNLDPNL_00729   67.74%    passed     30.73%
+ 178  IHNLDPNL_02377   60.85%    failed      0.72%
+ 179  DELJMAKM_01945   67.23%    passed     20.43%
+ 180  DELJMAKM_03747   68.68%    passed     36.83%
+ 181  HDIEHHGG_02167   68.60%    passed     71.66%
+ 182  ALEPEDJB_02009   67.57%    passed      7.06%
+ 183  ALEPEDJB_02914   68.60%    passed     68.76%
+ 184  EGPGIDJG_00421   67.66%    failed      0.24%
+ 185  EGPGIDJG_02128   67.06%    passed     93.80%
+ 186  HGOPKLIN_02360   67.49%    passed     12.05%
+ 187  PNDEKHPH_01532   68.68%    passed     87.27%
+ 188  PNDEKHPH_02144   67.83%    passed     10.85%
+ 189  GLFHLIKF_01163   68.51%    passed     50.90%
+ 190  GLFHLIKF_01351   68.51%    passed     25.51%
+ 191  PPIPHEHJ_01248   67.74%    passed     46.33%
+ 192  PPIPHEHJ_03663   63.23%    passed     68.24%
+ 193  GLFHPICB_01152   67.49%    passed     32.13%
+ 194  GLFHPICB_01272   68.68%    passed     84.99%
+ 195  JJLDNBCP_00953   62.13%    failed      3.30%
+ 196  JJLDNBCP_01684   61.79%    passed     21.88%
+ 197  DKIBDBBH_02013   64.00%    passed     96.27%
+ 198  DKIBDBBH_03423   60.94%    passed      8.79%
+ 199  AGFCPNKM_00496   64.34%    passed     12.28%
+ 200  AGFCPNKM_00992   60.60%    passed     16.86%
+ 201  AGFCPNKM_02102   68.17%    passed     10.61%
+ 202  DBJOCKKI_00794   62.04%    passed      7.09%
+ 203  DBJOCKKI_01006   61.79%    passed      6.71%
+ 204  LPIPODLB_00395   64.00%    passed     99.21%
+ 205  LPIPODLB_01241   61.36%    failed      4.53%
+ 206  LPIPODLB_03656   62.21%    failed      2.69%
+ 207  BHAOMLAN_01114   62.13%    passed     12.18%
+ 208  BHAOMLAN_01871   61.79%    passed      8.92%
+ 209  OGDCJBEG_00209   60.34%    passed     18.89%
+ 210  OGDCJBEG_00429   64.17%    passed     18.76%
+ 211  OGDCJBEG_01604   67.66%    passed     15.51%
+ 212  JNJGHNDD_01274   69.45%    passed     21.76%
+ 213  JNJGHNDD_02274   60.51%    passed      6.85%
+ 214  JNJGHNDD_02612   64.17%    passed      6.39%
+ 215  GFLJDGGG_00937   68.09%    passed      5.45%
+ 216  GFLJDGGG_02429   64.43%    passed     26.44%
+ 217  IMLEOICJ_00999   67.74%    passed     44.93%
+ 218  IMLEOICJ_02753   62.72%    passed     59.99%
+ 219  HKGLDILP_00239   67.57%    passed     31.86%
+ 220  HKGLDILP_02036   69.96%    passed     39.48%
+ 221  IELMKNIH_01375   66.47%    passed     63.43%
+ 222  IELMKNIH_01650   67.66%    failed      0.43%
+ 223  PLLEGNBE_01793   65.02%    passed     87.05%
+ 224  PLLEGNBE_01806   58.55%    passed     16.55%
+ 225  PLLEGNBE_03896   60.34%    failed      3.28%
+ 226  PLLEGNBE_04949   76.77%    passed      7.61%
+ 227  AMJFNJIH_01151   68.60%    passed     27.16%
+ 228  AMJFNJIH_01385   67.40%    passed      8.10%
+ 229  BLJIHAHG_01430   63.23%    passed     42.01%
+ 230  BLJIHAHG_03054   67.66%    passed     74.42%
+ 231  NGOLIILE_01576   67.74%    passed     11.19%
+ 232  NGOLIILE_03385   68.68%    passed     88.71%
+ 233  BFIIKHGH_00817   68.68%    passed     29.84%
+ 234  BFIIKHGH_02379   67.06%    passed     23.96%
+ 235  LCPFBAJP_01324   60.77%    passed     14.47%
+ 236  LCPFBAJP_01679   66.55%    passed     38.49%
+ 237  MLDDCLDB_01464   67.66%    passed     22.37%
+ 238  MLDDCLDB_01781   68.51%    passed     52.80%
+ 239  GNNHGECN_00265   60.51%    passed     15.46%
+ 240  GNNHGECN_01985   68.09%    passed     23.14%
+ 241  GNNHGECN_02405   64.51%    passed      6.81%
+ 242  IMKFCFDD_01849   67.74%    passed     61.83%
+ 243  IMKFCFDD_03047   63.23%    passed     44.21%
+ 244  JDGBFDIN_00021   62.04%    passed      8.85%
+ 245  JDGBFDIN_02235   61.79%    passed     12.94%
+ 246  IGDNMOBN_00818   64.09%    passed      6.75%
+ 247  IGDNMOBN_01200   66.55%    passed     40.76%
+ 248  IGDNMOBN_02255   60.77%    passed     14.47%
+ 249  BHLIBGBA_00755   67.40%    passed      9.35%
+ 250  BHLIBGBA_02009   68.68%    passed     81.36%
+ 251  BGBEDALM_00482   68.17%    passed     21.19%
+ 252  BGBEDALM_00521   60.85%    passed     10.98%
+ 253  BGBEDALM_01401   64.26%    failed      2.28%
+ 254  MNACDEKI_00246   65.87%    passed     74.04%
+ 255  MNACDEKI_00316   69.28%    passed     69.76%
+ 256  MNACDEKI_00455   60.94%    passed      9.95%
+ 257  FIKJFKLI_01061   61.28%    failed      1.13%
+ 258  FIKJFKLI_01217   62.38%    failed      1.98%
+ 259  EHBCMGMD_01388   68.68%    passed     97.06%
+ 260  PJGBFLAL_01026   61.36%    passed     15.66%
+ 261  PJGBFLAL_03269   65.28%    passed     22.17%
+ 262  ANMPKHJL_00281   67.74%    failed      0.02%
+ 263  ANMPKHJL_01169   67.06%    passed     59.41%
+ 264  IBBFIEMD_00273   69.28%    passed     69.76%
+ 265  IBBFIEMD_00341   65.87%    passed     74.04%
+ 266  IBBFIEMD_00590   60.94%    passed      9.95%
+ 267  DIKKLMLP_00185   61.79%    failed      4.82%
+ 268  DIKKLMLP_00475   62.38%    failed      3.79%
+ 269  OKAEMJCJ_00988   67.74%    failed      0.09%
+ 270  OKAEMJCJ_02844   67.06%    passed     53.39%
+ 271  CFPFIFAP_02407   68.60%    passed     34.26%
+ 272  CFPFIFAP_02851   67.32%    passed     18.30%
+ 273  OGBGKDOO_00278   67.83%    passed     17.75%
+ 274  OGBGKDOO_01784   68.51%    passed     70.45%
+ 275  DKCHDJLH_00529   67.74%    passed     14.88%
+ 276  DKCHDJLH_02921   68.68%    passed     77.20%
+ 277  JNHFDLAO_00093   64.34%    passed     17.85%
+ 278  JNHFDLAO_01254   68.09%    passed      8.34%
+ 279  JNHFDLAO_02818   60.77%    passed     42.87%
+ 280  DKDHECOE_00164   67.32%    passed     23.30%
+ 281  DKDHECOE_00956   68.60%    passed     46.00%
+ 282  GMEJOKMH_00261   64.17%    failed      2.46%
+ 283  GMEJOKMH_00463   66.81%    passed     31.28%
+ 284  GMEJOKMH_01776   60.77%    failed      1.95%
+ 285  BHGGMLGI_00293   62.64%    passed     24.72%
+ 286  BHGGMLGI_01941   70.98%    passed     83.98%
+ 287  BHGGMLGI_02548   66.47%    passed     26.55%
+ 288  BHGGMLGI_02591   75.49%    failed      0.33%
+ 289  FCHHEKPC_01092   67.32%    passed     18.30%
+ 290  FCHHEKPC_01417   68.60%    passed     34.26%
+ 291  JGNLFNFL_00666   62.21%    failed      2.69%
+ 292  JGNLFNFL_02051   61.36%    failed      4.53%
+ 293  JGNLFNFL_03245   64.00%    passed     99.21%
+ 294  KKNPNNKL_00757   67.91%    passed     14.74%
+ 295  KKNPNNKL_01300   60.77%    failed      1.87%
+ 296  NDIMGIAA_00107   60.51%    passed     34.92%
+ 297  NDIMGIAA_00191   67.91%    passed     14.19%
+ 298  NDIMGIAA_02983   63.40%    failed      1.24%
+ 299  NHHKBCLI_00890   67.40%    passed     54.40%
+ 300  NHHKBCLI_01215   59.57%    failed      0.00%
+ 301  NHHKBCLI_01217   67.06%    failed      0.48%
+ 302  KDILGMCB_02664   68.60%    passed     57.04%
+ 303  KICOIGIA_01068   67.91%    passed     44.16%
+ 304  KICOIGIA_02958   68.43%    passed     61.17%
+ 305  CKOGHCOM_00948   91.83%    passed     86.90%
+ 306  CKOGHCOM_01185   64.34%    failed      1.97%
+ 307  NDNHLPBL_01308   68.68%    passed     80.65%
+ 308  NDNHLPBL_02498   67.74%    passed     13.03%
+ 309  IMPJCOCD_01607   68.60%    passed     62.99%
+ 310  IMPJCOCD_03218   67.40%    passed     37.65%
+ 311  JLCKHBAH_02316   68.60%    passed     34.26%
+ 312  IDJBKAKB_02304   67.74%    passed     53.74%
+ 313  IDJBKAKB_02463   63.32%    passed     53.87%
+ 314  MHPDGONC_01549   64.09%    passed      7.87%
+ 315  MHPDGONC_01843   66.55%    passed     38.49%
+ 316  MHPDGONC_02851   60.77%    passed     14.47%
+ 317  GLPMCFGN_00050   67.57%    passed     31.86%
+ 318  GLPMCFGN_01507   69.96%    passed     39.48%
+ 319  ELDIHKIC_00862   68.68%    passed     88.14%
+ 320  ELDIHKIC_03966   67.49%    passed     10.42%
+ 321  CONEKMGH_00179   60.51%    passed     34.92%
+ 322  CONEKMGH_00763   63.40%    failed      1.24%
+ 323  CONEKMGH_01261   67.91%    passed     14.19%
+ 324  ENEDODPK_00014   67.74%    passed     61.83%
+ 325  ENEDODPK_00819   63.23%    passed     44.21%
+ 326  JBPHBBHP_00636   66.81%    failed      2.92%
+ 327  JBPHBBHP_01537   63.91%    passed      8.89%
+ 328  JBPHBBHP_01712   60.26%    passed      8.05%
+ 329  OGLGHGPA_00253   67.23%    passed     26.35%
+ 330  OGLGHGPA_02039   68.68%    passed     49.17%
+ 331  HBGFLMCD_00621   67.57%    passed     31.86%
+ 332  HBGFLMCD_02220   69.96%    passed     39.48%
+ 333  PMHNBILH_00112   67.06%    passed     61.93%
+ 334  PMHNBILH_02224   66.72%    failed      0.01%
+ 335  GELLPOJC_00048   69.45%    passed     21.23%
+ 336  GELLPOJC_00202   68.68%    passed     88.78%
+ 337  BNCMPLKP_00544   67.74%    passed      7.35%
+ 338  EBODJBDI_01028   62.38%    failed      2.31%
+ 339  EBODJBDI_01465   68.85%    passed     69.30%
+ 340  HDAPCNDD_02123   65.79%    passed     12.46%
+ 341  JKGGDINF_01164   61.45%    failed      0.29%
+ 342  JKGGDINF_02629   61.19%    passed     11.54%
+ 343  JKGGDINF_02724   64.00%    passed     96.87%
+ 344  DPJHMCOC_00601   60.77%    passed     14.84%
+ 345  DPJHMCOC_00756   66.21%    passed     31.90%
+ 346  DPJHMCOC_01801   64.09%    passed     14.14%
+ 347  GHIFBKMB_01379   69.11%    passed     95.88%
+ 348  KLFIDEBP_03064   68.60%    passed     60.96%
+ 349  OAOILFPF_00749   69.53%    passed     23.31%
+ 350  OAOILFPF_01021   63.91%    failed      0.12%
+ 351  OAOILFPF_01512   65.45%    passed     11.85%
+ 352  HKIFCEJM_01809   61.36%    failed      3.94%
+ 353  HKIFCEJM_02095   61.79%    passed      5.03%
+ 354  IOJDHAAC_00275   67.91%    passed     62.68%
+ 355  IOJDHAAC_00459   64.00%    failed      4.33%
+ 356  IOJDHAAC_01359   60.77%    passed      6.37%
+ 357  FHFMBKPG_00056   67.74%    passed     16.89%
+ 358  FHFMBKPG_01353   68.68%    passed     77.38%
+ 359  GJFDDCCB_00764   67.74%    failed      0.00%
+ 360  GJFDDCCB_01273   67.06%    passed     64.58%
+ 361  CJDFGHNO_00832   60.51%    passed     15.46%
+ 362  CJDFGHNO_01798   68.09%    passed     23.14%
+ 363  CJDFGHNO_02168   64.51%    passed      6.81%
+ 364  IILABGLG_01403   68.68%    passed     73.07%
+ 365  IILABGLG_03163   67.49%    passed     28.12%
+ 366  FNJDHMDA_00148   67.57%    passed     31.86%
+ 367  FNJDHMDA_01744   69.96%    passed     39.48%
+ 368  IJFPGNLB_00453   65.45%    passed     11.85%
+ 369  IJFPGNLB_00732   69.53%    passed     23.31%
+ 370  IJFPGNLB_01559   63.91%    failed      0.12%
+ 371  CDDGEJCN_00622   67.66%    passed     26.27%
+ 372  CDDGEJCN_02969   69.02%    passed     86.08%
+ 373  KFNKCPHK_00035   68.43%    passed      5.95%
+ 374  KFNKCPHK_02307   68.60%    passed     47.54%
+ 375  KGJPPJEH_00212   70.13%    passed     18.00%
+ 376  KGJPPJEH_00867   67.06%    passed     48.37%
+ 377  HGCHAIKB_00073   60.43%    failed      0.90%
+ 378  HGCHAIKB_02001   63.66%    passed     99.67%
+ 379  AGBHJDJB_00786   67.66%    passed     32.64%
+ 380  AGBHJDJB_02488   68.51%    passed     75.84%
+ 381  HBAFFPGF_00250   68.60%    passed     60.65%
+ 382  HBAFFPGF_02932   67.57%    passed     16.58%
+ 383  FBFHJGKM_00495   62.21%    failed      2.69%
+ 384  FBFHJGKM_02870   64.00%    passed     99.21%
+ 385  FBFHJGKM_03350   61.36%    failed      4.53%
+ 386  CCCLDPND_00480   65.53%    passed     56.75%
+ 387  CCCLDPND_00708   68.17%    passed     33.90%
+ 388  CCCLDPND_00756   61.36%    passed     32.42%
+ 389  CCLAHBPI_02213   68.68%    passed     55.07%
+ 390  CCLAHBPI_03762   73.45%    passed     80.11%
+ 391  CNEHBEEK_00503   67.06%    passed     18.41%
+ 392  CNEHBEEK_01615   68.68%    passed     36.83%
+ 393  KHDKACNM_00663   67.40%    failed      2.97%
+ 394  KHDKACNM_01882   68.60%    passed     33.57%
+ 395  HBOHBOCJ_00519   68.68%    passed     39.65%
+ 396  HBOHBOCJ_02155   67.23%    passed     39.64%
+ 397  CNPCIGOH_00619   67.91%    passed     22.19%
+ 398  CNPCIGOH_00992   64.09%    passed     59.08%
+ 399  CNPCIGOH_02142   60.77%    failed      1.54%
+ 400  JCLEONHK_00948   68.68%    passed     51.57%
+ 401  IAHMLBMI_00405   60.51%    passed     14.04%
+ 402  IAHMLBMI_01796   68.09%    passed     23.14%
+ 403  IAHMLBMI_02149   64.51%    passed      6.81%
+ 404  COFGIELN_00165   67.06%    passed     66.09%
+ 405  COFGIELN_02882   67.74%    failed      0.00%
+ 406  ICKLHJKJ_01647   68.51%    passed     68.79%
+ 407  ICKLHJKJ_02502   67.66%    passed     19.29%
+ 408  GJDGIEAH_00968   68.60%    passed     52.59%
+ 409  GJDGIEAH_03048   67.32%    passed     23.93%
+ 410  KDJAEHGK_00699   68.68%    passed     62.34%
+ 411  KDJAEHGK_00803   67.57%    passed     60.36%
+ 412  BOHOLJNK_00693   61.79%    passed      8.61%
+ 413  BOHOLJNK_01619   62.47%    passed     47.55%
+ 414  CNPHEDJF_01402   68.17%    passed     10.61%
+ 415  CNPHEDJF_01512   60.60%    passed     16.86%
+ 416  CNPHEDJF_02174   64.34%    passed     12.28%
+ 417  GCFBPIMP_01217   68.43%    passed     95.03%
+ 418  MFLABBID_02870   68.68%    passed     42.40%
+ 419  HEJMLMGN_00331   68.68%    passed     42.40%
+ 420  HEJMLMGN_00932   67.66%    passed     16.37%
+ 421  ILGFPHMC_00054   60.85%    passed     14.57%
+ 422  ILGFPHMC_00191   68.17%    passed     21.19%
+ 423  ILGFPHMC_02880   64.26%    failed      2.73%
+ 424  BBCJKPNM_01120   67.40%    passed     26.03%
+ 425  BBCJKPNM_01215   68.60%    passed     71.77%
+ 426  FDHCOGLL_01381   68.68%    passed     77.38%
+ 427  FDHCOGLL_01400   67.74%    passed     20.67%
+ 428  CPBFAAJD_00522   69.19%    passed     87.22%
+ 429  CPBFAAJD_01319   67.40%    failed      1.42%
+ 430  LLDMHIEP_01697   67.66%    passed     80.89%
+ 431  LLDMHIEP_02930   68.68%    passed     97.06%
+ 432  PKAPIOIM_00225   70.13%    passed     18.00%
+ 433  PKAPIOIM_01122   67.06%    passed     48.37%
+ 434  MONFCLDL_00270   67.57%    passed     60.68%
+ 435  MMNDPLND_00298   67.57%    passed     31.86%
+ 436  MMNDPLND_01843   69.96%    passed     35.48%
+ 437  JCCFDLHG_00626   60.94%    failed      0.57%
+ 438  JCCFDLHG_01361   67.32%    passed     45.98%
+ 439  JCCFDLHG_01946   64.17%    failed      4.64%
+ 440  GFKDHIHK_00943   68.60%    passed     47.60%
+ 441  GFKDHIHK_01473   67.40%    failed      4.31%
+ 442  GMOIOIBJ_00115   67.40%    failed      4.31%
+ 443  GMOIOIBJ_01375   68.60%    passed     47.60%
+ 444  MIPHEGPH_00643   72.68%    passed     66.39%
+ 445  IDEFMKLJ_00352   70.55%    passed     45.34%
+ 446  IDEFMKLJ_01131   68.85%    passed     69.30%
+ 447  AOFPHGIE_00462   67.83%    passed     63.99%
+ 448  AOFPHGIE_02982   63.32%    passed     77.44%
+ 449  JPJMNJDP_01525   65.87%    passed     74.04%
+ 450  JPJMNJDP_01590   69.28%    passed     69.76%
+ 451  JPJMNJDP_02032   60.94%    passed      9.95%
+ 452  AAHJHJAN_00095   60.60%    passed     33.04%
+ 453  AAHJHJAN_00785   64.43%    passed     14.89%
+ 454  AAHJHJAN_02302   68.09%    failed      4.22%
+ 455  MMLGCMFA_00088   67.06%    passed     64.42%
+ 456  MMLGCMFA_02214   67.74%    failed      0.00%
+ 457  JLNBHMFG_01215   68.68%    passed     62.34%
+ 458  JLNBHMFG_01382   67.57%    passed     62.02%
+ 459  MPIGOKDE_00112   69.28%    passed     69.76%
+ 460  MPIGOKDE_00627   65.87%    passed     74.04%
+ 461  MPIGOKDE_01998   60.94%    passed      9.95%
+ 462  OALNEMIF_00127   60.94%    passed      9.95%
+ 463  OALNEMIF_03594   69.28%    passed     69.76%
+ 464  OALNEMIF_03664   65.87%    passed     74.04%
+ 465  GJEFGADM_01148   79.57%    passed     53.81%
+ 466  GJEFGADM_01949   60.51%    failed      4.27%
+ 467  GJEFGADM_02825   64.17%    passed     11.15%
+ 468  NBFGOMBN_01935   67.40%    passed      5.91%
+ 469  NBFGOMBN_03307   68.60%    passed     43.66%
+ 470  LDBGHKEA_00779   67.40%    failed      4.31%
+ 471  LDBGHKEA_01186   68.60%    passed     47.60%
+ 472  HFNAGEOO_02491   68.09%    failed      4.22%
+ 473  HFNAGEOO_02897   64.43%    passed     22.27%
+ 474  GMHAENLH_00286   77.11%    passed     91.44%
+ 475  GMHAENLH_02213   68.94%    passed     65.74%
+ 476  AEGAMCKF_02726   69.11%    passed     28.64%
+ 477  NCBBENCG_00114   61.36%    passed      6.69%
+ 478  NCBBENCG_00222   62.21%    failed      2.29%
+ 479  NCBBENCG_00781   64.00%    passed     98.13%
+ 480  NADDDIEO_00705   68.60%    passed     61.93%
+ 481  NADDDIEO_03281   67.40%    passed     12.41%
+ 482  DMJGPFGE_00928   66.55%    failed      2.72%
+ 483  DMJGPFGE_03129   71.91%    passed     83.19%
+ 484  MFHIPNOH_00928   67.66%    passed     14.90%
+ 485  MFHIPNOH_01085   68.68%    passed     90.53%
+ 486  AGKCNKJH_00192   61.79%    failed      4.82%
+ 487  AGKCNKJH_00729   62.38%    failed      3.79%
+ 488  LGGCHANK_01244   61.87%    failed      0.59%
+ 489  LGGCHANK_02736   64.00%    passed     97.92%
+ 490  LGGCHANK_03440   61.11%    passed      9.65%
+ 491  GIEAJJKF_00110   64.17%    failed      2.57%
+ 492  GIEAJJKF_00902   68.17%    passed      8.98%
+ 493  GIEAJJKF_01863   60.85%    passed      7.11%
+ 494  NBKOBIPI_00604   64.00%    passed     99.08%
+ 495  EELLKBMO_00449   70.13%    passed     18.00%
+ 496  EELLKBMO_01226   67.06%    passed     48.37%
+ 497  EDELNIOK_01346   68.68%    passed     77.43%
+ 498  EDELNIOK_02183   67.74%    passed     11.72%
+ 499  FEDPECBA_01932   68.68%    passed     62.87%
+ 500  FEDPECBA_02910   67.40%    failed      0.24%
+ 501  PCFOPMMF_00706   64.17%    passed     28.82%
+ 502  PCFOPMMF_03036   61.96%    failed      0.11%
+ 503  PNBMKMPJ_00600   67.06%    passed     85.78%
+ 504  PNBMKMPJ_01605   67.74%    failed      0.42%
+ 505  EHBJIHOB_02168   67.66%    passed     25.45%
+ 506  KDBIMGMN_02226   64.00%    passed     97.82%
+ 507  KDBIMGMN_02702   61.19%    passed      8.70%
+ 508  PLALBJDB_00960   68.68%    passed     88.14%
+ 509  PLALBJDB_02461   65.96%    passed     13.75%
+ 510  LGKOHNAD_01859   67.06%    passed     57.85%
+ 511  LGKOHNAD_01963   70.13%    passed     18.44%
+ 512  CNMFNLAI_01496   68.60%    passed     43.66%
+ 513  CNMFNLAI_01954   67.40%    passed      5.91%
+ 514  LDCBAEKE_01441   66.64%    passed     86.30%
+ 515  LDCBAEKE_02748   67.49%    failed      0.43%
+ 516  LOJFMINL_01679   63.23%    passed     54.19%
+ 517  LOJFMINL_02339   67.74%    passed     65.30%
+ 518  HKLOMLFE_00289   69.96%    passed     39.48%
+ 519  HKLOMLFE_01821   67.57%    passed     31.86%
+ 520  PCAMDMHD_02061   68.26%    passed     40.16%
+ 521  PCAMDMHD_02168   68.60%    passed     43.46%
+ 522  GLGKDDNM_00083   67.83%    passed     11.77%
+ 523  PEEJKKBK_00789   67.66%    passed     31.32%
+ 524  PEEJKKBK_01773   68.51%    passed     77.97%
+ 525  NCDIOHHO_00697   60.51%    passed     24.53%
+ 526  NCDIOHHO_01818   68.09%    passed     12.09%
+ 527  NCDIOHHO_02854   64.34%    passed     11.58%
+ 528  ABLIGFPE_00811   63.83%    passed     99.58%
+ 529  ABLIGFPE_02259   62.13%    failed      0.21%
+ 530  ABLIGFPE_02704   61.02%    failed      1.67%
+ 531  FANMBKBA_01689   67.49%    passed     26.92%
+ 532  FANMBKBA_01784   68.68%    passed     63.09%
+ 533  KEADMNBA_00890   60.43%    passed     30.20%
+ 534  KEADMNBA_01985   64.34%    passed     19.55%
+ 535  KEADMNBA_02329   68.09%    passed      8.33%
+ 536  EPFDKPFG_00277   69.53%    passed     23.31%
+ 537  EPFDKPFG_00662   65.45%    passed     11.85%
+ 538  EPFDKPFG_01353   63.91%    failed      0.12%
+ 539  DDKICOCE_01250   67.40%    passed     32.94%
+ 540  DDKICOCE_01791   68.60%    passed     45.43%
+ 541  LBNBPKHC_01411   68.68%    passed     70.37%
+ 542  LBNBPKHC_02448   67.32%    failed      0.01%
+ 543  FBOMEJEC_02376   68.68%    passed     90.60%
+ 544  FBOMEJEC_04328   67.74%    passed     29.37%
+ 545  HKAGMFHD_00083   67.06%    passed     53.88%
+ 546  HKAGMFHD_02048   69.19%    passed     16.27%
+ 547  GAFCJKMA_02653   68.68%    passed     74.26%
+ 548  GAFCJKMA_03343   67.74%    passed     16.33%
+ 549  DKOBDEDI_02217   67.74%    passed     62.06%
+ 550  CFILBIMH_00524   65.96%    passed     14.08%
+ 551  CFILBIMH_02985   68.68%    passed     87.70%
+ 552  MJLOJGAG_03098   67.91%    passed     44.16%
+ 553  MJLOJGAG_03431   68.43%    passed     66.13%
+ 554  IEFMMAKO_00183   67.06%    passed     53.88%
+ 555  IEFMMAKO_02174   69.19%    passed     16.27%
+ 556  HIMLLAIJ_00178   61.19%    failed      1.72%
+ 557  HIMLLAIJ_02070   64.09%    passed     89.90%
+ 558  HIMLLAIJ_04049   62.13%    failed      1.42%
+ 559  BNNJDOAJ_01568   67.74%    passed     61.44%
+ 560  BNNJDOAJ_02871   63.23%    passed     64.23%
+ 561  OPMLNFAO_00958   60.77%    passed     55.08%
+ 562  OPMLNFAO_01236   64.34%    passed     35.32%
+ 563  OPMLNFAO_01765   68.09%    passed     17.03%
+ 564  KNNJNGEI_00292   68.09%    passed     18.54%
+ 565  KNNJNGEI_02305   64.26%    passed     10.81%
+ 566  KNNJNGEI_02917   60.43%    passed     30.73%
+ 567  KJLCHLIP_00292   68.09%    passed     18.54%
+ 568  KJLCHLIP_02305   64.26%    passed     10.81%
+ 569  KJLCHLIP_02917   60.43%    passed     30.73%
+ 570  LHMCIMJP_00984   67.66%    passed     21.01%
+ 571  LHMCIMJP_01337   68.43%    passed     66.13%
+ 572  AHJKIBHI_00547   59.83%    passed      6.51%
+ 573  AHJKIBHI_03979   63.66%    passed     73.39%
+ 574  LDACJLFC_01010   68.68%    passed     25.65%
+ 575  LDACJLFC_02078   72.17%    passed     42.07%
+ 576  LDACJLFC_02888   59.57%    failed      3.17%
+ 577  KBGEHIFL_01024   69.11%    passed     26.86%
+ 578  KBGEHIFL_02115   72.17%    passed     42.07%
+ 579  KBGEHIFL_02951   59.57%    failed      3.17%
+ 580  KPLPGFEG_02782   68.85%    passed     69.30%
+ 581  KPLPGFEG_03910   62.38%    failed      2.31%
+ 582  FCHDNKPG_00906   68.09%    passed     25.54%
+ 583  FCHDNKPG_02309   60.68%    passed     27.97%
+ 584  FCHDNKPG_02564   64.34%    passed     16.61%
+ 585  BNHMLLGH_02590   68.60%    passed     58.27%
+ 586  KOAMMCEB_00294   67.74%    failed      0.00%
+ 587  KOAMMCEB_01163   67.06%    passed     70.77%
+ 588  JPEMJCEN_00918   68.09%    passed     13.13%
+ 589  JPEMJCEN_00997   64.43%    passed     13.34%
+ 590  JPEMJCEN_02449   60.34%    passed     16.81%
+ 591  MPPIBLIE_03815   64.09%    passed     99.11%
+ 592  LKGCCMAI_00023   67.66%    passed     14.90%
+ 593  LKGCCMAI_00605   68.68%    passed     90.53%
+ 594  LKGCCMAI_03767   67.40%    failed      2.85%
+ 595  FCIKJHEB_00258   67.91%    passed     14.24%
+ 596  FCIKJHEB_01303   63.40%    failed      3.83%
+ 597  FCIKJHEB_01552   60.51%    passed     36.04%
+ 598  LBKLEBIJ_01309   67.06%    passed     59.49%
+ 599  LBKLEBIJ_01601   67.74%    failed      0.00%
+ 600  JJLLPEDA_01221   68.68%    passed     46.07%
+ 601  JJLLPEDA_01503   67.74%    passed     10.64%
+ 602  NEOIDFHB_01913   68.68%    passed     48.56%
+ 603  FMKKGELC_02506   68.68%    passed     78.83%
+ 604  FMKKGELC_02658   67.74%    passed      9.61%
+ 605  MJDKFMFE_00286   68.68%    passed     86.99%
+ 606  MJDKFMFE_00830   67.66%    passed     52.49%
+ 607  NJBOKNAI_02364   67.06%    passed     56.73%
+ 608  KEGAKIPF_00123   67.57%    passed     31.86%
+ 609  KEGAKIPF_01652   69.96%    passed     39.48%
+ 610  EFEHHLLB_00144   65.79%    passed     78.31%
+ 611  EFEHHLLB_01170   63.83%    failed      0.30%
+ 612  EFEHHLLB_01319   68.94%    passed     34.54%
+ 613  IAHLGPFG_03148   68.68%    passed     88.14%
+ 614  BPADDOPK_00164   68.68%    passed     80.34%
+ 615  BPADDOPK_02302   67.49%    passed     13.99%
+ 616  MJMPJKMC_00917   69.96%    passed     39.48%
+ 617  MJMPJKMC_01668   67.57%    passed     31.86%
+ 618  AFPAOLHL_00196   64.34%    passed     12.28%
+ 619  AFPAOLHL_00277   60.60%    passed     16.86%
+ 620  AFPAOLHL_01489   68.17%    passed     10.61%
+ 621  KMOPIICJ_00755   62.21%    passed      7.10%
+ 622  KMOPIICJ_01317   78.89%    passed     40.93%
+ 623  KMOPIICJ_02752   62.04%    passed      8.87%
+ 624  HFEOMPPC_00925   61.19%    failed      1.39%
+ 625  HFEOMPPC_02510   64.09%    passed     80.98%
+ 626  GEILBBLL_01057   87.74%    passed     58.90%
+ 627  GEILBBLL_01491   69.96%    passed     39.48%
+ 628  OFINAIFI_04566   68.77%    passed     52.08%
+ 629  LDGAGGOM_01431   68.60%    passed     42.71%
+ 630  LDGAGGOM_02587   66.98%    failed      0.78%
+ 631  LOFHIENJ_00326   65.53%    passed     53.20%
+ 632  LOFHIENJ_01975   61.11%    passed     26.60%
+ 633  LOFHIENJ_03320   68.17%    passed     39.29%
+ 634  CPEOPFKN_00114   64.34%    passed     15.47%
+ 635  CPEOPFKN_01561   68.17%    passed     18.62%
+ 636  LOFPPCKL_00475   68.09%    passed     16.79%
+ 637  LOFPPCKL_02570   60.77%    passed     55.66%
+ 638  EIDIMPHL_01293   65.53%    passed     42.52%
+ 639  EIDIMPHL_01420   69.53%    passed     24.68%
+ 640  EIDIMPHL_01686   63.91%    failed      0.30%
+ 641  PAFNJHJG_01602   68.60%    passed     42.71%
+ 642  PAFNJHJG_02887   66.98%    failed      0.78%
+ 643  EAFJFKKF_01289   68.09%    passed     23.07%
+ 644  EAFJFKKF_01743   60.51%    passed     25.48%
+ 645  EAFJFKKF_02222   64.34%    passed      8.70%
+ 646  FJGGGLMM_00765   68.68%    passed     42.40%
+ 647  FJGGGLMM_01786   67.66%    passed     19.10%
+ 648  BAKDHCFA_01336   61.11%    failed      1.90%
+ 649  BAKDHCFA_02870   62.55%    failed      0.10%
+ 650  BAKDHCFA_03519   64.00%    passed     99.43%
+ 651  FPACBIEJ_02343   68.68%    passed     88.14%
+ 652  IIHDGPLL_00752   60.68%    failed      1.07%
+ 653  IIHDGPLL_01291   68.00%    failed      1.42%
+ 654  IIHDGPLL_02671   64.00%    failed      0.04%
+ 655  GGAAPOGK_02391   68.60%    passed     26.19%
+ 656  INENACEC_00627   66.47%    passed     63.43%
+ 657  INENACEC_02830   67.66%    failed      0.43%
+ 658  LAJGKJMO_01702   67.40%    passed     17.24%
+ 659  LAJGKJMO_03335   68.60%    passed     38.39%
+ 660  FFKGILGG_00010   65.79%    passed     34.83%
+ 661  FFKGILGG_00534   63.91%    failed      3.36%
+ 662  FFKGILGG_00812   69.19%    passed     13.28%
+ 663  HABMIELF_00178   68.34%    passed     65.74%
+ 664  MLFENAME_01171   66.21%    passed     31.90%
+ 665  MLFENAME_01935   64.09%    passed     14.14%
+ 666  FJLNKOKB_02456   63.23%    passed     71.32%
+ 667  FJLNKOKB_02461   67.74%    passed     63.18%
+ 668  JMCHHPCH_01551   66.64%    passed     64.80%
+ 669  LGOEGMPH_01300   68.09%    passed      8.33%
+ 670  LGOEGMPH_01776   64.34%    passed     19.55%
+ 671  LGOEGMPH_02827   63.32%    passed     14.89%
+ 672  CKIKGGEB_01034   67.74%    passed      8.73%
+ 673  CKIKGGEB_01370   68.68%    passed     82.18%
+ 674  PBHEACPD_00853   65.87%    passed     17.21%
+ 675  PBHEACPD_01885   68.51%    passed     59.75%
+ 676  DIKCJNFK_00654   61.79%    passed      6.71%
+ 677  DIKCJNFK_01662   62.04%    passed      7.09%
+ 678  JILBHOBO_01145   68.00%    passed     93.49%
+ 679  MJENCCEB_00044   66.64%    passed     86.82%
+ 680  MJENCCEB_01233   67.49%    failed      0.46%
+ 681  MBDIGDAA_00557   69.02%    passed     86.08%
+ 682  MBDIGDAA_01655   67.66%    passed     22.52%
+ 683  LECKAPNF_00206   66.47%    passed     63.43%
+ 684  LECKAPNF_00612   67.66%    failed      0.43%
+ 685  HFCMIBKP_01270   67.66%    passed     19.27%
+ 686  DHPEDBLI_01242   67.74%    passed     20.67%
+ 687  DHPEDBLI_01666   68.68%    passed     77.38%
+ 688  PJOKJLGP_00055   64.34%    passed      7.93%
+ 689  PJOKJLGP_00968   68.09%    passed     21.27%
+ 690  PJOKJLGP_02369   86.30%    passed     51.08%
+ 691  NGEKDGMF_01227   60.43%    passed     30.20%
+ 692  NGEKDGMF_02147   68.09%    passed      8.33%
+ 693  NGEKDGMF_02704   64.34%    passed     19.55%
+ 694  AJLKGGMN_00832   66.55%    passed     30.82%
+ 695  AJLKGGMN_00910   64.09%    passed     14.14%
+ 696  AJLKGGMN_03004   60.77%    passed     14.84%
+ 697  DBHBOJAD_01207   68.34%    passed     76.57%
+ 698  OBPEAGLG_00302   67.06%    passed     66.09%
+ 699  OBPEAGLG_01540   67.74%    failed      0.00%
+ 700  CMBIKHDO_00055   67.66%    failed      2.29%
+ 701  CMBIKHDO_02041   68.68%    passed     83.19%
+ 702  ODEANFPA_00606   67.06%    passed     19.34%
+ 703  ODEANFPA_01034   68.68%    passed     26.25%
+ 704  FELFIADA_00042   64.09%    passed     78.45%
+ 705  FELFIADA_02027   61.96%    failed      1.19%
+ 706  FELFIADA_03706   61.19%    failed      1.99%
+ 707  KPDOKEEH_00066   63.57%    failed      0.67%
+ 708  KPDOKEEH_00285   66.72%    failed      0.80%
+ 709  KPDOKEEH_02077   61.02%    failed      4.71%
+ 710  GFJDOGIG_00962   68.68%    passed     81.34%
+ 711  GFJDOGIG_02200   67.91%    passed     20.57%
+ 712  OPJMELDE_01840   67.57%    passed     16.48%
+ 713  OPJMELDE_02234   68.60%    passed     59.21%
+ 714  FBKLGEOG_00928   63.66%    failed      4.48%
+ 715  FBKLGEOG_01354   67.74%    passed     17.00%
+ 716  FBKLGEOG_01574   60.77%    failed      2.23%
+ 717  OEEMMJLG_00572   68.60%    passed     44.70%
+ 718  JAJGFFBM_00419   65.28%    passed      9.76%
+ 719  GBNFAPME_01119   69.19%    passed     16.27%
+ 720  GBNFAPME_02330   67.06%    passed     53.88%
+ 721  DNIGCCKD_02181   68.09%    passed     16.03%
+ 722  HKBPBCID_00745   68.68%    passed     64.20%
+ 723  HKBPBCID_00983   67.74%    passed     17.47%
+ 724  MHLJGFEF_02590   67.74%    passed     58.82%
+ 725  FIBPGCBA_01725   68.68%    passed     42.40%
+ 726  FIBPGCBA_03207   67.66%    passed     15.13%
+ 727  HBGLLBLP_00442   60.94%    passed      9.95%
+ 728  HBGLLBLP_01897   65.87%    passed     74.04%
+ 729  HBGLLBLP_02458   69.28%    passed     69.76%
+ 730  HHODFFGE_01317   70.13%    passed     18.00%
+ 731  HHODFFGE_01842   67.06%    passed     48.37%
+ 732  IDPPCNPH_01512   69.28%    passed      7.80%
+ 733  IDPPCNPH_03357   68.34%    passed     85.44%
+ 734  IPIKDHGC_01916   66.89%    passed     68.31%
+ 735  IPIKDHGC_02209   67.74%    failed      0.10%
+ 736  HEPAIOHD_02613   67.91%    passed     68.22%
+ 737  EOEGPBOP_00131   68.34%    passed     69.99%
+ 738  EOEGPBOP_02054   69.28%    failed      4.83%
+ 739  ONHCOHBB_00603   66.13%    passed     36.04%
+ 740  NBNCMPKH_00263   67.91%    passed     14.19%
+ 741  NBNCMPKH_00899   60.51%    passed     34.92%
+ 742  NBNCMPKH_01380   63.40%    failed      1.24%
+ 743  ELPFEPMA_01087   60.94%    passed      8.95%
+ 744  ELPFEPMA_02020   63.66%    failed      2.70%
+ 745  HIDGKHGO_01155   69.96%    passed     39.48%
+ 746  ELFMOIFE_02096   68.68%    passed     46.94%
+ 747  ELFMOIFE_02639   67.66%    passed     21.24%
+ 748  FCDHAIME_01852   67.66%    passed     42.96%
+ 749  DAKDMBEG_00264   68.09%    passed     16.03%
+ 750  DAKDMBEG_01682   64.51%    passed      7.67%
+ 751  MGOGIFIP_00051   64.17%    passed      6.39%
+ 752  MGOGIFIP_01977   60.51%    passed      6.85%
+ 753  MGOGIFIP_02592   69.45%    passed     21.76%
+ 754  KIBKEMDA_00634   67.06%    passed     72.15%
+ 755  BEDIPMAE_00323   67.32%    passed     15.84%
+ 756  BEDIPMAE_01132   68.60%    passed     51.79%
+ 757  MFIOPMKI_00831   63.40%    failed      1.16%
+ 758  MFIOPMKI_01226   89.11%    passed     76.50%
+ 759  MFIOPMKI_02010   60.51%    passed     34.92%
+ 760  GKKHJKJI_00140   68.68%    passed     80.69%
+ 761  GKKHJKJI_02529   72.26%    passed     53.96%
+ 762  JEBHEBKO_00261   68.26%    passed     19.28%
+ 763  DIFALDGK_00261   68.26%    passed     19.28%
+ 764  HCGGHGFL_00168   67.06%    passed     64.42%
+ 765  HCGGHGFL_00479   67.74%    failed      0.01%
+ 766  MNGIOEKN_00485   67.83%    passed     10.62%
+ 767  MNGIOEKN_01804   88.43%    passed     99.13%
+ 768  COGJNNOA_00127   64.09%    passed     98.19%
+ 769  COGJNNOA_01109   61.11%    passed      8.56%
+ 770  COGJNNOA_01705   62.21%    failed      0.54%
+ 771  KPLKHGGN_02199   67.06%    passed     64.42%
+ 772  HBDNIEJL_02199   67.06%    passed     64.42%
+ 773  JMJHOJOE_00475   67.74%    passed     59.71%
+ 774  JMJHOJOE_02113   63.32%    passed     61.20%
+ 775  NLOIOKMH_00292   67.40%    passed     37.81%
+ 776  NLOIOKMH_01730   68.60%    passed     45.43%
+ 777  OBPGKCDL_00455   64.26%    passed     14.96%
+ 778  OBPGKCDL_01369   67.91%    passed     54.11%
+ 779  FNCPKLME_01915   67.83%    passed     99.04%
+ 780  FNCPKLME_02726   65.87%    failed      0.00%
+ 781  FPOHONAO_00012   60.77%    passed      6.20%
+ 782  FPOHONAO_01371   68.00%    passed     13.00%
+ 783  FPOHONAO_02618   63.49%    failed      0.46%
+ 784  JHHIPLGG_00341   68.68%    passed     80.34%
+ 785  JHHIPLGG_00640   73.53%    passed     41.35%
+ 786  KMCOLFND_01223   67.49%    passed     13.91%
+ 787  KMCOLFND_02372   68.68%    passed     70.39%
+ 788  IAHJMLLN_01373   68.34%    passed     59.50%
+ 789  KNFGCEEK_00351   63.15%    passed     11.99%
+ 790  KNFGCEEK_00352   64.17%    failed      2.10%
+ 791  KNFGCEEK_01559   66.21%    passed     35.42%
+ 792  KNFGCEEK_02283   67.23%    failed      3.20%
+ 793  OMCKPDDD_01784   69.96%    passed     27.72%
+ 794  OMCKPDDD_02006   67.49%    passed     40.93%
+ 795  CCCCPPIO_00784   67.23%    passed     28.32%
+ 796  CCCCPPIO_01187   68.68%    passed     35.64%
+ 797  CELPCLJJ_00411   58.04%    failed      0.58%
+ 798  AMECJGON_01742   67.74%    passed     59.35%
+ 799  AMECJGON_01926   69.79%    passed     28.17%
+ 800  NJIMLFLL_01228   60.60%    passed      6.13%
+ 801  NJIMLFLL_02120   67.91%    passed     38.49%
+ 802  NJIMLFLL_02584   63.57%    failed      0.50%
+ 803  GNCDBOGN_01217   68.85%    passed     51.69%
+ 804  GNCDBOGN_04336   74.81%    passed     71.64%
+ 805  JHJGAMMM_01780   60.77%    passed     52.30%
+ 806  JHJGAMMM_02321   68.09%    passed     20.32%
+ 807  JHJGAMMM_02666   64.34%    passed     27.64%
+ 808  NGMNEBAD_00461   67.91%    passed     30.92%
+ 809  NGMNEBAD_01033   64.17%    passed     51.34%
+ 810  NGMNEBAD_01442   60.77%    failed      0.58%
+ 811  ABGDKFDE_01955   63.32%    passed     15.66%
+ 812  ABGDKFDE_04380   68.51%    passed     71.71%
+ 813  IFJJPJKG_00349   67.74%    passed     13.03%
+ 814  IFJJPJKG_02767   68.68%    passed     80.65%
+ 815  NLNBLEPL_02322   67.57%    passed     16.31%
+ 816  NLNBLEPL_02579   68.68%    passed     77.49%
+ 817  EOCBBDAH_02223   68.68%    passed     46.07%
+ 818  EOCBBDAH_02524   67.74%    passed     10.64%
+ 819  OCJAICPL_01929   68.68%    passed     85.12%
+ 820  MDOPNHKF_00655   67.91%    passed     29.19%
+ 821  MDOPNHKF_02842   64.17%    passed     25.01%
+ 822  MDOPNHKF_03350   60.77%    failed      3.51%
+ 823  IMBAIBGN_00883   66.64%    passed     42.41%
+ 824  CNEOOAKE_01577   66.64%    passed     42.41%
+ 825  EHFMEEDL_00686   67.57%    failed      3.32%
+ 826  EHFMEEDL_03790   68.34%    passed     85.44%
+ 827  IFODJCME_01043   67.23%    passed     25.55%
+ 828  IFODJCME_01890   68.68%    passed     32.09%
+ 829  PKMIAGOI_00552   61.96%    failed      0.11%
+ 830  PKMIAGOI_02922   68.51%    passed     61.96%
+ 831  NFLAIFDD_00420   67.57%    passed     16.31%
+ 832  NFLAIFDD_01579   68.68%    passed     77.49%
+ 833  ONKLGJMP_00875   67.06%    passed     48.37%
+ 834  ONKLGJMP_01655   70.13%    passed     17.81%
+ 835  PDFILNCE_01080   60.77%    passed     52.30%
+ 836  PDFILNCE_01432   64.34%    passed     24.10%
+ 837  CNLMOMPL_00277   68.51%    passed     55.21%
+ 838  CNLMOMPL_01560   67.66%    passed     32.88%
+ 839  DPHBCIDD_00576   68.68%    passed     63.16%
+ 840  DPHBCIDD_02045   67.66%    passed      9.25%
+ 841  HKPJOBKA_01130   64.09%    failed      4.43%
+ 842  HKPJOBKA_01332   66.55%    passed     20.18%
+ 843  FOGJDOOA_00289   60.51%    passed     12.56%
+ 844  FOGJDOOA_01129   67.91%    passed     19.93%
+ 845  FOGJDOOA_01302   63.15%    failed      2.48%
+ 846  OJKFPPFI_00740   64.34%    passed     33.17%
+ 847  OJKFPPFI_01739   68.09%    passed     18.57%
+ 848  HMMNIEND_00677   63.15%    passed     33.34%
+ 849  HMMNIEND_01494   72.85%    passed     66.23%
+ 850  OBOOMOEH_00464   68.68%    passed     36.83%
+ 851  BGCPPDNG_00283   63.57%    passed     14.48%
+ 852  BGCPPDNG_01330   67.74%    passed     64.29%
+ 853  NCEBCOBG_01224   68.00%    failed      1.42%
+ 854  NCEBCOBG_01355   64.00%    failed      0.04%
+ 855  NCEBCOBG_01655   60.26%    failed      0.72%
+ 856  CLCCMGGL_00033   63.57%    failed      0.74%
+ 857  CLCCMGGL_00105   66.72%    failed      1.68%
+ 858  CLCCMGGL_01759   67.15%    failed      1.82%
+ 859  NFECLIOE_01362   68.68%    passed     46.17%
+ 860  NFECLIOE_01712   67.06%    failed      0.93%
+ 861  JKFPEHKC_00840   68.51%    passed     84.03%
+ 862  JKFPEHKC_01002   67.66%    passed     13.43%
+ 863  NLAACMJK_00765   63.40%    failed      2.66%
+ 864  NLAACMJK_01014   81.45%    passed     50.56%
+ 865  GLMEDECK_02507   82.13%    passed     26.39%
+ 866  JGGOCDGI_00213   67.66%    failed      1.21%
+ 867  JGGOCDGI_02271   67.06%    passed     91.71%
+ 868  BOILIKMK_00213   67.66%    failed      1.21%
+ 869  BOILIKMK_02271   67.06%    passed     91.71%
+ 870  LNGHMDGP_01126   68.68%    passed     50.99%
+ 871  LNGHMDGP_02178   79.91%    passed     81.05%
+ 872  BHCGEHPG_02265   65.96%    passed     28.38%
+ 873  BHCGEHPG_02503   90.98%    passed     87.82%
+ 874  CEFPGNCH_00152   68.68%    passed     84.47%
+ 875  CEFPGNCH_01641   65.96%    passed     19.38%
+ 876  ABGADGFC_00001   74.47%    passed     60.61%
+ 877  ABGADGFC_00925   67.06%    failed      0.41%
+ 878  ABGADGFC_01135   59.57%    failed      0.00%
+ 879  GAGJKOJD_02280   61.87%    failed      0.11%
+ 880  GAGJKOJD_03315   61.53%    passed     13.28%
+ 881  MAFJGGAK_00224   66.64%    passed     59.97%
+ 882  MAFJGGAK_00280   62.81%    passed     44.37%
+ 883  FFCLFHEI_00450   62.55%    passed     40.54%
+ 884  FFCLFHEI_00607   68.17%    passed     36.19%
+ 885  FFCLFHEI_00719   65.53%    passed     56.75%
+ 886  KJPEMJGM_01263   60.94%    passed      9.95%
+ 887  KJPEMJGM_01535   69.28%    passed     69.76%
+ 888  KJPEMJGM_02130   65.87%    passed     74.04%
+ 889  KHLDIFKJ_00169   62.55%    passed     39.63%
+ 890  KHLDIFKJ_00661   65.53%    passed     48.55%
+ 891  KHLDIFKJ_02569   68.17%    passed     36.05%
+ 892  AEEKPEPN_00287   69.28%    passed     69.76%
+ 893  AEEKPEPN_00351   65.87%    passed     74.04%
+ 894  AEEKPEPN_00631   60.94%    passed      9.95%
+ 895  OPDLLOPK_00280   68.17%    passed     36.19%
+ 896  OPDLLOPK_02044   65.53%    passed     56.75%
+ 897  ICJEMMDA_00439   67.15%    passed     59.67%
+ 898  ICJEMMDA_00579   69.70%    passed     23.95%
+ 899  JLJCEHKK_00597   67.15%    passed     59.67%
+ 900  JLJCEHKK_00985   70.38%    passed     19.51%
+ 901  MLAAIEPI_00146   67.15%    passed     59.67%
+ 902  MLAAIEPI_00627   70.38%    passed     19.51%
+ 903  ADKMEODK_01713   67.15%    passed     76.05%
+ 904  ADKMEODK_02186   70.38%    passed     19.61%
+ 905  HDGNKJKO_00173   69.96%    passed     27.72%
+ 906  HDGNKJKO_01607   67.49%    passed     40.93%
+ 907  EBMOLMKB_00104   67.74%    passed     75.68%
+ 908  CAFKFIEB_00104   67.74%    passed     75.68%
+ 909  EFIMHAMI_01167   71.57%    failed      0.00%
+ 910  EFIMHAMI_01168   66.55%    passed     25.44%
+ 911  GLINBJEM_00011   66.55%    passed     25.44%
+ 912  GLINBJEM_00689   67.74%    failed      0.00%
+ 913  KOMKAKGG_00232   67.74%    failed      0.00%
+ 914  KOMKAKGG_01411   66.55%    passed     25.44%
+ 915  GGMMDJMC_00650   67.06%    passed     72.40%
+ 916  GGMMDJMC_00863   67.74%    failed      0.62%
+ 917  KHBIKMNL_00096   67.74%    failed      0.00%
+ 918  KHBIKMNL_01178   66.55%    passed     25.44%
+ 919  ONEKEMHF_00734   67.06%    passed     83.09%
+ 920  ONEKEMHF_02030   67.57%    failed      0.00%
+ 921  FEFKEFNH_01717   67.06%    passed     83.09%
+ 922  DBMFDJFD_02033   67.74%    failed      0.62%
+ 923  DBMFDJFD_02588   67.06%    passed     72.40%
+ 924  HALLJCBJ_00824   66.38%    passed     36.55%
+ 925  HALLJCBJ_01515   67.91%    failed      0.52%
+ 926  COPIOGJC_00356   67.74%    failed      0.00%
+ 927  COPIOGJC_01750   66.55%    passed     26.92%
+ 928  DLNLKDGF_00798   67.06%    passed     59.73%
+ 929  DLNLKDGF_02313   67.74%    failed      0.00%
+ 930  HPCMEFAM_01661   67.74%    failed      0.29%
+ 931  HPCMEFAM_01943   67.06%    passed     60.68%
+ 932  CBHIAIGL_00213   67.74%    failed      0.62%
+ 933  CBHIAIGL_02642   67.06%    passed     72.40%
+ 934  ICOLHEOA_02428   67.74%    failed      0.62%
+ 935  IOLHHANL_00039   67.57%    failed      1.17%
+ 936  IOLHHANL_02754   65.19%    passed     84.82%
+ 937  FGAFGNPI_01968   67.06%    passed     72.40%
+ 938  GGDLMAIM_00769   67.57%    failed      1.17%
+ 939  BDPMOHLP_01392   67.74%    failed      0.62%
+ 940  BDPMOHLP_02908   67.06%    passed     72.40%
+ 941  LMOBBAIK_01487   63.06%    passed     56.98%
+ 942  LMOBBAIK_01688   81.62%    passed     98.41%
+ 943  LMOBBAIK_01689   86.38%    passed     91.21%
+ 944  EBMGKAKN_00491   67.74%    passed     83.11%
+ 945  EBMGKAKN_01483   63.06%    passed     56.98%
+ 946  GDFAMCLG_01324   63.23%    passed     58.49%
+ 947  GDFAMCLG_02267   67.57%    passed     87.14%
+ 948  PPANKCCH_00064   63.23%    passed     58.49%
+ 949  PCJPILEM_01123   67.57%    passed     87.14%
+ 950  PCJPILEM_01868   63.23%    passed     58.49%
+ 951  IONAIGEG_01203   63.06%    passed     55.51%
+ 952  IONAIGEG_01890   67.74%    passed     84.92%
+ 953  GJGAPMIO_01841   63.23%    passed     58.49%
+ 954  GJGAPMIO_02237   67.57%    passed     87.14%
+ 955  INAPIBGG_01828   67.74%    failed      0.05%
+ 956  INAPIBGG_02032   66.21%    failed      2.15%
+ 957  OJHPMOMD_01135   67.40%    passed     97.58%
+ 958  OFJAAABM_02550   68.94%    passed     64.83%
+ 959  KBOEGCFA_02027   68.51%    passed     39.94%
+ 960  KBOEGCFA_04305   89.45%    passed     41.90%
+ 961  KBOEGCFA_04306   79.23%    passed     44.52%
+ 962  KBOEGCFA_04344   62.47%    failed      0.35%
+ 963  ABKEDPFO_00285   68.43%    passed     84.06%
+ 964  MPNOLABC_01179   68.51%    passed     39.94%
+ 965  KJDGICJC_02007   67.40%    passed     97.58%
+ 966  KNGPJCPD_01033   68.77%    passed     54.77%
+ 967  FHEMADOB_01172   68.43%    passed     48.25%
+ 968  GJEANDHH_01317   68.77%    passed     54.77%
+ 969  BKENKHKK_02799   68.43%    passed     95.03%
+ 970  PIHEEEEK_01347   68.43%    passed     80.70%
+ 971  HDGDOHFG_02246   69.11%    passed     28.64%
+ 972  OOGCMEAO_01486   69.11%    passed     28.64%
+ 973  MJLIHGED_02184   69.11%    passed     28.64%
+ 974  DMAFOAFI_00410   69.11%    passed     28.64%
+ 975  OGFGKDNL_00115   61.79%    passed     86.63%
+ 976  OGFGKDNL_02744   62.55%    passed     88.26%
+ 977  KAAHFFGB_01267   67.74%    passed     98.84%
+ 978  KAAHFFGB_02135   60.77%    failed      0.60%
+ 979  MABNKJIJ_00290   64.00%    passed     97.92%
+ 980  MABNKJIJ_02128   61.87%    failed      0.65%
+ 981  MABNKJIJ_02568   61.19%    passed     11.28%
+ 982  FIPHLAFM_00551   64.00%    passed     97.92%
+ 983  FIPHLAFM_02725   61.19%    passed     11.28%
+ 984  FIPHLAFM_02871   61.87%    failed      0.65%
+ 985  CPMHALDK_00439   65.19%    passed     25.67%
+ 986  CPMHALDK_03966   60.94%    passed      5.72%
+ 987  NJLOCCHF_00656   64.00%    passed     97.92%
+ 988  NJLOCCHF_02291   61.87%    failed      0.65%
+ 989  NJLOCCHF_02519   61.19%    passed     11.28%
+ 990  NJLOCCHF_03579   61.53%    passed      6.69%
+ 991  DNNHNDJG_00174   61.87%    failed      0.33%
+ 992  DNNHNDJG_01584   61.36%    failed      4.81%
+ 993  DNNHNDJG_01847   64.00%    passed     99.49%
+ 994  BNMOIDIA_00210   63.91%    passed     99.45%
+ 995  BNMOIDIA_01658   62.38%    failed      2.77%
+ 996  BNMOIDIA_02441   60.77%    failed      3.91%
+ 997  EBMPAFAE_00156   64.00%    passed     97.92%
+ 998  EBMPAFAE_01652   61.19%    passed     11.28%
+ 999  EBMPAFAE_02340   61.87%    failed      0.65%
+1000  INCKLJOK_00424   63.91%    passed     99.45%
+1001  INCKLJOK_02118   60.77%    failed      3.91%
+1002  INCKLJOK_02974   62.38%    failed      2.77%
+1003  JDOBHKOP_00356   61.70%    passed      5.81%
+1004  JDOBHKOP_01818   64.17%    passed     70.62%
+1005  MBKGBDOI_00671   60.43%    failed      0.94%
+1006  MBKGBDOI_01710   52.77%    passed     10.83%
+1007  MBKGBDOI_02012   74.21%    failed      1.59%
+1008  MBKGBDOI_02360   63.06%    passed     34.21%
+1009  JPGFKIKB_01220   61.87%    failed      1.40%
+1010  JPGFKIKB_01356   64.00%    passed     98.07%
+1011  EMGGMAGC_01953   60.77%    failed      3.91%
+1012  EMGGMAGC_02160   63.91%    passed     99.45%
+1013  EMGGMAGC_02982   62.38%    failed      2.77%
+1014  KHPLJIPJ_01050   64.00%    passed     97.92%
+1015  KHPLJIPJ_01716   61.19%    passed     11.28%
+1016  MMCIFFJH_01927   62.38%    failed      0.18%
+1017  MMCIFFJH_02516   64.68%    passed     19.46%
+1018  BOOEDNDH_01708   66.89%    passed     33.33%
+1019  BOOEDNDH_02189   66.13%    passed     31.05%
+1020  MIACMBMF_01728   66.64%    passed     47.51%
+1021  DIOOMLCJ_01489   66.89%    passed     53.17%
+1022  KDGGNJIH_01775   66.64%    passed     43.80%
+1023  CFNKFHMI_00226   63.32%    failed      0.37%
+1024  CFNKFHMI_00556   68.60%    passed      8.59%
+1025  CFNKFHMI_00641   65.36%    passed     61.53%
+1026  EIHNABFH_00094   68.60%    passed      9.15%
+1027  EIHNABFH_00179   65.36%    passed     61.53%
+1028  BLOALPEA_01308   60.43%    failed      2.10%
+1029  BLOALPEA_01935   68.26%    passed     72.75%
+1030  FDCJGAFC_01210   60.43%    failed      2.10%
+1031  FDCJGAFC_02311   68.26%    passed     72.75%
+1032  OOPAHLHL_00487   68.26%    passed     73.60%
+1033  FIJLEKKF_00678   68.09%    passed     19.89%
+1034  FBAGHHMN_00433   64.34%    passed      5.03%
+1035  FBAGHHMN_01030   68.09%    passed     16.10%
+1036  FBAGHHMN_01993   60.43%    passed     30.05%
+1037  GBJLLEGP_00379   60.68%    passed     23.13%
+1038  GBJLLEGP_03092   68.09%    passed      8.78%
+1039  CAEFHKMG_00198   63.57%    failed      0.64%
+1040  CAEFHKMG_00517   66.72%    failed      1.25%
+1041  CAEFHKMG_00908   61.02%    passed      8.08%
+1042  BEFPDGNP_00435   60.68%    passed     23.13%
+1043  BEFPDGNP_00746   68.09%    passed      8.78%
+1044  POHNGCFD_00762   60.68%    passed     23.13%
+1045  POHNGCFD_01106   68.09%    passed      8.78%
+1046  POHNGCFD_03818   89.45%    failed      2.91%
+1047  POHNGCFD_03819   87.57%    passed     48.18%
+1048  HILPFIOB_00626   68.09%    passed      8.78%
+1049  HILPFIOB_00775   60.68%    passed     23.13%
+1050  PFCBGJGC_00204   68.09%    passed      8.78%
+1051  PFCBGJGC_00407   60.68%    passed     23.13%
+1052  NPLPAOEM_00254   89.79%    passed     71.47%
+1053  NPLPAOEM_02302   63.57%    failed      1.28%
+1054  NPLPAOEM_02412   66.72%    failed      0.90%
+1055  BNONECLM_00956   63.66%    failed      1.17%
+1056  BNONECLM_01071   60.94%    passed      8.84%
+1057  BNONECLM_01331   67.32%    passed     33.65%
+1058  IEEGNPGB_01103   60.94%    passed      8.84%
+1059  IEEGNPGB_01141   62.21%    failed      0.76%
+1060  IEEGNPGB_01319   67.32%    passed     33.65%
+1061  GMHLGGOA_01011   60.94%    passed      8.84%
+1062  GMHLGGOA_01804   67.32%    passed     33.65%
+1063  GMHLGGOA_02141   62.21%    failed      0.76%
+1064  HCIGLCKA_00025   66.72%    failed      0.90%
+1065  HCIGLCKA_00522   61.02%    passed     11.43%
+1066  HCIGLCKA_01895   63.57%    failed      1.28%
+1067  KNINMHHB_00463   60.43%    passed     17.89%
+1068  KNINMHHB_02345   64.34%    failed      4.47%
+1069  IPPKJKAK_00037   60.51%    passed     12.73%
+1070  IPPKJKAK_00920   64.34%    passed      6.09%
+1071  IPPKJKAK_02230   68.09%    passed     15.44%
+1072  JBOGAHPJ_00871   60.77%    failed      1.21%
+1073  JBOGAHPJ_02693   67.91%    passed     26.80%
+1074  JBOGAHPJ_03187   64.26%    passed      6.27%
+1075  OGOJHDGK_00646   60.43%    passed     17.89%
+1076  OGOJHDGK_02514   64.34%    failed      4.47%
+1077  OGOJHDGK_02776   86.30%    passed     10.35%
+1078  HFPGBFJB_00799   60.77%    failed      1.21%
+1079  HFPGBFJB_02567   67.91%    passed     26.80%
+1080  HFPGBFJB_03329   64.26%    passed      6.27%
+1081  JBFJIIGB_01854   67.57%    passed     42.62%
+1082  JBFJIIGB_02237   64.09%    failed      3.59%
+1083  JBFJIIGB_03748   60.77%    failed      2.08%
+1084  JBFJIIGB_04292   68.77%    passed     55.85%
+1085  DAHMDMGL_00373   64.34%    passed      6.09%
+1086  DAHMDMGL_00862   60.51%    passed     12.73%
+1087  DAHMDMGL_02280   68.09%    passed     15.44%
+1088  PIKMHKNM_01178   64.34%    passed      6.09%
+1089  PIKMHKNM_01696   68.09%    passed     15.44%
+1090  PIKMHKNM_02667   60.51%    passed     12.73%
+1091  KLPDMOHO_01917   64.09%    failed      4.53%
+1092  KLPDMOHO_02247   60.77%    failed      1.10%
+1093  KLPDMOHO_02587   67.57%    passed     19.88%
+1094  BKODNAMD_00433   64.34%    passed      6.09%
+1095  BKODNAMD_00578   68.09%    passed     15.44%
+1096  BKODNAMD_01443   60.51%    passed     12.73%
+1097  KCIIBMAB_00889   60.43%    passed     17.89%
+1098  KCIIBMAB_02840   64.34%    failed      4.47%
+1099  KCIIBMAB_02882   68.09%    passed     13.48%
+1100  KCIIBMAB_03164   64.09%    failed      3.59%
+1101  ONOEDPCE_01331   64.09%    passed      8.99%
+1102  ONOEDPCE_02530   72.17%    passed     29.70%
+1103  ONOEDPCE_02778   60.77%    passed      8.00%
+1104  JBMALLOB_01045   60.51%    passed     12.73%
+1105  JBMALLOB_01421   64.34%    passed      6.09%
+1106  JBMALLOB_02787   68.09%    passed     15.44%
+1107  HEFHMEHF_00376   60.51%    passed     12.73%
+1108  HEFHMEHF_01172   64.34%    passed      6.09%
+1109  HEFHMEHF_02044   68.09%    passed     15.44%
+1110  PLLKHAID_01593   67.91%    passed     26.80%
+1111  PLLKHAID_02563   60.77%    failed      1.21%
+1112  PLLKHAID_03096   64.26%    passed      6.27%
+1113  FLEGGPEP_01837   64.09%    passed      8.99%
+1114  FLEGGPEP_01952   66.47%    passed     24.95%
+1115  FLEGGPEP_02592   60.77%    passed      8.00%
+1116  CBNAMDAB_01985   61.87%    failed      1.02%
+1117  CBNAMDAB_02738   73.36%    passed     34.41%
+1118  ECOHNMED_00151   66.47%    passed     24.95%
+1119  ECOHNMED_00652   64.09%    passed      8.99%
+1120  ECOHNMED_02303   60.77%    passed      6.74%
+1121  KAOADBNC_00319   60.51%    passed     12.73%
+1122  KAOADBNC_01852   68.09%    passed     15.44%
+1123  KAOADBNC_02430   64.34%    passed      6.09%
+1124  CLLOPPBO_00352   60.77%    failed      1.10%
+1125  CLLOPPBO_02131   64.09%    failed      4.53%
+1126  CLLOPPBO_02328   67.57%    passed     18.58%
+1127  IEEGODGO_00113   67.06%    passed      8.77%
+1128  IEEGODGO_02146   64.09%    failed      0.64%
+1129  IEEGODGO_02539   60.77%    failed      3.99%
+1130  IEEGODGO_03075   64.17%    passed      9.49%
+1131  BPLNAMIN_00388   60.77%    failed      1.10%
+1132  BPLNAMIN_02212   64.09%    failed      4.53%
+1133  BPLNAMIN_02759   67.57%    passed     18.58%
+1134  DIHIKKNF_00195   68.68%    passed     75.98%
+1135  DIHIKKNF_02962   68.51%    passed     32.06%
+1136  OCCPMMGJ_01713   68.68%    passed     79.00%
+1137  NLELHFGH_03298   93.87%    passed     34.05%
+1138  LJCDPCJL_00111   68.60%    passed     47.54%
+1139  BOAEDLKG_00550   67.40%    failed      1.68%
+1140  HOMELMIB_00586   68.68%    passed     53.72%
+1141  HOMELMIB_01368   66.98%    passed     34.49%
+1142  CPCIJKEP_01538   69.96%    failed      3.86%
+1143  CPCIJKEP_03513   63.74%    failed      0.00%
+1144  GGOHBAKH_01738   68.51%    passed     56.49%
+1145  GGOHBAKH_01924   67.66%    passed     42.81%
+1146  ONFDKKDI_00398   67.40%    failed      1.68%
+1147  KKNAGKOM_00962   68.68%    passed     79.00%
+1148  KKNAGKOM_03519   68.00%    passed     35.68%
+1149  IPKDPJMH_01385   67.40%    failed      1.68%
+1150  DKBECHHJ_00683   68.68%    passed     53.72%
+1151  DKBECHHJ_02903   66.98%    passed     34.49%
+1152  HLNFHMNH_00047   69.96%    failed      3.86%
+1153  HLNFHMNH_03600   63.74%    failed      0.00%
+1154  AHBDPKAE_00833   66.89%    failed      2.68%
+1155  AHBDPKAE_01822   67.49%    failed      0.92%
+1156  LIDCCJLL_01179   70.38%    passed     69.82%
+1157  LIDCCJLL_01833   67.66%    passed     42.81%
+1158  EDFBMAIE_01972   67.40%    failed      1.68%
+1159  EDFBMAIE_02412   68.68%    passed     60.70%
+1160  JIFOAEFH_00329   68.68%    passed     79.00%
+1161  NIMPOCHN_01077   66.89%    failed      2.68%
+1162  NJHBGDCN_00886   67.15%    passed     15.87%
+1163  NJHBGDCN_02161   86.72%    passed     71.60%
+1164  NJHBGDCN_02549   68.68%    passed     86.67%
+1165  DOJINGDE_00908   68.68%    passed     74.50%
+1166  DOJINGDE_02112   69.45%    passed      5.48%
+1167  OIOBNGCI_01127   65.45%    passed     12.87%
+1168  GCDDKFBJ_03621   68.26%    failed      1.53%
+1169  EPJFHPMH_01684   65.87%    passed     34.08%
+1170  KKMFLBAM_01309   68.68%    passed     88.78%
+1171  KKMFLBAM_01450   69.11%    passed     22.40%
+1172  NNEMPHGC_01974   65.87%    passed     34.08%
+1173  CHLGFJBH_01191   65.53%    passed     21.58%
+1174  ODBGJCKE_02128   65.87%    passed     34.08%
+1175  CGOKGGNM_02443   68.68%    passed     87.27%
+1176  JGDBLFJN_01289   65.87%    passed     34.08%
+1177  MCPGMBGE_00293   68.68%    passed     79.00%
+1178  JMHMGIJB_02520   68.68%    passed     79.00%
+1179  JMHMGIJB_03224   86.72%    passed     64.24%
+1180  LBNGMAIB_00500   65.45%    passed     12.87%
+1181  JOLHAMEF_02423   68.68%    passed     87.27%
+1182  FILPIKGK_03244   65.87%    passed     34.08%
+1183  BFGJCMCB_00793   67.57%    passed     62.91%
+1184  BFGJCMCB_01680   68.68%    passed     79.56%
+1185  OHEJPFCA_01151   68.68%    passed     67.10%
+1186  OHEJPFCA_01719   67.57%    passed     35.42%
+1187  HLAEAIII_00852   67.57%    passed     62.91%
+1188  HLAEAIII_01176   68.68%    passed     79.56%
+1189  ELLNLPCP_01707   68.68%    passed     64.95%
+1190  ELLNLPCP_03511   83.23%    passed     42.77%
+1191  ELLNLPCP_03512   85.28%    passed     75.04%
+1192  ELLNLPCP_03930   68.17%    passed     55.95%
+WARNING: 1192 sequences contain more than 50% gaps/ambiguity
+****  TOTAL            66.45%  258 sequences failed composition chi2 test (p-value<5%; df=19)
+NOTE: JEDDKEKE_00129 is identical to AAIJAILA_00129 but kept for subsequent analysis
+NOTE: AIIDIMLB_00723 is identical to DIOLJGCH_00723 but kept for subsequent analysis
+NOTE: AIIDIMLB_00731 is identical to DIOLJGCH_00731 but kept for subsequent analysis
+NOTE: AIIDIMLB_00732 is identical to DIOLJGCH_00732 but kept for subsequent analysis
+NOTE: AIIDIMLB_02923 is identical to DIOLJGCH_02923 but kept for subsequent analysis
+NOTE: AIIDIMLB_04700 is identical to DIOLJGCH_04700 but kept for subsequent analysis
+NOTE: LDACJLFC_02078 is identical to ELCOMMCJ_00875 but kept for subsequent analysis
+NOTE: LDACJLFC_01010 is identical to ELCOMMCJ_01958 but kept for subsequent analysis
+NOTE: LDACJLFC_02888 is identical to ELCOMMCJ_02235 but kept for subsequent analysis
+NOTE: EBODJBDI_01465 is identical to PLLDIJIE_00782 but kept for subsequent analysis
+NOTE: PPIPHEHJ_01248 is identical to IPCAKPJN_01805 but kept for subsequent analysis
+NOTE: KAKALGMK_03034 is identical to IPCAKPJN_02456 but kept for subsequent analysis
+NOTE: NHHKBCLI_01217 is identical to HNOMPBCC_00361 but kept for subsequent analysis
+NOTE: ALEAFCME_00341 is identical to GEFAOOOF_00787 but kept for subsequent analysis
+NOTE: CEGGCEJE_01440 is identical to KPDFPIII_00142 but kept for subsequent analysis
+NOTE: CEGGCEJE_00408 is identical to KPDFPIII_00602 but kept for subsequent analysis
+NOTE: CEGGCEJE_00863 is identical to KPDFPIII_01669 but kept for subsequent analysis
+NOTE: OGPGAEMM_01485 is identical to ALEAFCME_00591 but kept for subsequent analysis
+NOTE: ALEPEDJB_02009 is identical to OHDNHCMB_00546 but kept for subsequent analysis
+NOTE: IAKFDMEL_02303 is identical to HCKODAJA_01496 but kept for subsequent analysis
+NOTE: IAKFDMEL_00317 is identical to HCKODAJA_02143 but kept for subsequent analysis
+NOTE: PAOKPGLH_00680 is identical to CIDNLPIE_00606 but kept for subsequent analysis
+NOTE: PAOKPGLH_02123 is identical to CIDNLPIE_01958 but kept for subsequent analysis
+NOTE: NKIKPHEF_00134 is identical to JHLJFNGO_00290 but kept for subsequent analysis
+NOTE: NKIKPHEF_03836 is identical to JHLJFNGO_03709 but kept for subsequent analysis
+NOTE: NGMNEBAD_01442 is identical to DEAKNLCD_00418 but kept for subsequent analysis
+NOTE: NGMNEBAD_00461 is identical to DEAKNLCD_01662 but kept for subsequent analysis
+NOTE: NGMNEBAD_01033 is identical to DEAKNLCD_02688 but kept for subsequent analysis
+NOTE: JJLLPEDA_01503 is identical to FDLGMPJH_02487 but kept for subsequent analysis
+NOTE: PALLCPAO_03975 is identical to BHCMOGBE_00005 but kept for subsequent analysis
+NOTE: PALLCPAO_03069 is identical to BHCMOGBE_03706 but kept for subsequent analysis
+NOTE: PALLCPAO_03378 is identical to BHCMOGBE_03994 but kept for subsequent analysis
+NOTE: LIEHJEOJ_02140 is identical to MFKPMLBM_01798 but kept for subsequent analysis
+NOTE: LAJGKJMO_03335 is identical to AJNJNNJO_00710 but kept for subsequent analysis
+NOTE: LAJGKJMO_01702 is identical to AJNJNNJO_01767 but kept for subsequent analysis
+NOTE: FKPDGIDI_01533 is identical to GECOIDEL_01533 but kept for subsequent analysis
+NOTE: FKPDGIDI_02785 is identical to GECOIDEL_02785 but kept for subsequent analysis
+NOTE: CNEHBEEK_01615 is identical to DELJMAKM_03747 but kept for subsequent analysis
+NOTE: CNPHEDJF_02174 is identical to AGFCPNKM_00496 but kept for subsequent analysis
+NOTE: CNPHEDJF_01512 is identical to AGFCPNKM_00992 but kept for subsequent analysis
+NOTE: CNPHEDJF_01402 is identical to AGFCPNKM_02102 but kept for subsequent analysis
+NOTE: DIKCJNFK_01662 is identical to DBJOCKKI_00794 but kept for subsequent analysis
+NOTE: DIKCJNFK_00654 is identical to DBJOCKKI_01006 but kept for subsequent analysis
+NOTE: MGOGIFIP_02592 is identical to JNJGHNDD_01274 but kept for subsequent analysis
+NOTE: MGOGIFIP_01977 is identical to JNJGHNDD_02274 but kept for subsequent analysis
+NOTE: MGOGIFIP_00051 is identical to JNJGHNDD_02612 but kept for subsequent analysis
+NOTE: INENACEC_00627 is identical to IELMKNIH_01375 but kept for subsequent analysis
+NOTE: INENACEC_02830 is identical to IELMKNIH_01650 but kept for subsequent analysis
+NOTE: IGDNMOBN_02255 is identical to LCPFBAJP_01324 but kept for subsequent analysis
+NOTE: MHPDGONC_01843 is identical to LCPFBAJP_01679 but kept for subsequent analysis
+NOTE: CJDFGHNO_00832 is identical to GNNHGECN_00265 but kept for subsequent analysis
+NOTE: CJDFGHNO_01798 is identical to GNNHGECN_01985 but kept for subsequent analysis
+NOTE: CJDFGHNO_02168 is identical to GNNHGECN_02405 but kept for subsequent analysis
+NOTE: ENEDODPK_00014 is identical to IMKFCFDD_01849 but kept for subsequent analysis
+NOTE: ENEDODPK_00819 is identical to IMKFCFDD_03047 but kept for subsequent analysis
+NOTE: ILGFPHMC_00191 is identical to BGBEDALM_00482 but kept for subsequent analysis
+NOTE: IBBFIEMD_00341 is identical to MNACDEKI_00246 but kept for subsequent analysis
+NOTE: IBBFIEMD_00273 is identical to MNACDEKI_00316 but kept for subsequent analysis
+NOTE: IBBFIEMD_00590 is identical to MNACDEKI_00455 but kept for subsequent analysis
+NOTE: LLDMHIEP_02930 is identical to EHBCMGMD_01388 but kept for subsequent analysis
+NOTE: AGKCNKJH_00192 is identical to DIKKLMLP_00185 but kept for subsequent analysis
+NOTE: AGKCNKJH_00729 is identical to DIKKLMLP_00475 but kept for subsequent analysis
+NOTE: FCHHEKPC_01417 is identical to CFPFIFAP_02407 but kept for subsequent analysis
+NOTE: FCHHEKPC_01092 is identical to CFPFIFAP_02851 but kept for subsequent analysis
+NOTE: CONEKMGH_00179 is identical to NDIMGIAA_00107 but kept for subsequent analysis
+NOTE: CONEKMGH_01261 is identical to NDIMGIAA_00191 but kept for subsequent analysis
+NOTE: CONEKMGH_00763 is identical to NDIMGIAA_02983 but kept for subsequent analysis
+NOTE: MJLOJGAG_03098 is identical to KICOIGIA_01068 but kept for subsequent analysis
+NOTE: IFJJPJKG_02767 is identical to NDNHLPBL_01308 but kept for subsequent analysis
+NOTE: IFJJPJKG_00349 is identical to NDNHLPBL_02498 but kept for subsequent analysis
+NOTE: KPLPGFEG_03910 is identical to EBODJBDI_01028 but kept for subsequent analysis
+NOTE: AJLKGGMN_03004 is identical to DPJHMCOC_00601 but kept for subsequent analysis
+NOTE: MLFENAME_01171 is identical to DPJHMCOC_00756 but kept for subsequent analysis
+NOTE: MLFENAME_01935 is identical to DPJHMCOC_01801 but kept for subsequent analysis
+NOTE: IJFPGNLB_00732 is identical to OAOILFPF_00749 but kept for subsequent analysis
+NOTE: IJFPGNLB_01559 is identical to OAOILFPF_01021 but kept for subsequent analysis
+NOTE: IJFPGNLB_00453 is identical to OAOILFPF_01512 but kept for subsequent analysis
+NOTE: FDHCOGLL_01381 is identical to FHFMBKPG_01353 but kept for subsequent analysis
+NOTE: MBDIGDAA_00557 is identical to CDDGEJCN_02969 but kept for subsequent analysis
+NOTE: LJCDPCJL_00111 is identical to KFNKCPHK_02307 but kept for subsequent analysis
+NOTE: PKAPIOIM_00225 is identical to KGJPPJEH_00212 but kept for subsequent analysis
+NOTE: PKAPIOIM_01122 is identical to KGJPPJEH_00867 but kept for subsequent analysis
+NOTE: FFCLFHEI_00719 is identical to CCCLDPND_00480 but kept for subsequent analysis
+NOTE: OBPEAGLG_00302 is identical to COFGIELN_00165 but kept for subsequent analysis
+NOTE: OBPEAGLG_01540 is identical to COFGIELN_02882 but kept for subsequent analysis
+NOTE: JLNBHMFG_01215 is identical to KDJAEHGK_00699 but kept for subsequent analysis
+NOTE: BKENKHKK_02799 is identical to GCFBPIMP_01217 but kept for subsequent analysis
+NOTE: HEJMLMGN_00331 is identical to MFLABBID_02870 but kept for subsequent analysis
+NOTE: DHPEDBLI_01242 is identical to FDHCOGLL_01400 but kept for subsequent analysis
+NOTE: GMOIOIBJ_01375 is identical to GFKDHIHK_00943 but kept for subsequent analysis
+NOTE: GMOIOIBJ_00115 is identical to GFKDHIHK_01473 but kept for subsequent analysis
+NOTE: HFNAGEOO_02491 is identical to AAHJHJAN_02302 but kept for subsequent analysis
+NOTE: HCGGHGFL_00168 is identical to MMLGCMFA_00088 but kept for subsequent analysis
+NOTE: CNMFNLAI_01954 is identical to NBFGOMBN_01935 but kept for subsequent analysis
+NOTE: CNMFNLAI_01496 is identical to NBFGOMBN_03307 but kept for subsequent analysis
+NOTE: HDGDOHFG_02246 is identical to AEGAMCKF_02726 but kept for subsequent analysis
+NOTE: LKGCCMAI_00023 is identical to MFHIPNOH_00928 but kept for subsequent analysis
+NOTE: LKGCCMAI_00605 is identical to MFHIPNOH_01085 but kept for subsequent analysis
+NOTE: MABNKJIJ_00290 is identical to LGGCHANK_02736 but kept for subsequent analysis
+NOTE: PKMIAGOI_00552 is identical to PCFOPMMF_03036 but kept for subsequent analysis
+NOTE: IAHLGPFG_03148 is identical to PLALBJDB_00960 but kept for subsequent analysis
+NOTE: NGEKDGMF_01227 is identical to KEADMNBA_00890 but kept for subsequent analysis
+NOTE: LGOEGMPH_01776 is identical to KEADMNBA_01985 but kept for subsequent analysis
+NOTE: LGOEGMPH_01300 is identical to KEADMNBA_02329 but kept for subsequent analysis
+NOTE: NLOIOKMH_01730 is identical to DDKICOCE_01791 but kept for subsequent analysis
+NOTE: IEFMMAKO_00183 is identical to HKAGMFHD_00083 but kept for subsequent analysis
+NOTE: IEFMMAKO_02174 is identical to HKAGMFHD_02048 but kept for subsequent analysis
+NOTE: LHMCIMJP_01337 is identical to MJLOJGAG_03431 but kept for subsequent analysis
+NOTE: KJLCHLIP_00292 is identical to KNNJNGEI_00292 but kept for subsequent analysis
+NOTE: KJLCHLIP_02305 is identical to KNNJNGEI_02305 but kept for subsequent analysis
+NOTE: KJLCHLIP_02917 is identical to KNNJNGEI_02917 but kept for subsequent analysis
+NOTE: EOCBBDAH_02223 is identical to JJLLPEDA_01221 but kept for subsequent analysis
+NOTE: JHHIPLGG_00341 is identical to BPADDOPK_00164 but kept for subsequent analysis
+NOTE: PAFNJHJG_01602 is identical to LDGAGGOM_01431 but kept for subsequent analysis
+NOTE: PAFNJHJG_02887 is identical to LDGAGGOM_02587 but kept for subsequent analysis
+NOTE: NCEBCOBG_01224 is identical to IIHDGPLL_01291 but kept for subsequent analysis
+NOTE: NCEBCOBG_01355 is identical to IIHDGPLL_02671 but kept for subsequent analysis
+NOTE: DAKDMBEG_00264 is identical to DNIGCCKD_02181 but kept for subsequent analysis
+NOTE: EHFMEEDL_03790 is identical to IDPPCNPH_03357 but kept for subsequent analysis
+NOTE: DIFALDGK_00261 is identical to JEBHEBKO_00261 but kept for subsequent analysis
+NOTE: HDGNKJKO_00173 is identical to OMCKPDDD_01784 but kept for subsequent analysis
+NOTE: HDGNKJKO_01607 is identical to OMCKPDDD_02006 but kept for subsequent analysis
+NOTE: PDFILNCE_01080 is identical to JHJGAMMM_01780 but kept for subsequent analysis
+NOTE: NFLAIFDD_00420 is identical to NLNBLEPL_02322 but kept for subsequent analysis
+NOTE: NFLAIFDD_01579 is identical to NLNBLEPL_02579 but kept for subsequent analysis
+NOTE: CNEOOAKE_01577 is identical to IMBAIBGN_00883 but kept for subsequent analysis
+NOTE: BOILIKMK_00213 is identical to JGGOCDGI_00213 but kept for subsequent analysis
+NOTE: BOILIKMK_02271 is identical to JGGOCDGI_02271 but kept for subsequent analysis
+NOTE: OPDLLOPK_00280 is identical to FFCLFHEI_00607 but kept for subsequent analysis
+NOTE: JLJCEHKK_00597 is identical to ICJEMMDA_00439 but kept for subsequent analysis
+NOTE: MLAAIEPI_00627 is identical to JLJCEHKK_00985 but kept for subsequent analysis
+NOTE: CAFKFIEB_00104 is identical to EBMOLMKB_00104 but kept for subsequent analysis
+NOTE: GLINBJEM_00011 is identical to EFIMHAMI_01168 but kept for subsequent analysis
+NOTE: KOMKAKGG_00232 is identical to GLINBJEM_00689 but kept for subsequent analysis
+NOTE: DBMFDJFD_02588 is identical to GGMMDJMC_00650 but kept for subsequent analysis
+NOTE: DBMFDJFD_02033 is identical to GGMMDJMC_00863 but kept for subsequent analysis
+NOTE: FEFKEFNH_01717 is identical to ONEKEMHF_00734 but kept for subsequent analysis
+NOTE: GGDLMAIM_00769 is identical to IOLHHANL_00039 but kept for subsequent analysis
+NOTE: EBMGKAKN_01483 is identical to LMOBBAIK_01487 but kept for subsequent analysis
+NOTE: PPANKCCH_00064 is identical to GDFAMCLG_01324 but kept for subsequent analysis
+NOTE: PCJPILEM_01123 is identical to GDFAMCLG_02267 but kept for subsequent analysis
+NOTE: KJDGICJC_02007 is identical to OJHPMOMD_01135 but kept for subsequent analysis
+NOTE: MPNOLABC_01179 is identical to KBOEGCFA_02027 but kept for subsequent analysis
+NOTE: GJEANDHH_01317 is identical to KNGPJCPD_01033 but kept for subsequent analysis
+NOTE: FIPHLAFM_02871 is identical to MABNKJIJ_02128 but kept for subsequent analysis
+NOTE: FIPHLAFM_02725 is identical to MABNKJIJ_02568 but kept for subsequent analysis
+NOTE: INCKLJOK_00424 is identical to BNMOIDIA_00210 but kept for subsequent analysis
+NOTE: INCKLJOK_02974 is identical to BNMOIDIA_01658 but kept for subsequent analysis
+NOTE: INCKLJOK_02118 is identical to BNMOIDIA_02441 but kept for subsequent analysis
+NOTE: EIHNABFH_00179 is identical to CFNKFHMI_00641 but kept for subsequent analysis
+NOTE: FDCJGAFC_01210 is identical to BLOALPEA_01308 but kept for subsequent analysis
+NOTE: FDCJGAFC_02311 is identical to BLOALPEA_01935 but kept for subsequent analysis
+NOTE: BEFPDGNP_00435 is identical to GBJLLEGP_00379 but kept for subsequent analysis
+NOTE: BEFPDGNP_00746 is identical to GBJLLEGP_03092 but kept for subsequent analysis
+NOTE: HCIGLCKA_01895 is identical to NPLPAOEM_02302 but kept for subsequent analysis
+NOTE: HCIGLCKA_00025 is identical to NPLPAOEM_02412 but kept for subsequent analysis
+NOTE: IEEGNPGB_01103 is identical to BNONECLM_01071 but kept for subsequent analysis
+NOTE: IEEGNPGB_01319 is identical to BNONECLM_01331 but kept for subsequent analysis
+NOTE: GMHLGGOA_02141 is identical to IEEGNPGB_01141 but kept for subsequent analysis
+NOTE: OGOJHDGK_00646 is identical to KNINMHHB_00463 but kept for subsequent analysis
+NOTE: OGOJHDGK_02514 is identical to KNINMHHB_02345 but kept for subsequent analysis
+NOTE: DAHMDMGL_00862 is identical to IPPKJKAK_00037 but kept for subsequent analysis
+NOTE: DAHMDMGL_00373 is identical to IPPKJKAK_00920 but kept for subsequent analysis
+NOTE: DAHMDMGL_02280 is identical to IPPKJKAK_02230 but kept for subsequent analysis
+NOTE: HFPGBFJB_00799 is identical to JBOGAHPJ_00871 but kept for subsequent analysis
+NOTE: HFPGBFJB_02567 is identical to JBOGAHPJ_02693 but kept for subsequent analysis
+NOTE: HFPGBFJB_03329 is identical to JBOGAHPJ_03187 but kept for subsequent analysis
+NOTE: KCIIBMAB_03164 is identical to JBFJIIGB_02237 but kept for subsequent analysis
+NOTE: CLLOPPBO_02131 is identical to KLPDMOHO_01917 but kept for subsequent analysis
+NOTE: CLLOPPBO_00352 is identical to KLPDMOHO_02247 but kept for subsequent analysis
+NOTE: FLEGGPEP_01837 is identical to ONOEDPCE_01331 but kept for subsequent analysis
+NOTE: FLEGGPEP_02592 is identical to ONOEDPCE_02778 but kept for subsequent analysis
+NOTE: ECOHNMED_00151 is identical to FLEGGPEP_01952 but kept for subsequent analysis
+NOTE: BPLNAMIN_02759 is identical to CLLOPPBO_02328 but kept for subsequent analysis
+NOTE: KKNAGKOM_00962 is identical to OCCPMMGJ_01713 but kept for subsequent analysis
+NOTE: ONFDKKDI_00398 is identical to BOAEDLKG_00550 but kept for subsequent analysis
+NOTE: DKBECHHJ_00683 is identical to HOMELMIB_00586 but kept for subsequent analysis
+NOTE: DKBECHHJ_02903 is identical to HOMELMIB_01368 but kept for subsequent analysis
+NOTE: HLNFHMNH_00047 is identical to CPCIJKEP_01538 but kept for subsequent analysis
+NOTE: HLNFHMNH_03600 is identical to CPCIJKEP_03513 but kept for subsequent analysis
+NOTE: LIDCCJLL_01833 is identical to GGOHBAKH_01924 but kept for subsequent analysis
+NOTE: NIMPOCHN_01077 is identical to AHBDPKAE_00833 but kept for subsequent analysis
+NOTE: LBNGMAIB_00500 is identical to OIOBNGCI_01127 but kept for subsequent analysis
+NOTE: NNEMPHGC_01974 is identical to EPJFHPMH_01684 but kept for subsequent analysis
+NOTE: JOLHAMEF_02423 is identical to CGOKGGNM_02443 but kept for subsequent analysis
+NOTE: HLAEAIII_00852 is identical to BFGJCMCB_00793 but kept for subsequent analysis
+NOTE: HLAEAIII_01176 is identical to BFGJCMCB_01680 but kept for subsequent analysis
+Checking for duplicate sequences: done in 0.00363994 secs using 1333% CPU
+Identifying sites to remove: done in 0.00625441 secs using 1185% CPU
+NOTE: 173 identical sequences (see below) will be ignored for subsequent analysis
+NOTE: BGENDEAD_02681 (identical to DIOLJGCH_02923) is ignored but added at the end
+NOTE: KBGEHIFL_02115 (identical to ELCOMMCJ_00875) is ignored but added at the end
+NOTE: KBGEHIFL_02951 (identical to ELCOMMCJ_02235) is ignored but added at the end
+NOTE: IDEFMKLJ_01131 (identical to PLLDIJIE_00782) is ignored but added at the end
+NOTE: KPLPGFEG_02782 (identical to PLLDIJIE_00782) is ignored but added at the end
+NOTE: PPIPHEHJ_03663 (identical to IPCAKPJN_02456) is ignored but added at the end
+NOTE: OGPGAEMM_00230 (identical to GEFAOOOF_00787) is ignored but added at the end
+NOTE: LAHMDPMN_00238 (identical to GEFAOOOF_00787) is ignored but added at the end
+NOTE: KMPGPDOE_00238 (identical to GEFAOOOF_00787) is ignored but added at the end
+NOTE: KFNBMKGD_00237 (identical to GEFAOOOF_00787) is ignored but added at the end
+NOTE: LAHMDPMN_01438 (identical to ALEAFCME_00591) is ignored but added at the end
+NOTE: KMPGPDOE_01728 (identical to ALEAFCME_00591) is ignored but added at the end
+NOTE: KFNBMKGD_01038 (identical to ALEAFCME_00591) is ignored but added at the end
+NOTE: BEPBCOAL_00594 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: MFKPMLBM_00074 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: LIEHJEOJ_00159 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: HKGLDILP_00239 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: GLPMCFGN_00050 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: HBGFLMCD_00621 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: FNJDHMDA_00148 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: MMNDPLND_00298 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: HKLOMLFE_01821 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: KEGAKIPF_00123 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: MJMPJKMC_01668 (identical to CIDNLPIE_00606) is ignored but added at the end
+NOTE: BEPBCOAL_02106 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: HKGLDILP_02036 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: GLPMCFGN_01507 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: HBGFLMCD_02220 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: FNJDHMDA_01744 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: HKLOMLFE_00289 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: KEGAKIPF_01652 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: MJMPJKMC_00917 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: GEILBBLL_01491 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: HIDGKHGO_01155 (identical to CIDNLPIE_01958) is ignored but added at the end
+NOTE: EOCBBDAH_02524 (identical to FDLGMPJH_02487) is ignored but added at the end
+NOTE: NNMKHFCG_01988 (identical to BHCMOGBE_00005) is ignored but added at the end
+NOTE: LPIPODLB_03656 (identical to BHCMOGBE_00005) is ignored but added at the end
+NOTE: JGNLFNFL_00666 (identical to BHCMOGBE_00005) is ignored but added at the end
+NOTE: FBFHJGKM_00495 (identical to BHCMOGBE_00005) is ignored but added at the end
+NOTE: NNMKHFCG_01724 (identical to BHCMOGBE_03706) is ignored but added at the end
+NOTE: LPIPODLB_00395 (identical to BHCMOGBE_03706) is ignored but added at the end
+NOTE: JGNLFNFL_03245 (identical to BHCMOGBE_03706) is ignored but added at the end
+NOTE: FBFHJGKM_02870 (identical to BHCMOGBE_03706) is ignored but added at the end
+NOTE: NNMKHFCG_01220 (identical to BHCMOGBE_03994) is ignored but added at the end
+NOTE: LPIPODLB_01241 (identical to BHCMOGBE_03994) is ignored but added at the end
+NOTE: JGNLFNFL_02051 (identical to BHCMOGBE_03994) is ignored but added at the end
+NOTE: FBFHJGKM_03350 (identical to BHCMOGBE_03994) is ignored but added at the end
+NOTE: MMNDPLND_01843 (identical to MFKPMLBM_01798) is ignored but added at the end
+NOTE: GELLPOJC_00048 (identical to GECOIDEL_01533) is ignored but added at the end
+NOTE: GELLPOJC_00202 (identical to GECOIDEL_02785) is ignored but added at the end
+NOTE: KKMFLBAM_01309 (identical to GECOIDEL_02785) is ignored but added at the end
+NOTE: OBOOMOEH_00464 (identical to DELJMAKM_03747) is ignored but added at the end
+NOTE: AFPAOLHL_00196 (identical to AGFCPNKM_00496) is ignored but added at the end
+NOTE: AFPAOLHL_00277 (identical to AGFCPNKM_00992) is ignored but added at the end
+NOTE: AFPAOLHL_01489 (identical to AGFCPNKM_02102) is ignored but added at the end
+NOTE: LECKAPNF_00206 (identical to IELMKNIH_01375) is ignored but added at the end
+NOTE: LECKAPNF_00612 (identical to IELMKNIH_01650) is ignored but added at the end
+NOTE: MHPDGONC_02851 (identical to LCPFBAJP_01324) is ignored but added at the end
+NOTE: IAHMLBMI_01796 (identical to GNNHGECN_01985) is ignored but added at the end
+NOTE: IAHMLBMI_02149 (identical to GNNHGECN_02405) is ignored but added at the end
+NOTE: JPJMNJDP_01525 (identical to MNACDEKI_00246) is ignored but added at the end
+NOTE: MPIGOKDE_00627 (identical to MNACDEKI_00246) is ignored but added at the end
+NOTE: OALNEMIF_03664 (identical to MNACDEKI_00246) is ignored but added at the end
+NOTE: HBGLLBLP_01897 (identical to MNACDEKI_00246) is ignored but added at the end
+NOTE: KJPEMJGM_02130 (identical to MNACDEKI_00246) is ignored but added at the end
+NOTE: AEEKPEPN_00351 (identical to MNACDEKI_00246) is ignored but added at the end
+NOTE: JPJMNJDP_01590 (identical to MNACDEKI_00316) is ignored but added at the end
+NOTE: MPIGOKDE_00112 (identical to MNACDEKI_00316) is ignored but added at the end
+NOTE: OALNEMIF_03594 (identical to MNACDEKI_00316) is ignored but added at the end
+NOTE: HBGLLBLP_02458 (identical to MNACDEKI_00316) is ignored but added at the end
+NOTE: KJPEMJGM_01535 (identical to MNACDEKI_00316) is ignored but added at the end
+NOTE: AEEKPEPN_00287 (identical to MNACDEKI_00316) is ignored but added at the end
+NOTE: JPJMNJDP_02032 (identical to MNACDEKI_00455) is ignored but added at the end
+NOTE: MPIGOKDE_01998 (identical to MNACDEKI_00455) is ignored but added at the end
+NOTE: OALNEMIF_00127 (identical to MNACDEKI_00455) is ignored but added at the end
+NOTE: HBGLLBLP_00442 (identical to MNACDEKI_00455) is ignored but added at the end
+NOTE: KJPEMJGM_01263 (identical to MNACDEKI_00455) is ignored but added at the end
+NOTE: AEEKPEPN_00631 (identical to MNACDEKI_00455) is ignored but added at the end
+NOTE: JLCKHBAH_02316 (identical to CFPFIFAP_02407) is ignored but added at the end
+NOTE: NBNCMPKH_00899 (identical to NDIMGIAA_00107) is ignored but added at the end
+NOTE: MFIOPMKI_02010 (identical to NDIMGIAA_00107) is ignored but added at the end
+NOTE: NBNCMPKH_00263 (identical to NDIMGIAA_00191) is ignored but added at the end
+NOTE: NBNCMPKH_01380 (identical to NDIMGIAA_02983) is ignored but added at the end
+NOTE: AJLKGGMN_00910 (identical to DPJHMCOC_01801) is ignored but added at the end
+NOTE: EPFDKPFG_00277 (identical to OAOILFPF_00749) is ignored but added at the end
+NOTE: EPFDKPFG_01353 (identical to OAOILFPF_01021) is ignored but added at the end
+NOTE: EPFDKPFG_00662 (identical to OAOILFPF_01512) is ignored but added at the end
+NOTE: DHPEDBLI_01666 (identical to FHFMBKPG_01353) is ignored but added at the end
+NOTE: EELLKBMO_00449 (identical to KGJPPJEH_00212) is ignored but added at the end
+NOTE: HHODFFGE_01317 (identical to KGJPPJEH_00212) is ignored but added at the end
+NOTE: EELLKBMO_01226 (identical to KGJPPJEH_00867) is ignored but added at the end
+NOTE: HHODFFGE_01842 (identical to KGJPPJEH_00867) is ignored but added at the end
+NOTE: ONKLGJMP_00875 (identical to KGJPPJEH_00867) is ignored but added at the end
+NOTE: OPDLLOPK_02044 (identical to CCCLDPND_00480) is ignored but added at the end
+NOTE: FJGGGLMM_00765 (identical to MFLABBID_02870) is ignored but added at the end
+NOTE: FIBPGCBA_01725 (identical to MFLABBID_02870) is ignored but added at the end
+NOTE: LDBGHKEA_01186 (identical to GFKDHIHK_00943) is ignored but added at the end
+NOTE: LDBGHKEA_00779 (identical to GFKDHIHK_01473) is ignored but added at the end
+NOTE: KPLKHGGN_02199 (identical to MMLGCMFA_00088) is ignored but added at the end
+NOTE: HBDNIEJL_02199 (identical to MMLGCMFA_00088) is ignored but added at the end
+NOTE: OOGCMEAO_01486 (identical to AEGAMCKF_02726) is ignored but added at the end
+NOTE: MJLIHGED_02184 (identical to AEGAMCKF_02726) is ignored but added at the end
+NOTE: DMAFOAFI_00410 (identical to AEGAMCKF_02726) is ignored but added at the end
+NOTE: FIPHLAFM_00551 (identical to LGGCHANK_02736) is ignored but added at the end
+NOTE: NJLOCCHF_00656 (identical to LGGCHANK_02736) is ignored but added at the end
+NOTE: EBMPAFAE_00156 (identical to LGGCHANK_02736) is ignored but added at the end
+NOTE: KHPLJIPJ_01050 (identical to LGGCHANK_02736) is ignored but added at the end
+NOTE: FPACBIEJ_02343 (identical to PLALBJDB_00960) is ignored but added at the end
+NOTE: NGEKDGMF_02704 (identical to KEADMNBA_01985) is ignored but added at the end
+NOTE: NGEKDGMF_02147 (identical to KEADMNBA_02329) is ignored but added at the end
+NOTE: GBNFAPME_02330 (identical to HKAGMFHD_00083) is ignored but added at the end
+NOTE: GBNFAPME_01119 (identical to HKAGMFHD_02048) is ignored but added at the end
+NOTE: MLAAIEPI_00146 (identical to ICJEMMDA_00439) is ignored but added at the end
+NOTE: KOMKAKGG_01411 (identical to EFIMHAMI_01168) is ignored but added at the end
+NOTE: KHBIKMNL_01178 (identical to EFIMHAMI_01168) is ignored but added at the end
+NOTE: KHBIKMNL_00096 (identical to GLINBJEM_00689) is ignored but added at the end
+NOTE: COPIOGJC_00356 (identical to GLINBJEM_00689) is ignored but added at the end
+NOTE: CBHIAIGL_02642 (identical to GGMMDJMC_00650) is ignored but added at the end
+NOTE: FGAFGNPI_01968 (identical to GGMMDJMC_00650) is ignored but added at the end
+NOTE: BDPMOHLP_02908 (identical to GGMMDJMC_00650) is ignored but added at the end
+NOTE: CBHIAIGL_00213 (identical to GGMMDJMC_00863) is ignored but added at the end
+NOTE: ICOLHEOA_02428 (identical to GGMMDJMC_00863) is ignored but added at the end
+NOTE: BDPMOHLP_01392 (identical to GGMMDJMC_00863) is ignored but added at the end
+NOTE: PCJPILEM_01868 (identical to GDFAMCLG_01324) is ignored but added at the end
+NOTE: GJGAPMIO_01841 (identical to GDFAMCLG_01324) is ignored but added at the end
+NOTE: GJGAPMIO_02237 (identical to GDFAMCLG_02267) is ignored but added at the end
+NOTE: NJLOCCHF_02291 (identical to MABNKJIJ_02128) is ignored but added at the end
+NOTE: EBMPAFAE_02340 (identical to MABNKJIJ_02128) is ignored but added at the end
+NOTE: NJLOCCHF_02519 (identical to MABNKJIJ_02568) is ignored but added at the end
+NOTE: EBMPAFAE_01652 (identical to MABNKJIJ_02568) is ignored but added at the end
+NOTE: KHPLJIPJ_01716 (identical to MABNKJIJ_02568) is ignored but added at the end
+NOTE: EMGGMAGC_02160 (identical to BNMOIDIA_00210) is ignored but added at the end
+NOTE: EMGGMAGC_02982 (identical to BNMOIDIA_01658) is ignored but added at the end
+NOTE: EMGGMAGC_01953 (identical to BNMOIDIA_02441) is ignored but added at the end
+NOTE: POHNGCFD_00762 (identical to GBJLLEGP_00379) is ignored but added at the end
+NOTE: HILPFIOB_00775 (identical to GBJLLEGP_00379) is ignored but added at the end
+NOTE: PFCBGJGC_00407 (identical to GBJLLEGP_00379) is ignored but added at the end
+NOTE: POHNGCFD_01106 (identical to GBJLLEGP_03092) is ignored but added at the end
+NOTE: HILPFIOB_00626 (identical to GBJLLEGP_03092) is ignored but added at the end
+NOTE: PFCBGJGC_00204 (identical to GBJLLEGP_03092) is ignored but added at the end
+NOTE: GMHLGGOA_01011 (identical to BNONECLM_01071) is ignored but added at the end
+NOTE: GMHLGGOA_01804 (identical to BNONECLM_01331) is ignored but added at the end
+NOTE: KCIIBMAB_00889 (identical to KNINMHHB_00463) is ignored but added at the end
+NOTE: KCIIBMAB_02840 (identical to KNINMHHB_02345) is ignored but added at the end
+NOTE: PIKMHKNM_02667 (identical to IPPKJKAK_00037) is ignored but added at the end
+NOTE: BKODNAMD_01443 (identical to IPPKJKAK_00037) is ignored but added at the end
+NOTE: JBMALLOB_01045 (identical to IPPKJKAK_00037) is ignored but added at the end
+NOTE: HEFHMEHF_00376 (identical to IPPKJKAK_00037) is ignored but added at the end
+NOTE: KAOADBNC_00319 (identical to IPPKJKAK_00037) is ignored but added at the end
+NOTE: PIKMHKNM_01178 (identical to IPPKJKAK_00920) is ignored but added at the end
+NOTE: BKODNAMD_00433 (identical to IPPKJKAK_00920) is ignored but added at the end
+NOTE: JBMALLOB_01421 (identical to IPPKJKAK_00920) is ignored but added at the end
+NOTE: HEFHMEHF_01172 (identical to IPPKJKAK_00920) is ignored but added at the end
+NOTE: KAOADBNC_02430 (identical to IPPKJKAK_00920) is ignored but added at the end
+NOTE: PIKMHKNM_01696 (identical to IPPKJKAK_02230) is ignored but added at the end
+NOTE: BKODNAMD_00578 (identical to IPPKJKAK_02230) is ignored but added at the end
+NOTE: JBMALLOB_02787 (identical to IPPKJKAK_02230) is ignored but added at the end
+NOTE: HEFHMEHF_02044 (identical to IPPKJKAK_02230) is ignored but added at the end
+NOTE: KAOADBNC_01852 (identical to IPPKJKAK_02230) is ignored but added at the end
+NOTE: PLLKHAID_02563 (identical to JBOGAHPJ_00871) is ignored but added at the end
+NOTE: PLLKHAID_01593 (identical to JBOGAHPJ_02693) is ignored but added at the end
+NOTE: PLLKHAID_03096 (identical to JBOGAHPJ_03187) is ignored but added at the end
+NOTE: BPLNAMIN_02212 (identical to KLPDMOHO_01917) is ignored but added at the end
+NOTE: BPLNAMIN_00388 (identical to KLPDMOHO_02247) is ignored but added at the end
+NOTE: ECOHNMED_00652 (identical to ONOEDPCE_01331) is ignored but added at the end
+NOTE: JIFOAEFH_00329 (identical to OCCPMMGJ_01713) is ignored but added at the end
+NOTE: MCPGMBGE_00293 (identical to OCCPMMGJ_01713) is ignored but added at the end
+NOTE: JMHMGIJB_02520 (identical to OCCPMMGJ_01713) is ignored but added at the end
+NOTE: IPKDPJMH_01385 (identical to BOAEDLKG_00550) is ignored but added at the end
+NOTE: EDFBMAIE_01972 (identical to BOAEDLKG_00550) is ignored but added at the end
+NOTE: ODBGJCKE_02128 (identical to EPJFHPMH_01684) is ignored but added at the end
+NOTE: JGDBLFJN_01289 (identical to EPJFHPMH_01684) is ignored but added at the end
+NOTE: FILPIKGK_03244 (identical to EPJFHPMH_01684) is ignored but added at the end
+Alignment was printed to /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.uniqueseq.phy
+
+For your convenience alignment with unique sequences printed to /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/ftsz_test_run/ftsz_phylo.uniqueseq.phy
+
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 0.933 seconds
+Perform fast likelihood tree search using LG+I+G model...
+Estimate model parameters (epsilon = 5.000)
+Perform nearest neighbor interchange...
+Optimizing NNI: done in 6.18057 secs using 1308% CPU
+Estimate model parameters (epsilon = 1.000)
+1. Initial log-likelihood: -173008.528
+2. Current log-likelihood: -173007.191
+Optimal log-likelihood: -173006.940
+Proportion of invariable sites: 0.001
+Gamma shape alpha: 1.059
+Parameters optimization took 2 rounds (3.285 sec)
+Time for fast ML tree search: 17.313 seconds
+
+NOTE: ModelFinder requires 1855 MB RAM!
+ModelFinder will test up to 1232 protein models (sample size: 1175 epsilon: 0.100) ...
+ No. Model         -LnL         df  AIC          AICc         BIC
+  1  LG            182687.505   2035 369445.010   8655965.010  379760.473
+  2  LG+I          182634.407   2036 369340.813   8664004.813  379661.345
+  3  LG+G4         173017.831   2036 350107.662   8644771.662  360428.194
+  4  LG+I+G4       173006.747   2037 350087.495   8652899.495  360413.096
+  5  LG+R2         175170.016   2037 354414.031   8657226.031  364739.632
+  6  LG+R3         173655.035   2039 351388.070   8670508.070  361723.808
