@@ -1,0 +1,46 @@
+# ==========================================================
+# Folder Metadata - Scripts
+# ==========================================================
+expand_self: true
+expand_subfolders: true
+enforce_file_tracking: true
+
+
+description: >
+  unit function scripts
+
+content_type: scripts
+curation_status: active
+owner: Anirudh
+version_tag: v1.0
+
+
+# ----------------------------------------------------------
+# FILE-LEVEL DOCUMENTATION
+# ----------------------------------------------------------
+
+files:
+
+  extract_proteins_from_cds_genomes.py:
+    purpose: >
+      Extracts protein sequences from Prokka output directories
+      and generates summary CSV + combined FASTA.
+    inputs:
+      - Prokka genome folders
+    outputs:
+      - proteins_summary.csv
+      - combined_proteins.faa
+    dependencies:
+      - pandas
+      - biopython
+    stability: experimental
+
+
+
+
+# ----------------------------------------------------------
+# APPENDIX SECTION (Printed in Report)
+# ----------------------------------------------------------
+
+notes:
+  - extract_proteins.py assumes one .faa per genome folder.

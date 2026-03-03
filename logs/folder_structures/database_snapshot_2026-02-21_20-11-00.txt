@@ -1,0 +1,115 @@
+Database Structure Report
+==================================================
+
+Time of procurement: 2026-02-21_20-11-00
+Database path: /home/anirudh/asgard_pipeline
+Total database size: 81.56 GB
+Total files: 15273
+Total directories: 1293
+Structure hash: 2d79a5eaa4d4b85c0f165eea0a8607f1ff6d1748a448931482f3bf598f8df8cb
+Content hash: SKIPPED
+
+--------------------------------------------------
+TREE STRUCTURE
+--------------------------------------------------
+
+/ (5)
+├── .vscode/ (1)
+├── └── settings.json
+├── bin/ (2)
+├── ├── pipelines/ (1)
+├── ├── └── updation/ (1)
+├── ├── └── └── snapshot.py
+├── └── units/ (1)
+├── └── └── extract_proteins_from_cds_genomes.py
+├── database/ (6)
+├── ├── cds_genomes/ (1269 elements, not expanded)
+├── ├── collated/ (1)
+├── ├── └── Version1/ (1)
+├── ├── └── └── filtered/ (1)
+├── ├── └── └── └── 85comp10con/ (4)
+├── ├── └── └── └── ├── IPS/ (0)
+├── ├── └── └── └── ├── fasta/ (1)
+├── ├── └── └── └── ├── └── v1_cp85_con10.fasta
+├── ├── └── └── └── ├── genome_file/ (0)
+├── ├── └── └── └── └── protein_file/ (1)
+├── ├── └── └── └── └── └── updated_jan2026_genome_proteins_cp85_con10.csv
+├── ├── phylogeny/ (0)
+├── ├── protein_sets/ (0)
+├── ├── raw_genomes/ (0)
+├── └── structures/ (0)
+├── processes/ (0)
+└── templates/ (1)
+└── └── folder_metadata.txt
+
+--------------------------------------------------
+NOTES
+--------------------------------------------------
+
+[pipelines]
+
+Files:
+  updation
+    - description: contains scripts for updation of the database and version control
+
+
+
+[updation]
+
+Files:
+  snapshot.py
+    - purpose: Generates structural database reports including tree, hashing, and appendix aggregation.
+
+    - inputs: ['database_path']
+    - outputs: ['timestamped snapshot report', 'log file']
+    - dependencies: ['pathlib', 'yaml', 'hashlib']
+    - stability: stable
+
+
+[units]
+
+['extract_proteins.py assumes one .faa per genome folder.']
+
+Files:
+  extract_proteins_from_cds_genomes.py
+    - purpose: Extracts protein sequences from Prokka output directories and generates summary CSV + combined FASTA.
+
+    - inputs: ['Prokka genome folders']
+    - outputs: ['proteins_summary.csv', 'combined_proteins.faa']
+    - dependencies: ['pandas', 'biopython']
+    - stability: experimental
+
+
+[cds_genomes]
+
+Genome directories follow NCBI/Prokka naming conventions:
+GCA_* or GCF_* assemblies and MAG bins.
+
+Each genome folder contains annotation outputs including:
+- Protein FASTA (.faa)
+- CDS nucleotide FASTA (.ffn)
+- Full genomic FASTA (.fna)
+- Annotation files (.gff, .gbk)
+- Submission and log files
+
+
+[collated]
+
+Version folders represent frozen database releases.
+Subfolders define filtering thresholds and derived datasets.
+
+
+[phylogeny]
+
+These files are required for reproducibility of
+evolutionary analyses.
+
+
+[templates]
+
+Files:
+  folder_metadata.txt
+    - description: contains a template yaml file for folder_metadata yamls
+
+
+

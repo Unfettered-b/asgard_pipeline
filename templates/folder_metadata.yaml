@@ -1,0 +1,30 @@
+# ==========================================================
+# Folder Metadata - Scripts
+# ==========================================================
+
+expand_subfolders: true
+enforce_file_tracking: true
+
+
+description: >
+  Contains templates for process and config files
+
+content_type: templates
+curation_status: active
+owner: Anirudh
+version_tag: v1.0
+
+
+# ----------------------------------------------------------
+# FILE-LEVEL DOCUMENTATION
+# ----------------------------------------------------------
+
+files:
+  folder_metadata.txt: >
+    contains a template yaml file for folder_metadata yamls
+
+# ----------------------------------------------------------
+# APPENDIX SECTION (Printed in Report)
+# ----------------------------------------------------------
+
+appendix:

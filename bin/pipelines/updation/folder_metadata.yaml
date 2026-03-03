@@ -1,0 +1,42 @@
+# ==========================================================
+# Folder Metadata - Scripts
+# ==========================================================
+expand_self: true
+expand_subfolders: true
+enforce_file_tracking: true
+
+
+description: >
+  Scripts used for updation of the database and the reports
+
+content_type: scripts
+curation_status: active
+owner: Anirudh
+version_tag: v1.0
+
+
+# ----------------------------------------------------------
+# FILE-LEVEL DOCUMENTATION
+# ----------------------------------------------------------
+
+files:
+
+  snapshot.py:
+    purpose: >
+      Generates structural database reports including tree,
+      hashing, and appendix aggregation.
+    inputs:
+      - database_path
+    outputs:
+      - timestamped snapshot report
+      - log file
+    dependencies:
+      - pathlib
+      - yaml
+      - hashlib
+    stability: stable
+
+
+# ----------------------------------------------------------
+# APPENDIX SECTION (Printed in Report)
+# ----------------------------------------------------------

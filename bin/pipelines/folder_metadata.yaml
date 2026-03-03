@@ -1,0 +1,31 @@
+# ==========================================================
+# Folder Metadata - Scripts
+# ==========================================================
+expand_self: true
+expand_subfolders: true
+enforce_file_tracking: false
+
+description: >
+  Folder containing pipelines 
+
+content_type: pipelines
+curation_status: active
+owner: Anirudh
+version_tag: v1.4
+
+
+# ----------------------------------------------------------
+# FILE-LEVEL DOCUMENTATION
+# ----------------------------------------------------------
+
+files:
+  updation: >
+    contains scripts for updation of the database and version control
+
+
+
+# ----------------------------------------------------------
+# APPENDIX SECTION (Printed in Report)
+# ----------------------------------------------------------
+
+
