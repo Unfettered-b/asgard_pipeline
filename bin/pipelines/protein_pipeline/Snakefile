@@ -1,0 +1,42 @@
+########################################
+# Main Snakefile
+########################################
+
+from datetime import datetime
+import os
+import shutil
+
+# Expect config from CLI
+if not config:
+    raise ValueError("No config provided. Use --configfile.")
+
+PROTEIN = config["protein_name"]
+
+TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
+RUN_ID = config.get("run_id", TIMESTAMP)
+
+RESULT_DIR = f"database/protein_sets/{PROTEIN}/{RUN_ID}"
+
+# Ensure base result directory exists early
+os.makedirs(RESULT_DIR, exist_ok=True)
+
+# Include rule definitions
+include: "rules/parse_ips.smk"
+
+########################################
+# Final Target
+########################################
+
+rule all:
+    input:,
+        f"{RESULT_DIR}/REVIEW_DONE.flag"
+
+########################################
+# Archive Config Used
+########################################
+
+rule archive_config:
+    output:
+        f"{RESULT_DIR}/config_used.yaml"
+    run:
+        shutil.copy(config._source, output[0])

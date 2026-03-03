@@ -30,6 +30,9 @@ from Bio import SeqIO
 # ============================================================
 # HARD-CODED OUTPUT PATH
 # ============================================================
+
+
+
 OUTPUT_FOLDER = Path("/path/to/output_directory")
 
 

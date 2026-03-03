@@ -1,0 +1,254 @@
+==============================================
+🚀 Pipeline Execution Log
+Pipeline: protein_pipeline
+Protein: ftsz
+Config: processes/protein_pipeline_IPS_ftsz.yaml
+Start Time: Tue Mar  3 16:37:30 IST 2026
+Cores: 24
+----------------------------------------------
+Reason:
+Testing the pipeline for FtsZ proteins from interproscan
+==============================================
+
+==============================================
+Config File
+==============================================
+
+###########################################################
+# Pipeline Selection
+###########################################################
+
+pipeline: protein_pipeline
+
+
+###########################################################
+# Run Metadata (optional but recommended)
+###########################################################
+
+# If omitted, timestamp will be used automatically
+run_id: ftsz_test_run
+
+env_dir: "/home/anirudh/asgard_pipeline/bin/envs"
+
+log_dir: "/home/anirudh/asgard_pipeline/logs/pipeline_logs/" 
+
+reason: "Testing the pipeline for FtsZ proteins from interproscan"
+
+# Optional execution parameters (executor can use these)
+cores: 24
+
+
+###########################################################
+# Biological Target
+###########################################################
+
+protein_name: ftsz
+
+
+###########################################################
+# Input Files
+###########################################################
+
+# InterProScan parquet output
+database: /home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/IPS/protein_summary.parquet
+
+# Master protein annotation CSV
+protein_file: /home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/protein_file/updated_jan2026_genome_proteins_cp85_con10.csv
+
+# Full FASTA file containing all sequences
+fasta_file: /home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/fasta/v1_cp85_con10.fasta
+
+
+###########################################################
+# Search Strategy (choose ONE only)
+###########################################################
+
+# Option 1 — simple substring match (case-insensitive)
+search_string: ftsz
+
+# Option 2 — regex search (leave null if not used)
+rstring: null
+
+
+###########################################################
+# Notes
+###########################################################
+
+# Exactly one of search_string or rstring must be set.
+# If both are set or both are null, parse_ips.py will exit.
+==============================================
+
+Support for alternative conda frontends has been deprecated in favor of simpler support and code base. This should not cause issues since current conda releases rely on fast solving via libmamba. Ignoring the alternative conda frontend setting (mamba).
+Assuming unrestricted shared filesystem usage.
+host: DESKTOP-VPSEKSF
+Building DAG of jobs...
+Need to rerun job all because job review_gate has to be rerun.
+database/protein_sets/ftsz/ftsz_test_run/REVIEW_DONE.flag: True 0
+: False 1
+shared_storage_local_copies: True
+remote_exec: False
+Submitting maximum 100 job(s) over 1.0 second(s).
+Using shell: /usr/bin/bash
+Provided cores: 24
+Rules claiming more threads will be scaled down.
+Job stats:
+job            count
+-----------  -------
+all                1
+review_gate        1
+total              2
+
+Resources before job selection: {'_cores': 24, '_nodes': 9223372036854775807, '_job_count': 9223372036854775807}
+Ready jobs: 1
+Select jobs to execute...
+Selected jobs: 1
+Resources after job selection: {'_cores': 24, '_nodes': 9223372036854775807, '_job_count': 100}
+Execute 1 jobs...
+
+[Tue Mar  3 16:37:35 2026]
+localrule review_gate:
+    input: database/protein_sets/ftsz/ftsz_test_run/ftsz.unr.fasta
+    output: database/protein_sets/ftsz/ftsz_test_run/REVIEW_DONE.flag
+    jobid: 1
+    reason: Missing output files: database/protein_sets/ftsz/ftsz_test_run/REVIEW_DONE.flag; Code has changed since last execution
+    resources: tmpdir=/tmp
+Shell command: None
+General args: ['--force', '--target-files-omit-workdir-adjustment', '', '--max-inventory-time 0', '--retries 0', '--nocolor', '--no-hooks', '--nolock', '--ignore-incomplete', '', '--verbose ', '--rerun-triggers input software-env params code mtime', '', '', '', '--deployment-method conda', "--conda-frontend 'conda'", '', "--conda-base-path '/root/miniconda3'", '', '', '', '--shared-fs-usage input-output persistence software-deployment source-cache sources storage-local-copies', '', "--wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/'", '', '', '', '--printshellcmds ', '', '--latency-wait 5', "--scheduler 'ilp'", '', '--local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl', "--scheduler-solver-path '/root/miniconda3/envs/snakemake/bin'", "--runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmpt62tkev_'", '', '', '--configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml', '', '', '', '--default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI=']
+spawned job: cd /home/anirudh/asgard_pipeline && /root/miniconda3/envs/snakemake/bin/python3.13 -m snakemake --snakefile '/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile' --target-jobs 'review_gate:' --allowed-rules review_gate --cores 24 --attempt 1 --force-use-threads  --force --target-files-omit-workdir-adjustment --max-inventory-time 0 --retries 0 --nocolor --no-hooks --nolock --ignore-incomplete --verbose  --rerun-triggers input software-env params code mtime --deployment-method conda --conda-frontend 'conda' --conda-base-path '/root/miniconda3' --shared-fs-usage input-output persistence software-deployment source-cache sources storage-local-copies --wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/' --printshellcmds  --latency-wait 5 --scheduler 'ilp' --local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl --scheduler-solver-path '/root/miniconda3/envs/snakemake/bin' --runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmpt62tkev_' --configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml --default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI= --quiet progress rules host --mode 'subprocess' --local-groupid 'local'
+Waiting for running jobs to complete.
+SystemExit in file "/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/rules/parse_ips.smk", line 79:
+1
+  File "/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/rules/parse_ips.smk", line 79, in __rule_review_gate
+Exiting because a job execution failed. Look below for error messages
+WorkflowError:
+At least one job did not complete successfully.
+
+🔍 MANUAL REVIEW REQUIRED
+
+Review: database/protein_sets/ftsz/ftsz_test_run/ftsz.unr.fasta
+Save curated file as: database/protein_sets/ftsz/ftsz_test_run/ftsz.rev.fasta
+Then run: touch database/protein_sets/ftsz/ftsz_test_run/REVIEW_DONE.flag
+
+Full Traceback (most recent call last):
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 231, in spawn_job
+    subprocess.check_call(cmd, shell=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command 'cd /home/anirudh/asgard_pipeline && /root/miniconda3/envs/snakemake/bin/python3.13 -m snakemake --snakefile '/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile' --target-jobs 'review_gate:' --allowed-rules review_gate --cores 24 --attempt 1 --force-use-threads  --force --target-files-omit-workdir-adjustment --max-inventory-time 0 --retries 0 --nocolor --no-hooks --nolock --ignore-incomplete --verbose  --rerun-triggers input software-env params code mtime --deployment-method conda --conda-frontend 'conda' --conda-base-path '/root/miniconda3' --shared-fs-usage input-output persistence software-deployment source-cache sources storage-local-copies --wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/' --printshellcmds  --latency-wait 5 --scheduler 'ilp' --local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl --scheduler-solver-path '/root/miniconda3/envs/snakemake/bin' --runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmpt62tkev_' --configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml --default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI= --quiet progress rules host --mode 'subprocess' --local-groupid 'local'' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 236, in cached_or_run
+    self.workflow.async_run(self.acached_or_run(job, run_func, *args))
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/workflow.py", line 267, in async_run
+    return runner.run(coro)
+           ~~~~~~~~~~^^^^^^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 249, in acached_or_run
+    run_func(*args)
+    ~~~~~~~~^^^^^^^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 233, in spawn_job
+    raise SpawnedJobError()
+snakemake.exceptions.SpawnedJobError
+
+Traceback (most recent call last):
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 231, in spawn_job
+    subprocess.check_call(cmd, shell=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/subprocess.py", line 419, in check_call
+    raise CalledProcessError(retcode, cmd)
+
+subprocess.CalledProcessError: Command 'cd /home/anirudh/asgard_pipeline && /root/miniconda3/envs/snakemake/bin/python3.13 -m snakemake --snakefile '/home/anirudh/asgard_pipeline/bin/pipelines/protein_pipeline/Snakefile' --target-jobs 'review_gate:' --allowed-rules review_gate --cores 24 --attempt 1 --force-use-threads  --force --target-files-omit-workdir-adjustment --max-inventory-time 0 --retries 0 --nocolor --no-hooks --nolock --ignore-incomplete --verbose  --rerun-triggers input software-env params code mtime --deployment-method conda --conda-frontend 'conda' --conda-base-path '/root/miniconda3' --shared-fs-usage input-output persistence software-deployment source-cache sources storage-local-copies --wrapper-prefix 'https://github.com/snakemake/snakemake-wrappers/raw/' --printshellcmds  --latency-wait 5 --scheduler 'ilp' --local-storage-prefix base64//LnNuYWtlbWFrZS9zdG9yYWdl --scheduler-solver-path '/root/miniconda3/envs/snakemake/bin' --runtime-source-cache-path '/root/.cache/snakemake/snakemake/source-cache/snakemake-runtime-cache/tmpt62tkev_' --configfiles /home/anirudh/asgard_pipeline/processes/protein_pipeline_IPS_ftsz.yaml --default-resources base64//dG1wZGlyPXN5c3RlbV90bXBkaXI= --quiet progress rules host --mode 'subprocess' --local-groupid 'local'' returned non-zero exit status 1.
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 236, in cached_or_run
+    self.workflow.async_run(self.acached_or_run(job, run_func, *args))
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/workflow.py", line 267, in async_run
+    return runner.run(coro)
+           ~~~~~~~~~~^^^^^^
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 249, in acached_or_run
+    run_func(*args)
+    ~~~~~~~~^^^^^^^
+
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/executors/local.py", line 233, in spawn_job
+    raise SpawnedJobError()
+
+snakemake.exceptions.SpawnedJobError
+
+[Tue Mar  3 16:37:37 2026]
+Error in rule review_gate:
+    message: None
+    jobid: 1
+    input: database/protein_sets/ftsz/ftsz_test_run/ftsz.unr.fasta
+    output: database/protein_sets/ftsz/ftsz_test_run/REVIEW_DONE.flag
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Tue Mar  3 16:37:37 2026]
+Error in rule review_gate:
+    message: None
+    jobid: 1
+    input: database/protein_sets/ftsz/ftsz_test_run/ftsz.unr.fasta
+    output: database/protein_sets/ftsz/ftsz_test_run/REVIEW_DONE.flag
+Complete log(s): /home/anirudh/asgard_pipeline/.snakemake/log/2026-03-03T163730.709601.snakemake.log
+unlocking
+removing lock
+removing lock
+removed all locks
+Full Traceback (most recent call last):
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/cli.py", line 2194, in args_to_api
+    dag_api.execute_workflow(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        executor=args.executor,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<46 lines>...
+        scheduler_settings=scheduler_settings,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/api.py", line 646, in execute_workflow
+    workflow.execute(
+    ~~~~~~~~~~~~~~~~^
+        executor_plugin=executor_plugin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        updated_files=updated_files,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/root/miniconda3/envs/snakemake/lib/python3.13/site-packages/snakemake/workflow.py", line 1515, in execute
+    raise WorkflowError("At least one job did not complete successfully.")
+snakemake_interface_common.exceptions.WorkflowError: At least one job did not complete successfully.
+
+WorkflowError:
+At least one job did not complete successfully.

@@ -1,0 +1,62 @@
+###########################################################
+# Pipeline Selection
+###########################################################
+
+pipeline: protein_pipeline
+
+
+###########################################################
+# Run Metadata (optional but recommended)
+###########################################################
+
+# If omitted, timestamp will be used automatically
+run_id: ftsz_test_run
+
+env_dir: "/home/anirudh/asgard_pipeline/bin/envs"
+
+log_dir: "/home/anirudh/asgard_pipeline/logs/pipeline_logs/" 
+
+reason: "Testing the pipeline for FtsZ proteins from interproscan"
+
+# Optional execution parameters (executor can use these)
+cores: 24
+
+
+###########################################################
+# Biological Target
+###########################################################
+
+protein_name: ftsz
+
+
+###########################################################
+# Input Files
+###########################################################
+
+# InterProScan parquet output
+database: /home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/IPS/protein_summary.parquet
+
+# Master protein annotation CSV
+protein_file: /home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/protein_file/updated_jan2026_genome_proteins_cp85_con10.csv
+
+# Full FASTA file containing all sequences
+fasta_file: /home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/fasta/v1_cp85_con10.fasta
+
+
+###########################################################
+# Search Strategy (choose ONE only)
+###########################################################
+
+# Option 1 — simple substring match (case-insensitive)
+search_string: ftsz
+
+# Option 2 — regex search (leave null if not used)
+rstring: null
+
+
+###########################################################
+# Notes
+###########################################################
+
+# Exactly one of search_string or rstring must be set.
+# If both are set or both are null, parse_ips.py will exit.

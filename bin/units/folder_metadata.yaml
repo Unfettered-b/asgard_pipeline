@@ -35,6 +35,77 @@ files:
       - biopython
     stability: experimental
 
+  get_fasta_csv_from_ids.py:
+    purpose: >
+      takes in protein ids txt file, main fasta file, and protein_file and outputs
+      a protein set fasta and protein_file
+    inputs:
+      - req_proteins.ids
+      - protein_file.csv
+      - proteins_full.fasta
+    outputs:
+      - req_proteins.fasta
+      - req_protein.csv
+    dependencies:
+      - pandas
+      - biopython
+    stability: experimental
+  
+  parse_ips.py:
+    purpose: >
+      Parses InterProScan parquet output using DuckDB and extracts
+      proteins matching either a keyword (LIKE search) or a regex
+      pattern. Produces a filtered domain table and a protein ID list.
+
+    inputs:
+      - interpro_results.parquet
+      - search_string (optional, mutually exclusive with rstring)
+      - rstring (optional, mutually exclusive with search_string)
+
+    outputs:
+      - <protein_name>_domain_proteins.tsv
+      - <protein_name>.ids
+
+    parameters:
+      search_string:
+        type: string
+        description: Case-insensitive substring match against the domains column.
+      rstring:
+        type: string
+        description: Regular expression pattern applied to the domains column.
+
+    logic:
+      - Ensures exactly one of search_string or rstring is provided.
+      - Loads parquet file into DuckDB in-memory table.
+      - Filters rows where domains is not null and matches condition.
+      - Writes full (protein, domains) table as TSV with header.
+      - Writes protein IDs only as TSV without header.
+
+    dependencies:
+      - duckdb
+      - python >=3.9
+
+    snakemake_interfaces:
+      input:
+        - snakemake.input.database
+      output:
+        - snakemake.output.outfile
+        - snakemake.output.protein_ids
+      params:
+        - snakemake.params.search_string
+        - snakemake.params.rstring
+
+    failure_modes:
+      - Exits if both search_string and rstring are provided.
+      - Exits if neither search_string nor rstring is provided.
+      - Will fail if parquet schema lacks 'protein' or 'domains' columns.
+
+    performance_notes:
+      - Uses in-memory DuckDB; may require sufficient RAM for large parquet files.
+      - Could be optimized by querying read_parquet() directly without CREATE TABLE.
+
+    stability: experimental
+
 
 
 

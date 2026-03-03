@@ -1,0 +1,11 @@
+name: duckdb_handler
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pandas
+  - fastparquet
+  - pyarrow
+  - duckdb
+prefix: /root/miniconda3/envs/duckdb_handler

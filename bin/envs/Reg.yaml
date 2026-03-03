@@ -1,0 +1,20 @@
+name: Reg
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pandas=2.3.3
+  - mmseqs2
+  - seqkit
+  - jupyter
+  - notebook
+  - hmmer
+  - datasets
+  - ncbi-datasets-cli
+  - mamba
+  - seaborn
+  - yaml
+  - reportlab
+  - biopython
+prefix: /root/miniconda3/envs/Reg
