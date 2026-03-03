@@ -1,3 +1,5 @@
 database/
 .snakemake/
 .vscode/
+.env
+logs/pipeline_logs

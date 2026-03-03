@@ -1,0 +1,218 @@
+Database Structure Report
+==================================================
+
+Time of procurement: 2026-03-03_19-26-11
+Database path: /home/anirudh/asgard_pipeline
+Total database size: 99.44 GB
+Total files: 91349
+Total directories: 6588
+Structure hash: 031c68e2a03abb9376d63cb2d4c9e80286f1a82ac7786d53ac92b807fd699d4c
+Content hash: SKIPPED
+
+--------------------------------------------------
+TREE STRUCTURE
+--------------------------------------------------
+
+/ (8)
+├── .env
+├── .gitignore
+├── .vscode/ (1)
+├── └── settings.json
+├── README.md
+├── bin/ (4)
+├── ├── envs/ (3)
+├── ├── ├── Reg.yaml
+├── ├── ├── duckdb_handler.yaml
+├── ├── └── phylogeny.yaml
+├── ├── pipelines/ (2)
+├── ├── ├── protein_pipeline/ (2)
+├── ├── ├── ├── Snakefile
+├── ├── ├── └── rules/ (2)
+├── ├── ├── └── ├── extract_ids.smk
+├── ├── ├── └── └── parse_ips.smk
+├── ├── └── updation/ (1)
+├── ├── └── └── snapshot.py
+├── ├── run_pipeline.sh
+├── └── units/ (7)
+├── └── ├── extract_proteins_from_cds_genomes.py
+├── └── ├── fasttree_pipeline.sh
+├── └── ├── generate_colorstrip.py
+├── └── ├── get_fasta_csv_from_ids.py
+├── └── ├── itol_upload.sh
+├── └── ├── parse_ips.py
+├── └── └── phylogeny_pipeline.sh
+├── database/ (6)
+├── ├── cds_genomes/ (1269 elements, not expanded)
+├── ├── collated/ (1)
+├── ├── └── Version1/ (1)
+├── ├── └── └── filtered/ (1)
+├── ├── └── └── └── 85comp10con/ (4)
+├── ├── └── └── └── ├── IPS/ (2)
+├── ├── └── └── └── ├── ├── asgard_ips_results_feb5.parquet
+├── ├── └── └── └── ├── └── protein_summary.parquet
+├── ├── └── └── └── ├── fasta/ (1)
+├── ├── └── └── └── ├── └── v1_cp85_con10.fasta
+├── ├── └── └── └── ├── genome_file/ (0)
+├── ├── └── └── └── └── protein_file/ (1)
+├── ├── └── └── └── └── └── updated_jan2026_genome_proteins_cp85_con10.csv
+├── ├── phylogeny/ (0)
+├── ├── protein_sets/ (2)
+├── ├── ├── ftsz/ (1)
+├── ├── ├── └── ftsz_test_run/ (8)
+├── ├── ├── └── ├── REVIEW_DONE.flag
+├── ├── ├── └── ├── extraction_exploration/ (8)
+├── ├── ├── └── ├── ├── ftsz.ids
+├── ├── ├── └── ├── ├── ftsz.unr.csv
+├── ├── ├── └── ├── ├── ftsz.unr.fasta
+├── ├── ├── └── ├── ├── ftsz_colorstrip.txt
+├── ├── ├── └── ├── ├── ftsz_domain_proteins.tsv
+├── ├── ├── └── ├── ├── ftsz_fast_itol_uploaded.flag
+├── ├── ├── └── ├── ├── ftsz_unr_fasttree.aligned.fasta
+├── ├── ├── └── ├── └── ftsz_unr_fasttree.treefile
+├── ├── ├── └── ├── ftsz.rev.fasta
+├── ├── ├── └── ├── ftsz_phylo.aligned.fasta
+├── ├── ├── └── ├── ftsz_phylo.log
+├── ├── ├── └── ├── ftsz_phylo.model.gz
+├── ├── ├── └── ├── ftsz_phylo.trimmed.fasta
+├── ├── ├── └── └── ftsz_phylo.uniqueseq.phy
+├── ├── └── protein_ids/ (0)
+├── ├── raw_genomes/ (0)
+├── └── structures/ (0)
+├── processes/ (1)
+├── └── protein_pipeline_IPS_ftsz.yaml
+└── templates/ (1)
+└── └── folder_metadata.txt
+
+--------------------------------------------------
+NOTES
+--------------------------------------------------
+
+[pipelines]
+
+Files:
+  updation
+    - description: contains scripts for updation of the database and version control
+
+
+  protein_pipeline
+    - description: contains pipeline for protein subset extraction, phylogeny and structure prediction
+
+
+
+[updation]
+
+Files:
+  snapshot.py
+    - purpose: Generates structural database reports including tree, hashing, and appendix aggregation.
+
+    - inputs: ['database_path']
+    - outputs: ['timestamped snapshot report', 'log file']
+    - dependencies: ['pathlib', 'yaml', 'hashlib']
+    - stability: stable
+
+
+[units]
+
+['extract_proteins.py assumes one .faa per genome folder.']
+
+Files:
+  parse_ips.py
+    - purpose: Runs FastTree on a given FASTA alignment file and produces a maximum-likelihood phylogenetic tree. Designed for fast exploratory tree generation prior to manual curation.
+
+    - inputs: ['aligned_sequences.fasta', 'thread_count']
+    - outputs: ['prefix.treefile']
+    - parameters: {'threads': {'type': 'integer', 'description': 'Number of OpenMP threads for FastTree.'}}
+    - logic: ['Detects amino acid alignment.', 'Runs FastTree with LG model and CAT approximation.', 'Produces SH-like support values.', 'Writes tree in Newick format.']
+    - dependencies: ['fasttree', 'bash']
+    - snakemake_interfaces: {'input': ['snakemake.input.database'], 'output': ['snakemake.output.outfile', 'snakemake.output.protein_ids'], 'params': ['snakemake.params.search_string', 'snakemake.params.rstring']}
+    - failure_modes: ['Exits if both search_string and rstring are provided.', 'Exits if neither search_string nor rstring is provided.', "Will fail if parquet schema lacks 'protein' or 'domains' columns."]
+    - performance_notes: ['Extremely fast for large datasets (thousands of sequences).', 'Lower accuracy than IQ-TREE but suitable for exploratory clustering.']
+    - stability: stable
+    - fasttree_pipeline.sh: None
+
+  phylogeny_pipeline.sh
+    - purpose: Full phylogenetic workflow wrapper. Typically performs alignment, trimming, model selection, and final ML tree inference using IQ-TREE 3.
+
+    - inputs: ['input_sequences.fasta', 'prefix', 'threads']
+    - outputs: ['prefix.treefile', 'prefix.log', 'alignment and intermediate files']
+    - workflow_steps: ['Multiple sequence alignment (MAFFT)', 'Alignment trimming (ClipKIT or TrimAl)', 'Model selection (IQ-TREE automatic model finder)', 'Maximum-likelihood tree inference']
+    - dependencies: ['mafft', 'clipkit or trimal', 'iqtree >= 3', 'bash']
+    - performance_notes: ['Much slower than FastTree but significantly more accurate.', 'Recommended for final publication-grade trees.']
+    - stability: stable
+
+  itol_upload.sh
+    - purpose: Uploads a tree and optional annotation datasets to iTOL using the official batch uploader API (CGI endpoint).
+
+    - inputs: ['treefile (Newick format)', 'project_name', 'tree_id_output_flag', 'optional annotation files']
+    - outputs: [{'flag file containing': ['iTOL tree ID', 'direct access URL']}]
+    - parameters: {'ITOL_API_KEY': {'type': 'environment_variable', 'description': 'API key stored securely as environment variable.'}}
+    - logic: ['Renames tree to valid extension (.tree).', 'Zips tree and annotation files.', 'Sends POST request to iTOL batch uploader.', 'Parses response for SUCCESS or ERR.', 'Writes tree ID and URL to output flag file.']
+    - dependencies: ['curl', 'zip', 'bash']
+    - failure_modes: ['Fails if ITOL_API_KEY is not set.', 'Fails if iTOL returns ERR response.', 'Fails if project name is invalid or case mismatch.']
+    - stability: stable
+
+  generate_colorstrip.py
+    - purpose: Generates an iTOL DATASET_COLORSTRIP annotation file based on FASTA headers. Automatically assigns distinct colors to protein groups extracted from headers.
+
+    - inputs: ['protein_set.fasta', 'legend_mode (e.g. header parsing strategy)']
+    - outputs: ['iTOL_colorstrip.txt']
+    - logic: ['Parses FASTA headers.', 'Removes locus_tag / protein IDs.', 'Extracts functional label from description.', 'Groups sequences by label.', 'Dynamically generates maximally separated colors.', 'Writes properly formatted DATASET_COLORSTRIP block.']
+    - dependencies: ['python >=3.9', 'biopython']
+    - performance_notes: ['Designed for exploratory annotation visualization.', 'Color assignment aims to maximize perceptual separation.']
+    - stability: experimental
+
+  get_fasta_csv_from_ids.py
+    - purpose: Filters a master FASTA and protein annotation CSV using a list of protein IDs. Optionally removes hypothetical proteins based on header annotation.
+
+    - inputs: ['req_proteins.ids', 'protein_file.csv', 'proteins_full.fasta']
+    - outputs: ['req_proteins.fasta', 'req_protein.csv']
+    - parameters: {'remove_hypotheticals': {'type': 'boolean', 'description': 'If true, sequences labeled as hypothetical proteins are excluded.'}}
+    - logic: ['Loads ID list into memory.', 'Filters FASTA by matching record.id.', 'Optionally removes sequences containing "hypothetical" in header.', 'Filters CSV using locus_tag column.', 'Writes filtered outputs.']
+    - dependencies: ['pandas', 'biopython']
+    - failure_modes: ['Exits if locus_tag column missing.', 'Exits if no protein IDs provided.']
+    - stability: stable
+
+  extract_proteins_from_cds_genomes.py
+    - purpose: Extracts protein sequences from genome CDS FASTA files and aggregates them into a combined protein FASTA with associated metadata summary.
+
+    - inputs: ['multiple genome CDS FASTA files']
+    - outputs: ['combined_proteins.faa', 'proteins_summary.csv']
+    - logic: ['Iterates through genome directories.', 'Parses CDS FASTA files.', 'Extracts protein sequences and metadata.', 'Writes combined FASTA and summary table.']
+    - dependencies: ['pandas', 'biopython']
+    - performance_notes: ['Suitable for moderate genome collections.', 'May require batching for very large datasets.']
+    - stability: experimental
+
+
+[cds_genomes]
+
+Genome directories follow NCBI/Prokka naming conventions:
+GCA_* or GCF_* assemblies and MAG bins.
+
+Each genome folder contains annotation outputs including:
+- Protein FASTA (.faa)
+- CDS nucleotide FASTA (.ffn)
+- Full genomic FASTA (.fna)
+- Annotation files (.gff, .gbk)
+- Submission and log files
+
+
+[collated]
+
+Version folders represent frozen database releases.
+Subfolders define filtering thresholds and derived datasets.
+
+
+[phylogeny]
+
+These files are required for reproducibility of
+evolutionary analyses.
+
+
+[templates]
+
+Files:
+  folder_metadata.txt
+    - description: contains a template yaml file for folder_metadata yamls
+
+
+

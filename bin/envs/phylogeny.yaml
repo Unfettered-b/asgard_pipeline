@@ -1,0 +1,12 @@
+name: asgard-phylogeny
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - mafft>=7.5
+  - clipkit>=1.3
+  - iqtree>=3.0
+  - fasttree>=2.1
+  - python>=3.10

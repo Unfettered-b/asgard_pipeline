@@ -12,6 +12,8 @@ pipeline: protein_pipeline
 # If omitted, timestamp will be used automatically
 run_id: ftsz_test_run
 
+base_dir: "/home/anirudh/asgard_pipeline"
+
 env_dir: "/home/anirudh/asgard_pipeline/bin/envs"
 
 log_dir: "/home/anirudh/asgard_pipeline/logs/pipeline_logs/" 
@@ -53,6 +55,18 @@ search_string: ftsz
 # Option 2 — regex search (leave null if not used)
 rstring: null
 
+
+###########################################################
+# phylogeny
+###########################################################
+
+
+phylogeny_threads: 12
+
+run_itol_upload: True
+itol_project: Asgard
+remove_hypotheticals: True
+default_annotation: "/home/anirudh/phylogeny/table2itol/ftsz_summary_feb12/iTOL_colorstrip-FtsZ_type.txt"
 
 ###########################################################
 # Notes

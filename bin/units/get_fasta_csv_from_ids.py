@@ -28,7 +28,7 @@ IDS_FILE = snakemake.input.protein_ids
 
 OUT_FASTA = snakemake.output.outfasta
 OUT_CSV = snakemake.output.protein_csv
-
+REMOVE_HYPOTHETICALS = snakemake.params.remove_hypotheticals
 
 # -------------------------------
 # Load Protein IDs
@@ -52,11 +52,26 @@ print(f"🔢 {len(protein_ids)} protein IDs loaded.")
 print("🧬 Filtering FASTA sequences...")
 
 matched_records = []
+skipped_hypotheticals = 0
 
 for record in SeqIO.parse(FASTA_FILE, "fasta"):
-    # record.id = first word of header (before whitespace)
-    if record.id in protein_ids:
-        matched_records.append(record)
+    if record.id not in protein_ids:
+        continue
+
+    header = record.description.lower()
+
+    if REMOVE_HYPOTHETICALS:
+        # Remove the ID from header
+        # record.description looks like:
+        # "ABC_001 hypothetical protein"
+        header_without_id = header.replace(record.id.lower(), "", 1).strip()
+
+        # Check if hypothetical
+        if "hypothetical" in header_without_id:
+            skipped_hypotheticals += 1
+            continue
+
+    matched_records.append(record)
 
 if not matched_records:
     print("⚠️ No matching FASTA records found.")
@@ -64,6 +79,8 @@ if not matched_records:
 SeqIO.write(matched_records, OUT_FASTA, "fasta")
 
 print(f"✅ FASTA written → {OUT_FASTA}")
+if REMOVE_HYPOTHETICALS:
+    print(f"🚫 Skipped {skipped_hypotheticals} hypothetical proteins.")
 
 
 # -------------------------------

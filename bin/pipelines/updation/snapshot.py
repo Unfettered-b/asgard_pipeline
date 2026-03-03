@@ -19,7 +19,8 @@ DEFAULT_EXCLUDES = {
     "__pycache__",
     ".mypy_cache",
     ".pytest_cache",
-    ".DS_Store"
+    ".DS_Store",
+    ".snakemake"
 }
 
 # ============================================================

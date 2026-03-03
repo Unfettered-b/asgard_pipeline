@@ -11,8 +11,7 @@ description: >
 content_type: pipelines
 curation_status: active
 owner: Anirudh
-version_tag: v1.4
-
+version_tag: v0.0.2
 
 # ----------------------------------------------------------
 # FILE-LEVEL DOCUMENTATION
