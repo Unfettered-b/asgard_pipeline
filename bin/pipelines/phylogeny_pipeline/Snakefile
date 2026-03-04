@@ -5,6 +5,8 @@
 from datetime import datetime
 import os
 import shutil
+import sys
+import glob
 
 # Expect config from CLI
 if not config:
@@ -27,16 +29,26 @@ os.makedirs(EXPLORATION_DIR, exist_ok=True)
 os.makedirs(PHYLO_DIR, exist_ok = True)
 
 # Include rule definitions
-include: "rules/parse_ips.smk"
+
+if config.get("parse_ips", False):
+    include: "rules/parse_ips.smk"
+elif config.get("hmmsearch", False):
+    include: "rules/hmmsearch.smk" # yet to be done
+elif config.get("from_manual", False):
+    include: "rules/from_manual.smk" # yet to be done
+else:
+    print("Must include atleast one mode of id extraction")
+    sys.exit()
+
+include: "rules/exploration.smk"
 
 ########################################
 # Final Target
 ########################################
-
 rule all:
     input:
         f"{RESULT_DIR}/REVIEW_DONE.flag",
-        f"{EXPLORATION_DIR}/{PROTEIN}_fast_itol_uploaded.flag",
+        f"{PHYLO_DIR}/{PROTEIN}_phylo.treefile",
         f"{RESULT_DIR}/{PROTEIN}_main_itol_uploaded.flag"
 
         
@@ -47,6 +59,7 @@ rule all:
 
 rule run_phylogeny:
     input:
+        flag = f"{RESULT_DIR}/REVIEW_DONE.flag", 
         fasta = f"{RESULT_DIR}/{PROTEIN}.rev.fasta"
     output:
         tree = f"{PHYLO_DIR}/{PROTEIN}_phylo.treefile"
@@ -72,22 +85,66 @@ rule run_phylogeny:
             {threads}
         """
 
+rule df_for_annotation:
+    input: 
+        fasta = f"{RESULT_DIR}/{PROTEIN}.rev.fasta", 
+        protein_csv = f"{EXPLORATION_DIR}/{PROTEIN}.unr.csv"
+    output:
+        annot_csv = f"{PHYLO_DIR}/{PROTEIN}.annot.csv"
+    conda:
+        f"{config['env_dir']}/Reg.yaml"
+    shell:
+        """
+        python {CURRENT_DIR}/bin/units/get_annotation_csv.py \
+                {input.fasta} \
+                {input.protein_csv} \
+                {output.annot_csv}        
+        
+        """
+
+rule table2itol:
+    input:
+        annot = f"{PHYLO_DIR}/{PROTEIN}.annot.csv"
+    output:
+        annotation_dir = directory(f"{PHYLO_DIR}/annotation"),    
+        done_annot = touch(f"{PHYLO_DIR}/annotation.done.flag")
+    conda:
+        f"{config['env_dir']}/bio-r.yaml"
+    shell:
+        """
+        mkdir -p {output.annotation_dir}
+
+        Rscript {CURRENT_DIR}/bin/units/table2itol.R \
+            -i locus_tag \
+            -l locus_tag \
+            -s "," \
+            -D {output.annotation_dir} \
+            {input.annot}
+        """
+
 
 rule upload_main_tree_to_itol:
     input:
         tree = f"{PHYLO_DIR}/{PROTEIN}_phylo.treefile",
+        done_annot = f"{PHYLO_DIR}/annotation.done.flag",
         colorstrip = f"{RESULT_DIR}/extraction_exploration/{PROTEIN}_colorstrip.txt",
-        default = lambda wildcards: config.get("default_annotation", "")
+        default = lambda wildcards: config.get("default_annotation", ""),
+        annotation_files = lambda wildcards: sorted(
+            glob.glob(f"{PHYLO_DIR}/annotation/*.txt")
+        )
     output:
         tree_ids = f"{RESULT_DIR}/{PROTEIN}_main_itol_uploaded.flag"
     params:
-        project = config.get("itol_project", "Asgard")
+        project = config.get("itol_project", "Asgard"),
+        tree_name = f"mafft_{config.get('run_id', 'run')}_{PROTEIN}"
     shell:
         """
         bash {CURRENT_DIR}/bin/units/itol_upload.sh \
             {input.tree} \
             {params.project} \
+            {params.tree_name} \
             {output.tree_ids} \
             {input.colorstrip} \
-            {input.default}
+            {input.default} \
+            {input.annotation_files:q}
         """

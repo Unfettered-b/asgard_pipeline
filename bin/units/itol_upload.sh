@@ -2,14 +2,15 @@
 set -euo pipefail
 
 if [ "$#" -lt 3 ]; then
-    echo "Usage: $0 <treefile> <project> <tree_id_outfile> [annotation_files...]"
+    echo "Usage: $0 <treefile> <project> <tree_name> <tree_id_outfile> [annotation_files...]"
     exit 1
 fi
 
 TREE=$1
 PROJECT=$2
-TREE_ID_OUTFILE=$3
-shift 3
+TREE_ID_OUTFILE=$4
+TREE_NAME=$3
+shift 4
 
 ANNOTATIONS=("$@")
 
@@ -26,8 +27,8 @@ if [ -z "${ITOL_API_KEY:-}" ]; then
 fi
 
 TMPDIR=$(mktemp -d)
-BASENAME=$(basename "$TREE" .treefile)
-TREE_RENAMED="${TMPDIR}/${BASENAME}.tree"
+TREE_RENAMED="${TMPDIR}/${TREE_NAME}.tree"
+BASENAME=$(basename "$TREE_RENAMED" .tree)
 ZIPFILE="${TMPDIR}/${BASENAME}.zip"
 
 # Copy and rename tree
@@ -59,22 +60,27 @@ echo "iTOL Response:"
 echo "$RESPONSE"
 echo "----------------------------------------------"
 
+if grep -q "SUCCESS" <<< "$RESPONSE"; then
 
-# Check result
-if [[ "$RESPONSE" == SUCCESS* ]]; then
-    TREE_ID=$(echo "$RESPONSE" | awk '{print $2}')
+    TREE_ID=$(echo "$RESPONSE" | grep -Eo '[0-9]{10,}' | head -n1)
+
+    if [[ -z "$TREE_ID" ]]; then
+        echo "❌ Upload reported SUCCESS but tree ID could not be extracted."
+        echo "$RESPONSE"
+        exit 1
+    fi
+
+    TREE_URL="https://itol.embl.de/tree/${TREE_ID}"
 
     echo "✅ Upload successful."
     echo "Tree ID: $TREE_ID"
-    echo "Access URL: https://itol.embl.de/tree/${TREE_ID}" 
+    echo "Access URL: $TREE_URL"
 
-    # Overwrite file with clean tree ID only
-    TREE_URL="https://itol.embl.de/tree/${TREE_ID}"
-    echo "$TREE_URL" > "$TREE_ID_OUTFILE"
+    printf "%s\n" "$TREE_URL" > "$TREE_ID_OUTFILE"
 
 else
     echo "❌ Upload failed."
-    rm -rf "$TMPDIR"
+    echo "$RESPONSE"
     exit 1
 fi
 

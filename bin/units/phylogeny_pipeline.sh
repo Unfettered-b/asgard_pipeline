@@ -38,7 +38,7 @@ echo "=============================================="
 
 echo "🧬 Running MAFFT alignment..."
 
-mafft --auto --thread "$THREADS" "$INPUT_FASTA" \
+mafft --retree 2 --maxiterate 2 --thread "$THREADS" "$INPUT_FASTA" \
     > "${PREFIX}.aligned.fasta"
 
 echo "✅ Alignment complete → ${PREFIX}.aligned.fasta"
@@ -51,7 +51,7 @@ echo "✅ Alignment complete → ${PREFIX}.aligned.fasta"
 echo "✂️ Running ClipKIT trimming..."
 
 clipkit "${PREFIX}.aligned.fasta" \
-    -m smart-gap \
+    -m kpic-smart-gap \
     -o "${PREFIX}.trimmed.fasta"
 
 echo "✅ Trimming complete → ${PREFIX}.trimmed.fasta"
@@ -64,10 +64,11 @@ echo "🌲 Running IQ-TREE3 (Model selection + ML tree)..."
 
 iqtree3 \
     -s "${PREFIX}.trimmed.fasta" \
-    -nt "$THREADS" \
-    -m MFP \
+    -T AUTO \
+    -m MFP+C10-C60 \
     -bb 1000 \
     -alrt 1000 \
+    -redo \
     -pre "${PREFIX}" \
     2>&1 | tee "${PREFIX}.iqtree_console.log"
     

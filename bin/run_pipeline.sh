@@ -124,6 +124,7 @@ snakemake \
   --conda-frontend mamba \
   2>&1 | tee -a "$LOG_FILE"
 
+
 # -------------------------------
 # Footer
 # -------------------------------
