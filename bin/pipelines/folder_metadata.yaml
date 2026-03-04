@@ -20,8 +20,8 @@ version_tag: v0.0.2
 files:
   updation: >
     contains scripts for updation of the database and version control
-  protein_pipeline: >
-    contains pipeline for protein subset extraction, phylogeny and structure prediction
+  phylogeny_pipeline: >
+    contains pipeline for protein subset extraction, and phylogeny
 
 
 

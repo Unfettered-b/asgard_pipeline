@@ -2,7 +2,7 @@
 # Pipeline Selection
 ###########################################################
 
-pipeline: protein_pipeline
+pipeline: phylogeny_pipeline
 
 
 ###########################################################
