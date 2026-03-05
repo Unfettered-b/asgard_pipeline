@@ -9,7 +9,7 @@ library(tidyverse)
 args <- commandArgs(trailingOnly = TRUE)
 
 if(length(args) < 5){
-  stop("Usage: Rscript copy_heatmap.R <csv> <tax_level> <genome_col> <protein_col> <outfile> --proteins <p1 p2 ...>")
+  stop("Usage: Rscript bubble_heat_map_presence_matrix.r <csv> <tax_level> <genome_col> <protein_col> <outfile> --proteins <p1 p2 ...>")
 }
 
 input_csv   <- args[1]

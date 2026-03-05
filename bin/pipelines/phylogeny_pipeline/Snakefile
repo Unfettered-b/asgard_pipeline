@@ -97,7 +97,7 @@ rule protein_copy_heatmap:
 
     shell:
         """
-        Rscript {CURRENT_DIR}/bin/units/bubble_heat_map_presence_matrix.r \
+        Rscript {CURRENT_DIR}/bin/units/bubble_heat_map_presence_table.r \
         {input.csv} \
         {wildcards.level} \
         genome_file \

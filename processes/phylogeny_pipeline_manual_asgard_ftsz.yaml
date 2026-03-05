@@ -11,7 +11,7 @@ pipeline: phylogeny_pipeline
 ###########################################################
 
 # Identifier for this run (timestamp used if omitted)
-run_id: asgard_ftsz
+run_id: asgard_ftsz_fur_heatmap_3
 
 # Base directory for the pipeline
 base_dir: "/home/anirudh/asgard_pipeline"
@@ -23,7 +23,7 @@ env_dir: "/home/anirudh/asgard_pipeline/bin/envs"
 log_dir: "/home/anirudh/asgard_pipeline/logs/pipeline_logs/"
 
 # Description or purpose of the run
-reason: "creating_phylogeny_of_loki_tubulin_like_proteins"
+reason: "to create the heatmap for the presence of ftsz and sepf proteins"
 
 # Number of CPU cores available for the workflow
 cores: 24
@@ -65,7 +65,7 @@ rstring: null
 from_manual: True
 taxon_level: phylum
 taxon_filter: Asgardarchaeota
-manual_annotation_filter: ['FtsZ1', 'FtsZ2']
+manual_annotation_filter: ['FtsZ1', 'FtsZ2', 'SepF', 'Tubulin']
 
 ###########################################################
 # HMMsearch mode
