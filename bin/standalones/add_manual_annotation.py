@@ -11,10 +11,7 @@ INPUT_TABLE = "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered
 
 # dictionary: annotation_name -> file containing protein ids
 annotation_files = {
-    "FtsZ1": "/home/anirudh/asgard_pipeline/database/protein_sets/protein_ids/FtsZ1.ids",
-    "FtsZ2": "/home/anirudh/asgard_pipeline/database/protein_sets/protein_ids/FtsZ2.ids",
-    "CetZ": "/home/anirudh/asgard_pipeline/database/protein_sets/protein_ids/CetZ.ids",
-    "Tubulin": "/home/anirudh/asgard_pipeline/database/protein_sets/protein_ids/Tubulin.ids",
+    "SepF" : "/home/anirudh/asgard_pipeline/database/protein_sets/protein_ids/SepF.ids"
 }
 
 # ============================================================

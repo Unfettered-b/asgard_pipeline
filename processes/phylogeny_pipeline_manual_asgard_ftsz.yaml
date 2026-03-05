@@ -11,7 +11,7 @@ pipeline: phylogeny_pipeline
 ###########################################################
 
 # Identifier for this run (timestamp used if omitted)
-run_id: loki_tubulin_homologs
+run_id: asgard_ftsz
 
 # Base directory for the pipeline
 base_dir: "/home/anirudh/asgard_pipeline"
@@ -63,9 +63,9 @@ rstring: null
 
 # Extract IDs from manual annotations
 from_manual: True
-taxon_level: class
-taxon_filter: Lokiarchaeia
-manual_annotation_filter: ['FtsZ1', 'FtsZ2', 'CetZ', 'Tubulin']
+taxon_level: phylum
+taxon_filter: Asgardarchaeota
+manual_annotation_filter: ['FtsZ1', 'FtsZ2']
 
 ###########################################################
 # HMMsearch mode
@@ -103,7 +103,7 @@ fasta_file: /home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85
 # Plotting
 ###########################################################
 
-
+# violin plot
 PLOT_Y_COLUMN: protein_length
 
 PLOT_FILTER_COLUMN: Manual_annotation
@@ -123,6 +123,18 @@ PLOT_TAXON_LEVELS:
   - class
   - order
 
+
+# presence matrix bubble plot
+
+PLOT_PROTEINS_PRESENCE:
+  - FtsZ1
+  - FtsZ2
+  - Tubulin
+  - SepF
+
+
+
+
 ###########################################################
 # Phylogeny Settings
 ###########################################################
@@ -131,13 +143,16 @@ PLOT_TAXON_LEVELS:
 phylogeny_threads: 12
 
 # Upload resulting tree to iTOL
-run_itol_upload: True
+run_itol_upload: false
 
 # iTOL project name
 itol_project: Asgard
 
 # Default iTOL annotation file
 default_annotation: "/home/anirudh/phylogeny/table2itol/ftsz_summary_feb12/iTOL_colorstrip-FtsZ_type.txt"
+
+
+
 
 
 ###########################################################

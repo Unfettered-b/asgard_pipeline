@@ -76,11 +76,20 @@ rule upload_to_itol:
 ########################################
 # Manual Review Gate
 ########################################
+
+REVIEW_GATE_INPUTS = [
+    f"{EXPLORATION_DIR}/{PROTEIN}.unr.fasta",
+    f"{EXPLORATION_DIR}/{PROTEIN}_unr_fasttree.treefile"
+]
+
+if config.get("run_itol_upload", False):
+    REVIEW_GATE_INPUTS.append(f"{EXPLORATION_DIR}/{PROTEIN}_fast_itol_uploaded.flag")
+
+
+
 rule review_gate:
     input:
-        flag = f"{EXPLORATION_DIR}/{PROTEIN}_fast_itol_uploaded.flag",
-        fasta = f"{EXPLORATION_DIR}/{PROTEIN}.unr.fasta",
-        tree = f"{EXPLORATION_DIR}/{PROTEIN}_unr_fasttree.treefile"
+        REVIEW_GATE_INPUTS
     output:
         rev_fasta = f"{RESULT_DIR}/{PROTEIN}.rev.fasta",
         marker = f"{RESULT_DIR}/REVIEW_DONE.flag"
@@ -92,8 +101,11 @@ rule review_gate:
             return
 
         print("\n🔍 MANUAL REVIEW REQUIRED\n")
-        print(f"Review FASTA: {input.fasta}")
-        print(f"Tree file: {input.tree}")
+        print(f"Review FASTA: {input[0]}")
+        print(f"Tree file: {input[1]}")
+
+        if len(input) > 2:
+            print(f"iTOL upload flag: {input[2]}")
         print(f"Save curated file as: {output.rev_fasta}")
         print(f"Then run: touch {output.marker}\n")
 

@@ -45,13 +45,105 @@ include: "rules/exploration.smk"
 ########################################
 # Final Target
 ########################################
+FINAL_TARGETS = [
+    f"{RESULT_DIR}/REVIEW_DONE.flag",
+    f"{PHYLO_DIR}/{PROTEIN}_phylo.treefile",
+]
+
+# optional iTOL upload
+if config.get("run_itol_upload", False):
+    FINAL_TARGETS.append(f"{RESULT_DIR}/{PROTEIN}_main_itol_uploaded.flag")
+
+# add plots
+FINAL_TARGETS.extend(
+    expand(
+        f"{EXPLORATION_DIR}/plots/{PROTEIN}/protein_length_vs_{{level}}.png",
+        level=config.get("PLOT_TAXON_LEVELS")
+    )
+)
+
+FINAL_TARGETS.extend(
+    expand(
+        f"{EXPLORATION_DIR}/plots/{PROTEIN}/copy_heatmap_{{level}}.png",
+        level=config.get("PLOT_TAXON_LEVELS")
+    )
+)
+
 rule all:
     input:
-        f"{RESULT_DIR}/REVIEW_DONE.flag",
-        f"{PHYLO_DIR}/{PROTEIN}_phylo.treefile",
-        f"{RESULT_DIR}/{PROTEIN}_main_itol_uploaded.flag"
+        FINAL_TARGETS
 
-        
+
+############################################
+# taxa plotting from unr.csv
+############################################
+
+
+rule protein_copy_heatmap:
+    input:
+        csv = f"{EXPLORATION_DIR}/{PROTEIN}.unr.csv"
+
+    output:
+        f"{EXPLORATION_DIR}/plots/{PROTEIN}/copy_heatmap_{{level}}.png"
+
+    params:
+        proteins = config.get("PLOT_PROTEINS_PRESENCE", ["FtsZ1","FtsZ2","CetZ","Tubulin"])
+
+    wildcard_constraints:
+        level="|".join(config.get("PLOT_TAXON_LEVELS", ["class"]))
+    
+    conda: 
+        f"{config['env_dir']}/bio-r.yaml"
+
+    shell:
+        """
+        Rscript {CURRENT_DIR}/bin/units/bubble_heat_map_presence_matrix.r \
+        {input.csv} \
+        {wildcards.level} \
+        genome_file \
+        Manual_annotation \
+        {output} \
+        --proteins {params.proteins:q}
+        """
+
+
+
+rule plot_taxa:
+    input:
+        csv = f"{EXPLORATION_DIR}/{PROTEIN}.unr.csv"
+
+    output:
+        f"{EXPLORATION_DIR}/plots/{PROTEIN}/protein_length_vs_{{level}}.png"
+
+    params:
+        y = config.get("PLOT_Y_COLUMN","protein_length"),
+        filter_col = config.get("PLOT_FILTER_COLUMN", "Manual_annotation"),
+        filter_vals = config.get("PLOT_FILTER_VALS", ['FtsZ1','FtsZ2','CetZ','Tubulin']),
+        dual_vals = config.get("PLOT_DUAL_PROTEINS", ['FtsZ1','FtsZ2']),
+        dual_arg = lambda wildcards: (
+            "--dual " + " ".join(config.get("PLOT_DUAL_PROTEINS", []))
+            if config.get("PLOT_DUAL_PROTEINS", [])
+            else ""
+        )
+    
+    conda: 
+        f"{config['env_dir']}/bio-r.yaml"
+
+
+    wildcard_constraints:
+        level="|".join(config.get("PLOT_TAXON_LEVELS", ["class"]))
+
+    shell:
+        """
+        Rscript {CURRENT_DIR}/bin/units/taxon_violin_plot.r \
+        {input.csv} \
+        {params.y} \
+        {wildcards.level} \
+        {output} \
+        --filter {params.filter_col} {params.filter_vals:q} \
+        {params.dual_arg}
+        """
+
 
 ############################################
 # Final Phylogeny (after manual review)
