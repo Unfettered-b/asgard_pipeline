@@ -27,7 +27,6 @@ if(length(proteins_idx) == 0){
 protein_list <- args[(proteins_idx + 1):length(args)]
 
 # Strip any surrounding shell quotes that Snakemake :q formatting may inject
-# e.g. 'SepF' -> SepF  or  "SepF" -> SepF
 protein_list <- gsub("^['\"]|['\"]$", "", protein_list)
 
 # -----------------------------
@@ -135,7 +134,6 @@ prop_df$protein <- factor(prop_df$protein, levels = protein_list)
 
 # -----------------------------
 # Identify proteins whose max proportion across ALL taxa < 0.05
-# These will be shown as genome-count text instead of a dot
 # -----------------------------
 
 rare_proteins <- prop_df %>%
@@ -147,14 +145,20 @@ rare_proteins <- prop_df %>%
 dot_df  <- prop_df %>% filter(!protein %in% rare_proteins)
 text_df <- prop_df %>%
   filter(protein %in% rare_proteins) %>%
-  # one representative row per taxon x protein
   filter(copy_level_plot == 1) %>%
   mutate(label = as.character(genomes_with_copy))
 
+# Split into filled dots (proportion > 0) and hollow circles (proportion == 0)
+dot_filled <- dot_df %>% filter(proportion > 0)
+dot_empty  <- dot_df %>% filter(proportion == 0) %>% filter(copy_level_plot == 1)
+
 # -----------------------------
-# Dot spacing: center copy-level dots symmetrically within each column.
-# Dots are spaced 0.3 data units apart, centered on the protein integer position.
+# Dot spacing: 0.3 units between copy levels, centered on protein position.
+# Column gap is widened by COL_PAD on each side via scale_x_continuous expand.
+# COL_PAD controls inter-column whitespace without affecting dot spacing.
 # -----------------------------
+
+DOT_STEP <- 0.2   # distance between copy-level dots (data units)
 
 max_copies_per_protein <- dot_df %>%
   group_by(protein) %>%
@@ -166,13 +170,10 @@ dot_df <- dot_df %>%
     x_offset = if_else(
       n_levels == 1,
       0,
-      (copy_level_plot - 1) * 0.3 - (n_levels - 1) * 0.3 / 2
+      (copy_level_plot - 1) * DOT_STEP - (n_levels - 1) * DOT_STEP / 2
     ),
     x_pos = as.numeric(protein) + x_offset
   )
-
-# Auto plot width: 1.5 in per protein column + 2.5 in for y-axis labels
-plot_width <- 2.5 + 1.5 * length(protein_list)
 
 # -----------------------------
 # Plot
@@ -180,23 +181,24 @@ plot_width <- 2.5 + 1.5 * length(protein_list)
 
 p <- ggplot(mapping = aes(y = taxon_label)) +
 
-  # --- dots for normal proteins ---
   geom_point(
-    data = dot_df,
-    aes(
-      x     = x_pos,
-      color = proportion
-    ),
+    data  = dot_empty,
+    aes(x = x_pos),
+    shape = 21,
+    size  = 3,
+    fill  = NA,
+    color = "grey70"
+  ) +
+
+  geom_point(
+    data = dot_filled,
+    aes(x = x_pos, color = proportion),
     size = 3
   ) +
 
-  # --- text counts for rare proteins ---
   geom_text(
     data = text_df,
-    aes(
-      x     = as.numeric(protein),
-      label = label
-    ),
+    aes(x = as.numeric(protein), label = label),
     size  = 3.5,
     color = "grey40"
   ) +
@@ -212,17 +214,18 @@ p <- ggplot(mapping = aes(y = taxon_label)) +
     position = "top",
     breaks   = seq_along(protein_list),
     labels   = protein_list,
-    expand   = expansion(add = 0.6)
+    limits   = c(0.5, length(protein_list) + 0.5),
+    expand   = expansion(add = 0.1)
   ) +
 
   theme_classic(base_size = 14) +
 
   theme(
-    axis.title   = element_blank(),
-    axis.text.x  = element_text(angle = 30, hjust = 0),
-    axis.line.x  = element_line(),
-    axis.line.y  = element_line(),
-    plot.margin  = margin(t = 10, r = 10, b = 10, l = 10, unit = "mm")
+    axis.title  = element_blank(),
+    axis.text.x = element_text(angle = 30, hjust = 0),
+    axis.line.x = element_line(),
+    axis.line.y = element_line(),
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 10, unit = "mm")
   ) +
 
   labs(
@@ -236,7 +239,8 @@ p <- ggplot(mapping = aes(y = taxon_label)) +
 
 dir.create(dirname(outfile), recursive = TRUE, showWarnings = FALSE)
 
-plot_height <- 2 + 0.5 * length(unique(prop_df$taxon_label))
+plot_width  <- 2.5 + 2.0 * length(protein_list)
+plot_height <- 2   + 0.5 * length(unique(prop_df$taxon_label))
 
 ggsave(outfile, p, width = plot_width, height = plot_height, dpi = 300)
 
