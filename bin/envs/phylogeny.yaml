@@ -10,3 +10,4 @@ dependencies:
   - iqtree>=3.0
   - fasttree>=2.1
   - python>=3.10
+  - famsa>=2.4

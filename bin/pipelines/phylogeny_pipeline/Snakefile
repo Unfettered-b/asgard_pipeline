@@ -14,6 +14,8 @@ if not config:
 
 PROTEIN = config["protein_name"]
 
+LOG = config['pipeline_log']
+
 TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 RUN_ID = config.get("run_id", TIMESTAMP)
 
@@ -48,6 +50,7 @@ include: "rules/exploration.smk"
 FINAL_TARGETS = [
     f"{RESULT_DIR}/REVIEW_DONE.flag",
     f"{PHYLO_DIR}/{PROTEIN}_phylo.treefile",
+    f"{RESULT_DIR}/phylogeny_pipeline.log"
 ]
 
 # optional iTOL upload
@@ -72,6 +75,16 @@ FINAL_TARGETS.extend(
 rule all:
     input:
         FINAL_TARGETS
+
+
+rule link_log_file:
+    output:
+        f"{RESULT_DIR}/phylogeny_pipeline.log"
+    params:
+        logfile = LOG
+    shell:
+        "ln -sf {params.logfile} {output}"
+
 
 
 ############################################

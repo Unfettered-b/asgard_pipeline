@@ -92,7 +92,7 @@ echo "Reason:"
 echo "$RUN_REASON"
 echo "=============================================="
 echo ""
-} > "$LOG_FILE"
+} >> "$LOG_FILE"
 
 
 {
@@ -117,6 +117,7 @@ echo ""
 snakemake \
   --snakefile "$SNAKEFILE" \
   --configfile "$CONFIG_FILE" \
+  --config pipeline_log="$LOG_FILE" \
   --use-conda \
   --cores "$CORES" \
   --printshellcmds \

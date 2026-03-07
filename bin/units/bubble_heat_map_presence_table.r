@@ -28,6 +28,7 @@ protein_list <- args[(proteins_idx + 1):length(args)]
 
 # Strip any surrounding shell quotes that Snakemake :q formatting may inject
 protein_list <- gsub("^['\"]|['\"]$", "", protein_list)
+protein_list <- trimws(protein_list)
 
 # -----------------------------
 # Load dataframe
@@ -36,7 +37,8 @@ protein_list <- gsub("^['\"]|['\"]$", "", protein_list)
 df <- read_csv(input_csv, show_col_types = FALSE)
 
 df <- df %>%
-  filter(.data[[protein_col]] %in% protein_list)
+  filter(.data[[protein_col]] %in% protein_list) %>%
+  filter(!is.na(.data[[tax_level]]))   # drop genomes with no taxonomic annotation at this level
 
 df[[protein_col]] <- factor(df[[protein_col]], levels = protein_list)
 
@@ -148,14 +150,8 @@ text_df <- prop_df %>%
   filter(copy_level_plot == 1) %>%
   mutate(label = as.character(genomes_with_copy))
 
-# Split into filled dots (proportion > 0) and hollow circles (proportion == 0)
-dot_filled <- dot_df %>% filter(proportion > 0)
-dot_empty  <- dot_df %>% filter(proportion == 0) %>% filter(copy_level_plot == 1)
-
 # -----------------------------
-# Dot spacing: 0.3 units between copy levels, centered on protein position.
-# Column gap is widened by COL_PAD on each side via scale_x_continuous expand.
-# COL_PAD controls inter-column whitespace without affecting dot spacing.
+# Dot spacing: 0.2 units between copy levels, centered on protein position.
 # -----------------------------
 
 DOT_STEP <- 0.2   # distance between copy-level dots (data units)
@@ -167,13 +163,21 @@ max_copies_per_protein <- dot_df %>%
 dot_df <- dot_df %>%
   left_join(max_copies_per_protein, by = "protein") %>%
   mutate(
+    # Use match() against the full protein_list so x position is always correct
+    # regardless of which proteins were filtered as rare
+    protein_idx = match(as.character(protein), protein_list),
     x_offset = if_else(
       n_levels == 1,
       0,
       (copy_level_plot - 1) * DOT_STEP - (n_levels - 1) * DOT_STEP / 2
     ),
-    x_pos = as.numeric(protein) + x_offset
+    x_pos = protein_idx + x_offset
   )
+
+# Split AFTER x_pos is computed
+dot_perfect  <- dot_df %>% filter(proportion == 1.0)
+dot_gradient <- dot_df %>% filter(proportion > 0 & proportion < 1.0)
+dot_empty    <- dot_df %>% filter(proportion == 0) %>% filter(copy_level_plot == 1)
 
 # -----------------------------
 # Plot
@@ -191,24 +195,37 @@ p <- ggplot(mapping = aes(y = taxon_label)) +
   ) +
 
   geom_point(
-    data = dot_filled,
+    data  = dot_gradient,
     aes(x = x_pos, color = proportion),
-    size = 3
+    size  = 3
+  ) +
+
+  geom_point(
+    data  = dot_perfect,
+    aes(x = x_pos),
+    shape = 21,
+    fill  = "#FF4D6D",   # same hue as gradient high end
+    color = "black",     # black outline marks it as perfect (1.0)
+    size  = 3,
+    stroke = 1.2
   ) +
 
   geom_text(
-    data = text_df,
-    aes(x = as.numeric(protein), label = label),
+    data = text_df %>% mutate(protein_idx = match(as.character(protein), protein_list)),
+    aes(x = protein_idx, label = label),
     size  = 3.5,
     color = "grey40"
   ) +
 
   scale_color_gradient(
     name   = "Genome proportion",
-    low    = "#00C9A7",
-    high   = "#FF4D6D",
-    limits = c(0, 1)
+    low    = "#00C9A7",   # teal  (low partial presence)
+    high   = "#FF4D6D",   # pink  (high partial presence)
+    limits = c(0, 1),
+    na.value = "grey80"
   ) +
+
+
 
   scale_x_continuous(
     position = "top",
@@ -230,7 +247,8 @@ p <- ggplot(mapping = aes(y = taxon_label)) +
 
   labs(
     title   = paste("Protein copy distribution across", tax_level),
-    caption = "Grey numbers = genome count (protein present in <5% of genomes)"
+    caption = str_wrap("Outlined dot = 100% of genomes | Gradient = partial presence | Open circle = absent | Grey numbers = count (<5% of genomes)", 
+              width = 80)
   )
 
 # -----------------------------

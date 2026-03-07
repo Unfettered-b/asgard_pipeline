@@ -1,0 +1,31 @@
+###########################################################
+# Pipeline
+###########################################################
+
+# Pipeline name to execute
+pipeline: synteny_pipeline
+
+
+run_id: tubulin_homologs_synteny
+
+
+# mode selection:
+from_existing_dir: True
+parent_dir: /home/anirudh/asgard_pipeline/database/protein_sets/ftsz/Asgard_tubulin_homologs
+
+
+
+
+gene_neighborhood_protein_sets:
+    - Tubulin
+    - FtsZ1
+    - FtsZ2
+    - CetZ
+
+synteny_plot_genomes:
+    - 
+
+
+
+nucleotide_window: 5000
+

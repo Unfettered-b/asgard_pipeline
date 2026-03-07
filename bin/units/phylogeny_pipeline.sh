@@ -32,16 +32,29 @@ echo "Threads: $THREADS"
 echo "Start Time: $(date)"
 echo "=============================================="
 
+# ############################################
+# # 1️⃣ Alignment (MAFFT)
+# ############################################
+
+# echo "🧬 Running MAFFT alignment..."
+
+# mafft --retree 2 --maxiterate 2 --thread "$THREADS" "$INPUT_FASTA" \
+#     > "${PREFIX}.aligned.fasta"
+
+# echo "✅ Alignment complete → ${PREFIX}.aligned.fasta"
+
 ############################################
-# 1️⃣ Alignment (MAFFT)
+# 1️⃣ Alignment (FAMSA2)
 ############################################
 
-echo "🧬 Running MAFFT alignment..."
+echo "🧬 Running FAMSA2 alignment..."
 
-mafft --retree 2 --maxiterate 2 --thread "$THREADS" "$INPUT_FASTA" \
-    > "${PREFIX}.aligned.fasta"
+famsa -t "$THREADS" \
+      "$INPUT_FASTA" \
+      "${PREFIX}.aligned.fasta"
 
 echo "✅ Alignment complete → ${PREFIX}.aligned.fasta"
+
 
 ############################################
 # 2️⃣ Trimming (ClipKIT)
