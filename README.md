@@ -1,227 +1,248 @@
-# 🧬 ASGARD Pipeline
+# Asgard Pipeline User Manual
 
-A modular, reproducible bioinformatics workflow framework built using **Snakemake**, designed for structured protein set extraction, curation, and downstream analysis.
+The **Asgard Pipeline** is a **Snakemake-based workflow** for
+downloading, organizing, and analyzing prokaryotic genomes, with a
+particular emphasis on **Asgard archaea**. The pipeline provides an
+integrated framework for:
 
----
+-   Genome download and database updates
+-   Genome annotation
+-   Protein database construction
+-   Protein exploration and functional annotation
+-   Phylogenetic inference
+-   Gene synteny analysis
 
-## 🚀 Overview
+A **Graphical User Interface (GUI)** is also available and is currently
+under active development.
 
-**ASGARD Pipeline** is a multi-pipeline framework where each biological workflow lives in its own modular directory while sharing:
+------------------------------------------------------------------------
 
-* A unified executor (`run_pipeline.sh`)
-* Config-driven execution
-* Structured logging
-* Conda-based reproducibility
-* Human-in-the-loop review gates
-* Clear separation between infrastructure and biological logic
+# Quick Start
 
-The system is designed to scale as more pipelines are added.
+``` bash
+# Clone the repository
+git clone https://github.com/Synthetic-Cell-Biology-Lab/asgard_pipeline.git
+cd asgard_pipeline
 
----
+# Create the conda environment
+conda env create -f bin/asgard.yaml
+conda activate asgard
 
-## 🏗 Repository Structure
+# Download required databases
+bash bin/download_database.sh
 
-```
-asgard_pipeline/
-│
-├── bin/
-│   ├── run_pipeline.sh
-│   ├── pipelines/
-│   │   ├── protein_pipeline/
-│   │   │   ├── Snakefile
-│   │   │   └── rules/
-│   │   └── ...
-│   └── envs/
-│
-├── processes/
-│   ├── protein_pipeline_IPS_ftsz.yaml
-│   └── ...
-│
-├── database/
-├── logs/
-└── README.md
-```
+# (Optional) Install GUI dependencies
+bash bin/GUI_setup.sh
 
-### Key Components
+# Download genomes
+snakemake --configfile processes/updation.yaml
 
-| Component         | Purpose                                        |
-| ----------------- | ---------------------------------------------- |
-| `run_pipeline.sh` | Unified executor for all pipelines             |
-| `pipelines/`      | Modular workflow definitions                   |
-| `processes/`      | Config files for individual runs               |
-| `envs/`           | Conda environment YAML files                   |
-| `logs/`           | Structured execution logs                      |
-| `.snakemake/`     | Auto-generated workflow state and environments |
-
----
-
-## ▶️ Running a Pipeline
-
-Pipelines are executed via:
-
-```bash
-bash bin/run_pipeline.sh processes/<config.yaml>
+# Run a BLAST search
+bash bin/run_blast.sh <query_name>
 ```
 
-The configuration file determines:
+> **Note:** Replace `<query_name>` with the name of your FASTA file
+> (without the `.fasta` extension).
 
-* Which pipeline to run
-* Input files
-* Target protein
-* Run ID
-* Log directory
-* Execution cores
+------------------------------------------------------------------------
 
----
+# Installation
 
-## 📄 Configuration File Structure
+## 1. Clone the Repository
+
+``` bash
+git clone https://github.com/Synthetic-Cell-Biology-Lab/asgard_pipeline.git
+cd asgard_pipeline
+```
+
+## 2. Install Conda
+
+Install any Conda distribution (Miniforge, Miniconda, or Anaconda).
+
+Official documentation:
+
+https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
+
+## 3. Create the Environment
+
+``` bash
+conda env create -f bin/asgard.yaml
+conda activate asgard
+```
+
+## 4. Download Required Databases
+
+Run:
+
+``` bash
+bash bin/download_database.sh
+```
+
+This downloads and initializes the required databases:
+
+-   Bakta
+-   InterProScan
+-   CheckM2
+-   GTDB-Tk
+
+> **Note:** The database download script is under active development.
+> Future versions will automatically generate configuration files and
+> populate paths.
+
+------------------------------------------------------------------------
+
+# Optional: Graphical User Interface
+
+Install GUI dependencies:
+
+``` bash
+bash bin/GUI_setup.sh
+```
+
+Launch the GUI:
+
+``` bash
+bash bin/run_gui.sh
+```
+
+------------------------------------------------------------------------
+
+# Downloading Genome Databases
+
+All genome download settings are configured in:
+
+``` text
+processes/updation.yaml
+```
+
+## Download by Organism Name
+
+Example configuration:
+
+``` yaml
+organisms:
+  - name: "promethearchaeati"
+    assembly_level:
+    refseq_only: false
+```
+
+### Parameters
+
+  -----------------------------------------------------------------------
+  Parameter                        Description
+  -------------------------------- --------------------------------------
+  `name`                           Organism name exactly as listed in the
+                                   NCBI Datasets database.
+
+  `assembly_level`                 Restrict downloads to specific
+                                   assembly levels. Leave blank to
+                                   download all available assemblies.
+
+  `refseq_only`                    Download only RefSeq assemblies if set
+                                   to `true`.
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## Updating an Existing Database
+
+To update an existing local genome collection:
+
+``` yaml
+cds:
+  bakta_db: "/path/to/bakta/db"
+  existing: "/path/to/existing/cds_genomes"
+```
+
+The pipeline downloads only genomes that are not already present.
+
+------------------------------------------------------------------------
+
+## Download by Accession
 
 Example:
 
-```yaml
-pipeline: protein_pipeline
-protein_name: ftsz
-run_id: ftsz_test_run
+``` yaml
+manual_genomes:
+  hc1:
+    - accession: GCA_055385335.1
 
-log_dir: logs/
-cores: 24
-
-database: path/to/interpro.parquet
-protein_file: path/to/protein.csv
-fasta_file: path/to/all_sequences.fasta
-
-search_string: ftsz
-rstring: null
+  sc1:
+    - accession: my_custom_mag_01
+      path: /data/manual/my_mag.fna
 ```
 
-### Important Notes
+Supported inputs:
 
-* Exactly one of `search_string` or `rstring` must be set.
-* `run_id` determines log continuity across reruns.
-* If `run_id` is unchanged, logs append to the same file.
+-   NCBI GCA accession
+-   Local genome FASTA
+-   Custom accession identifier
 
----
+------------------------------------------------------------------------
 
-## 📜 Logging System
+## Output
 
-Each run generates a structured log:
+The update workflow produces a collated genome database under:
 
-```
-<log_dir>/<pipeline>_<protein>_<run_id>.log
-```
-
-The log contains:
-
-* Run metadata
-* Config snapshot
-* Execution timestamps
-* Full Snakemake output
-* Rule-level execution details
-
-If a pipeline includes manual checkpoints, rerunning with the same `run_id` appends to the same log.
-
----
-
-## 🧪 Conda Environments
-
-* Managed automatically via `--use-conda`
-* Stored under `.snakemake/conda/`
-* Hash-based isolation ensures reproducibility
-* Uses modern Conda solver (libmamba backend)
-
-Environments are recreated only if:
-
-* The YAML changes
-* Dependencies change
-* Channels change
-
----
-
-## 🔍 Manual Review Gates
-
-Some pipelines implement human-in-the-loop review steps.
-
-Typical behavior:
-
-1. Pipeline generates `.unr.fasta`
-2. Execution pauses
-3. User manually curates file
-4. Save curated file as `.rev.fasta`
-5. Create marker:
-
-```bash
-touch REVIEW_DONE.flag
+``` text
+database/collated/
 ```
 
-6. Re-run pipeline to continue
+This serves as the input for downstream analyses.
 
-This ensures controlled biological validation.
+------------------------------------------------------------------------
 
----
+# Running BLAST
 
-## 🛡 Design Principles
+1.  Place your query FASTA file inside:
 
-* Modular workflow separation
-* Config-driven execution
-* File-state driven logic
-* Reproducible environments
-* Structured logging
-* Human validation checkpoints
-* Scalable pipeline architecture
+``` text
+database/blast/queries/
+```
 
----
+Example:
+
+``` text
+database/blast/queries/ftsz.fasta
+```
+
+2.  Run:
+
+``` bash
+bash bin/run_blast.sh ftsz
+```
+
+where `ftsz` is the filename without the `.fasta` extension.
+
+------------------------------------------------------------------------
+
+# Running Pipelines
 
 
-## 🗺 Snakemake Workspace Roadmap
+------------------------------------------------------------------------
 
-A full architecture and phased implementation plan for the FastAPI + React workspace system is now documented in:
+# Project Structure
 
-- `docs/snakemake_workspace_architecture.md`
+``` text
+asgard_pipeline/
+├── bin/
+├── database/
+    ├── blast/
+        ├── queries/
+        └── results/
+├── processes/
+├── workflow/
+└── README.md
+```
 
-This roadmap defines the development order, API evolution, preview strategy, run model, and long-term product framing for evolving ASGARD into a computational biology workspace.
+------------------------------------------------------------------------
 
----
-## 📈 Future Extensions
+# Notes
 
-Planned expansions may include:
-
-* Alignment pipelines
-* Phylogeny pipelines
-* Annotation workflows
-* Automated report generation
-* Cluster/HPC profile integration
-* Config schema validation
-* Pipeline registry system
-
----
-
-## 🧠 Philosophy
-
-ASGARD Pipeline is designed not just to run workflows, but to:
-
-* Ensure reproducibility
-* Enforce structured execution
-* Maintain traceability
-* Enable clean expansion
-* Support research-grade bioinformatics
-
----
-
-## 📌 Pipeline-Specific Documentation
-
-Each pipeline should contain its own `README.md` describing:
-
-* Biological objective
-* Input/output structure
-* Special rules
-* Manual steps
-* Required config parameters
-
-This keeps infrastructure documentation separate from biological workflow documentation.
-
----
-
-## 🏁 Summary
-
-ASGARD Pipeline provides a structured, extensible, and reproducible framework for bioinformatics workflows, designed for long-term maintainability and scalability.
-
+-   All pipeline parameters are controlled through YAML configuration
+    files.
+-   Activate the Conda environment before running workflows.
+-   Database downloads only need to be performed once unless updates are
+    required.
+-   The GUI is optional; every workflow can also be executed from the
+    command line.
