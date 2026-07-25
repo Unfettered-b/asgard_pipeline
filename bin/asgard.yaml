@@ -1,0 +1,14 @@
+name: asgard
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11
+  - fastapi
+  - uvicorn
+  - pyyaml
+  - python-multipart
+  - snakemake
+  - pandas
+  - blast

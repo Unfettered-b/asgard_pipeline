@@ -25,7 +25,6 @@ cds:
   existing: "/home/anirudh/asgard_pipeline/database/cds_genomes"
 organisms:
   - name: "promethearchaeati"
-    class: Asgardarchaeota
     assembly_level: 
     refseq_only: false
 deduplication:
