@@ -218,6 +218,21 @@ where `ftsz` is the filename without the `.fasta` extension.
 
 # Running Pipelines
 
+All the pipelines present in the Asgard pipeline are stored in 
+
+```text
+bin/pipelines
+
+```
+To run a pipeline, make appropriate config files and use 
+
+```text
+
+bash bin/run_pipeline.sh processes/{configfile}.yaml
+
+```
+
+
 
 ------------------------------------------------------------------------
 
