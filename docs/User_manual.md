@@ -232,6 +232,28 @@ bash bin/run_pipeline.sh processes/{configfile}.yaml
 
 ```
 
+------------------------------------------------------------------------
+
+# Single Genome Interproscan
+
+go to 
+```txt
+bin/standalones/run_one_ips.sh
+```
+
+edit the genome parameter to the genome file and its path
+
+and run the script as such
+
+```bash
+bash bin/standalones/run_one_ips.sh
+```
+
+The outputs are stored in 
+
+```txt
+database/cds_genomes/{organism}/{genome}/
+```
 
 
 ------------------------------------------------------------------------

@@ -131,7 +131,7 @@ rule all:
         expand(f"{RUN_DIR}/gtdbtk/{{org}}/gtdbtk_done.flag",        org=ORGS),
         expand(f"{RUN_DIR}/gtdbtk/{{org}}_taxa_count.svg",          org=ORGS),
         expand(f"{RUN_DIR}/interproscan/{{org}}/ips_done.flag",     org=ORGS),
-        expand(f"{config['inputs']["out_fasta"]}_{{org}}.faa" ,org = ORGS),
+        expand(f"{config['inputs']['out_fasta']}_{{org}}.faa" ,org = ORGS),
         expand(f"{config['inputs']['out_genome_csv']}_{{org}}.csv", org = ORGS),
         expand(f"{config['inputs']['out_protein_csv']}_{{org}}.csv", org = ORGS),
         # NEW: master tables + manually-added genomes are always in scope
@@ -415,19 +415,20 @@ rule checkm2:
         flag        = f"{RUN_DIR}/{{org}}/done.flag",
         genomes_dir = f"{RUN_DIR}/{{org}}/genomes"
     output:
-        outdir         = directory(f"{RUN_DIR}/checkm2/{{org}}"),
         checkm2_flag   = f"{RUN_DIR}/checkm2/{{org}}/checkm2_done.flag",
         quality_report = f"{RUN_DIR}/checkm2/{{org}}/quality_report.tsv"
     threads: 16
     params:
-        db = config["checkm2"]["db_path"]
+        db = config["checkm2"]["db_path"],
+        outdir         =f"{RUN_DIR}/checkm2/{{org}}",
+
     conda:
         f"{config['run'].get('env_dir')}/checkm2.yaml"
     shell:
         """
         checkm2 predict \
             --input {input.genomes_dir} \
-            --output-directory {output.outdir} \
+            --output-directory {params.outdir} \
             --database_path {params.db} \
             --extension fna \
             --threads {threads} \
@@ -776,7 +777,7 @@ rule collate_proteins:
     input:
         filtered_faa_for_org
     output:
-        out_fasta=f"{config['inputs']["out_fasta"]}_{{org}}.faa"
+        out_fasta=f"{config['inputs']['out_fasta']}_{{org}}.faa"
     shell:
         """
         cat {input} > {output.out_fasta}
@@ -796,8 +797,8 @@ rule make_genome_csv:
         checkm2  = f"{MASTER_DIR}/checkm2_quality_report.tsv",
         taxonomy = f"{MASTER_DIR}/gtdbtk_classification.ar53.csv"
     output:
-        filtered=f"{config['inputs']["out_genome_csv"]}_{{org}}.csv",
-        unfiltered=f"{config['inputs']["out_genome_csv_unfiltered"]}_{{org}}.csv"
+        filtered=f"{config['inputs']['out_genome_csv']}_{{org}}.csv",
+        unfiltered=f"{config['inputs']['out_genome_csv_unfiltered']}_{{org}}.csv"
     params:
         completeness=config["checkm2"]["Completeness"],
         contamination=config["checkm2"]["Contamination"]
@@ -876,7 +877,7 @@ rule make_protein_csv:
         genomes = filtered_tsv_for_org,
         done_flag = f"{RUN_DIR}/interproscan/{{org}}/ips_done.flag"
     output:
-        f"{config['inputs']["out_protein_csv"]}_{{org}}.csv"
+        f"{config['inputs']['out_protein_csv']}_{{org}}.csv"
     run:
         import pandas as pd
 

@@ -170,12 +170,6 @@ echo ""
 # Conda setup
 # -------------------------------
 
-source /root/miniconda3/etc/profile.d/conda.sh
-
-export CONDA_EXE="/root/miniconda3/bin/conda"
-export PATH="/root/miniconda3/condabin:$PATH"
-
-conda activate asgard
 
 # -------------------------------
 # Generate DAG
