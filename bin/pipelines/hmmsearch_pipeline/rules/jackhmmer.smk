@@ -12,9 +12,11 @@ JACKHMMER_DIR=f"{RESULT_DIR}/jackhmmer"
 
 rule all:
    input:
-      f"{JACKHMMER_DIR}/{RUN_ID}.hmmprofile.hmm",
-      f"{JACKHMMER_DIR}/{RUN_ID}_hits.txt"
-#download fasta from uniprot
+      f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm",
+      f"{JACKHMMER_DIR}/{RUN_ID}_hits.txt",
+      f"{JACKHMMER_DIR}/{RUN_ID}.hmm.h3m"
+
+#download protein file 
 
 
 rule download_proteinfile:
@@ -42,7 +44,6 @@ rule jackhmmer:
       evalue_cutoff=config["inputs"]["jackhmmer"]["params"]["evalue_cutoff"],
       incE=config["inputs"]["jackhmmer"]["params"]["incE"]
 
-
    shell:
       """
       jackhmmer -A {output.alignment_file} -N {params.num_iterations} -E {params.evalue_cutoff} -o {output.output_hits} {input.file} {input.database}
@@ -55,12 +56,22 @@ rule make_hmmerdb:
       alignment_file  = f"{JACKHMMER_DIR}/{RUN_ID}.aln.sto"                        
       
    output:
-      hmm_file= f"{JACKHMMER_DIR}/{RUN_ID}.hmmprofile.hmm"                 
-      
-   #build hmmprofile
+      hmm_file= f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"              
+
    shell:
       """  
-      hmmbuild {output.hmm_file} {input.alignment_file}            
-      
+      hmmbuild {output.hmm_file} {input.alignment_file}   
       """
+   
+rule press:
+    input:
+        f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
+    output:
+        f"{JACKHMMER_DIR}/{RUN_ID}.hmm.h3m"
+    shell:
+        """
+        hmmpress {input}
+        """
+
+
 

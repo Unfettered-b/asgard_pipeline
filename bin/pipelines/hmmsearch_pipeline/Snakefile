@@ -19,7 +19,7 @@ BASE_DIR = os.getcwd()
 PROJECT_NAME = config['run']['protein_name']
 CURRENT_DIR = config.get("run", {}).get('base_dir', workflow.basedir)
 RESULT_DIR = Path(f"{BASE_DIR}/database/protein_sets/{PROJECT_NAME}/{RUN_ID}")
-
+JACKHMMER_DIR=f"{RESULT_DIR}/jackhmmer"
 RESULT_DIR = RESULT_DIR /"hmmsearch"
 
 PFAM_DB = config["inputs"]["pfam"]["hmm_db"]
@@ -36,10 +36,13 @@ PFAM_IDS_FILE = f"{RESULT_DIR}/pfam_ids.txt"
 ASCOG_IDS_FILE =  f"{RESULT_DIR}/ascog_ids.txt"
 MAPPING_FILE = f"{RESULT_DIR}/pfam_mapping.tsv"
 
+inclue: "bin/pipelines/hmmsearch_pipeline/rules/jackhmmer.smk"
+
 FINAL_TARGETS = [
         FINAL_CSV,
         PFAM_IDS_FILE,
-        f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta"
+        f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta",
+        f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
 ]
 
 if config.get("Run_full", False):
@@ -53,7 +56,21 @@ rule all:
         FINAL_TARGETS
 
 
+mode = config["inputs"]["mode"]["input"]
 
+if mode == "pfam":
+    hmm_file = rules.extract_hmms.output
+
+elif mode == "manual":
+    hmm_file = rules.make_hmm_frm_msa.output
+
+elif mode == "jackhmmer":
+    hmm_file = f"{JACKHMMER_DIR}/{RUN_ID}.hmm"
+
+else:
+    raise ValueError(
+        f"Unknown mode '{mode}'"
+    )
 # -------------------------------
 # Download Pfam DB (if missing)
 # -------------------------------
@@ -193,8 +210,8 @@ rule make_cog_hmms:
     output:
         directory(f"{RESULT_DIR}/temp/{RUN_ID}/"),
         f"{RESULT_DIR}/temp/{RUN_ID}.done"
-    conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+    #conda:
+        #f"{config["run"]['env_dir']}/hmmer.yaml"
     shell:
         r"""
         mkdir -p {output[0]}
@@ -212,7 +229,6 @@ rule make_cog_hmms:
             if [[ -z "$gene" || "$gene" == "-" ]]; then
                 gene="$ascog"
             fi
-
             hmm_out="{output[0]}/${{ascog}}.hmm"
 
             hmmbuild -n "$gene" "$hmm_out" "$afa"
@@ -268,29 +284,32 @@ rule extract_hmms:
         """
 
 
+rule make_hmm_frm_msa:  #make hmm profile from the input msa
+    input:
+        config["inputs"]["manual"]["msa"]
+    output:
+        f"{RESULT_DIR}/hmms/{RUN_ID}.hmm"
+    
+    shell:
+        """
+        mkdir -p {RESULT_DIR}/hmms
+        hmmbuild {output} {input}
+
+        """ 
+
 
 # -------------------------------
 # Press combined HMM
 # -------------------------------
-rule press_combined:
-    input:
-        f"{RESULT_DIR}/hmms/{RUN_ID}.hmm"
-    output:
-        f"{RESULT_DIR}/hmms/{RUN_ID}.hmm.h3m"
-    conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
-    shell:
-        """
-        hmmpress {input}
-        """
 
 # -------------------------------
 # Run hmmsearch
 # -------------------------------
 rule hmmsearch:
     input:
-        hmm=f"{RESULT_DIR}/hmms/{RUN_ID}.hmm",
+        hmm=hmm_file,
         db=DB
+
     output:
         f"{RESULT_DIR}/domtblout/{RUN_ID}.domtblout"
     threads: CPUS
@@ -298,11 +317,12 @@ rule hmmsearch:
         f"{config["run"]['env_dir']}/hmmer.yaml"
     shell:
         """
-        mkdir -p {RESULT_DIR}/domtblout
-        hmmsearch --cpu {threads} \
-            --domE {EVALUE} \
-            --domtblout {output} \
-            {input.hmm} {input.db}
+            mkdir -p {RESULT_DIR}/domtblout
+            hmmsearch --cpu {threads} \
+                --domE {EVALUE} \
+                --domtblout {output} \
+                {input.hmm} {input.db}
+        
         """
 
 # -------------------------------
@@ -447,8 +467,6 @@ rule generate_pdf_report:
         seq_dir = f"{RESULT_DIR}/sequences"
     output:
         f"{RESULT_DIR}/report/sequence_report_{RUN_ID}.pdf"
-    conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
     shell:
         """
         mkdir -p {RESULT_DIR}/report
