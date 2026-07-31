@@ -40,7 +40,7 @@ inputs:
     gbff: "{base_dir}/database/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
     AsCOGs: "{base_dir}/database/database/COG/AsCOGs/ali.8/"
     ascogs_tsv: "{base_dir}/database/database/COG/AsCOGs/asCOGs.2020-10.def.tab"
-    uniprot_db: "{base_dir}/database/uniprot/uniprot_sprot.fasta"
+    uniprot_db: "{base_dir}/database/uniprot_sprot.fasta"
 
 params:
   get_flanks: false

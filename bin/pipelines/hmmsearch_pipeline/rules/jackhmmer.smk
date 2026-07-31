@@ -16,7 +16,7 @@ rule all:
    input:
       f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm",
       f"{JACKHMMER_DIR}/{RUN_ID}_hits.txt",
-      f"{JACKHMMER_DIR}/{RUN_ID}.hmm.h3m"
+      f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm.h3m"
 
 #download protein file 
 
@@ -70,7 +70,7 @@ rule press:
     input:
         f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
     output:
-        f"{JACKHMMER_DIR}/{RUN_ID}.hmm.h3m"
+        f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm.h3m"
     shell:
         """
         hmmpress {input}
