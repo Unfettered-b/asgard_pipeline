@@ -1,5 +1,7 @@
 from pathlib import Path
 
+BASE_DIR = config["run"]["base_dir"]
+
 
 RUN_ID= config["run"]["id"]
 BASE_DIR = os.getcwd()
@@ -34,7 +36,8 @@ rule download_proteinfile:
 rule jackhmmer:
    input:
       file= f"{JACKHMMER_DIR}/{RUN_ID}.fasta",         
-      database=config["inputs"]["database"]["uniprot_db"]
+      database=config["inputs"]["database"]["uniprot_db"].format(base_dir=BASE_DIR)
+
    output:
       output_hits = f"{JACKHMMER_DIR}/{RUN_ID}_hits.txt",              #hits from jackhmmer
       alignment_file= f"{JACKHMMER_DIR}/{RUN_ID}.aln.sto"              #alignment file

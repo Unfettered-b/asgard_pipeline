@@ -1,11 +1,12 @@
 ---
 run:
+  
   pipeline: hmmsearch_pipeline
-  id: actin_run3
+  id: actin_run5
   protein_name: actin
-  base_dir: "/home/bhatn/asgard_pipeline"
-  env_dir: "/home/bhatn/asgard_pipeline/bin/envs"
-  log_dir: "/home/bhatn/asgard_pipeline/logs/pipeline_logs/"
+  base_dir: "/home/bhatn/syn_cell_bio/asgard_pipeline"
+  env_dir: "{base_dir}/bin/envs"
+  log_dir: "{base_dir}/logs/pipeline_logs/"
   reason: to extract proteins using hmm for ESCRTIII proteins in asgard
   cores: 24
 
@@ -17,7 +18,7 @@ inputs:
     input: "jackhmmer"    #manual | jackhmmer | pfam
 
   pfam:
-    hmm_db: "/home/bhatn/asgard_pipeline/database/pfam/Pfam-A.hmm"
+    hmm_db: "{base_dir}/database/pfam/Pfam-A.hmm"
     names:
     ids:
      - PF01541
@@ -34,12 +35,12 @@ inputs:
       iterations: 3
 
   database:
-    fasta: "/home/bhatn/syn_cell_bio/asgard_pipeline/database/collated/Version1/v1_cp85_con10.fasta"
-    fna: "/home/bhatn/asgard_pipeline/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.fna"
-    gbff: "/home/bhatn/asgard_pipeline/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
-    AsCOGs: "/home/bhatn/asgard_pipeline/database/COG/AsCOGs/ali.8/"
-    ascogs_tsv: "/home/bhatn/asgard_pipeline/database/COG/AsCOGs/asCOGs.2020-10.def.tab"
-    uniprot_db: "/home/bhatn/syn_cell_bio/uniprot/uniprot_sprot.fasta"
+    fasta: "{base_dir}/database/collated/Version1/v1_cp85_con10.fasta"
+    fna: "{base_dir}/database/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.fna"
+    gbff: "{base_dir}/database/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
+    AsCOGs: "{base_dir}/database/database/COG/AsCOGs/ali.8/"
+    ascogs_tsv: "{base_dir}/database/database/COG/AsCOGs/asCOGs.2020-10.def.tab"
+    uniprot_db: "{base_dir}/database/uniprot/uniprot_sprot.fasta"
 
 params:
   get_flanks: false
