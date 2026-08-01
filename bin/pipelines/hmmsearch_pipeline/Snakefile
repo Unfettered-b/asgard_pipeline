@@ -15,18 +15,18 @@ if not config:
 TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 RUN_ID = config.get("run").get("id", TIMESTAMP)
 
-BASE_DIR = os.getcwd()
+BASE_DIR = config["run"]["base_dir"]
 PROJECT_NAME = config['run']['protein_name']
 CURRENT_DIR = config.get("run", {}).get('base_dir', workflow.basedir)
 RESULT_DIR = Path(f"{BASE_DIR}/database/protein_sets/{PROJECT_NAME}/{RUN_ID}")
 JACKHMMER_DIR=f"{RESULT_DIR}/jackhmmer"
 RESULT_DIR = RESULT_DIR /"hmmsearch"
 
-PFAM_DB = config["inputs"]["pfam"]["hmm_db"]
+PFAM_DB = config["inputs"]["pfam"]["hmm_db"].format(base_dir=BASE_DIR)
 PFAM_NAMES = config["inputs"]["pfam"]["names"]
-DB = config["inputs"]["database"]["fasta"]
-ASCOGS = config["inputs"]["database"]["AsCOGs"]
-ASCOGS_TSV = config["inputs"]['database']['ascogs_tsv']
+DB = config["inputs"]["database"]["fasta"].format(base_dir=BASE_DIR)
+ASCOGS = config["inputs"]["database"]["AsCOGs"].format(base_dir=BASE_DIR)
+ASCOGS_TSV = config["inputs"]['database']['ascogs_tsv'].format(base_dir=BASE_DIR)
 
 EVALUE = config["params"]["evalue"]
 CPUS = config["params"]["cpus"]
@@ -38,16 +38,33 @@ MAPPING_FILE = f"{RESULT_DIR}/pfam_mapping.tsv"
 
 inclue: "bin/pipelines/hmmsearch_pipeline/rules/jackhmmer.smk"
 
-FINAL_TARGETS = [
-        FINAL_CSV,
-        PFAM_IDS_FILE,
+
+mode = config["inputs"]["mode"]["input"]
+
+if mode == "jackhmmer" or "manual":
+    FINAL_TARGETS = [
         f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta",
         f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
-]
+    ]
+    
+elif mode == "pfam":
+    FINAL_TARGETS = [
+        f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta",
+        f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm",
+        PFAM_IDS
+    ]
 
-if config.get("Run_full", False):
-    FINAL_TARGETS.append(f"{RESULT_DIR}/sequences"),
-    FINAL_TARGETS.append(f"{RESULT_DIR}/report/sequence_report_{RUN_ID}.pdf")
+
+#FINAL_TARGETS = [
+ #       FINAL_CSV,
+  #      PFAM_IDS_FILE,
+   #     f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta",
+    #    f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
+     # ]
+
+#if config.get("Run_full", False):
+ #   FINAL_TARGETS.append(f"{RESULT_DIR}/sequences"),
+  #  FINAL_TARGETS.append(f"{RESULT_DIR}/report/sequence_report_{RUN_ID}.pdf")
 # -------------------------------
 # FINAL TARGET
 # -------------------------------
@@ -56,8 +73,6 @@ rule all:
         FINAL_TARGETS
 
 
-mode = config["inputs"]["mode"]["input"]
-
 if mode == "pfam":
     hmm_file = rules.extract_hmms.output
 
@@ -65,7 +80,7 @@ elif mode == "manual":
     hmm_file = rules.make_hmm_frm_msa.output
 
 elif mode == "jackhmmer":
-    hmm_file = f"{JACKHMMER_DIR}/{RUN_ID}.hmm"
+    hmm_file = f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
 
 else:
     raise ValueError(
@@ -78,7 +93,7 @@ rule download_pfam:
     output:
         PFAM_DB
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{config["run"]['env_dir']}/Reg.yaml".format(base_dir=BASE_DIR)
     shell:
         """
         mkdir -p $(dirname {output})
@@ -95,7 +110,7 @@ rule press_pfam:
     output:
         PFAM_DB + ".h3m"
     conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{config["run"]['env_dir']}/hmmer.yaml".format(base_dir=BASE_DIR)
     shell:
         """
         hmmpress {input}
@@ -110,7 +125,7 @@ rule build_pfam_mapping:
     output:
         MAPPING_FILE
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{config["run"]['env_dir']}/Reg.yaml".format(base_dir=BASE_DIR)
     shell:
         """
         mkdir -p {RESULT_DIR}
@@ -132,7 +147,7 @@ rule resolve_pfam_ids:
         names=config["inputs"]["pfam"].get("names", []),
         ids=config["inputs"]["pfam"].get("ids", [])
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{config["run"]['env_dir']}/Reg.yaml".format(base_dir=BASE_DIR)
     run:
         import pandas as pd
 
@@ -261,7 +276,7 @@ rule extract_hmms:
     output:
         f"{RESULT_DIR}/hmms/{RUN_ID}.hmm"
     conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{config["run"]['env_dir']}/hmmer.yaml".format(base_dir=BASE_DIR)
     shell:
         r"""
         mkdir -p "{RESULT_DIR}/hmms"
@@ -286,7 +301,7 @@ rule extract_hmms:
 
 rule make_hmm_frm_msa:  #make hmm profile from the input msa
     input:
-        config["inputs"]["manual"]["msa"]
+        config["inputs"]["manual"]["msa"].format(base_dir=BASE_DIR)
     output:
         f"{RESULT_DIR}/hmms/{RUN_ID}.hmm"
     
@@ -314,7 +329,7 @@ rule hmmsearch:
         f"{RESULT_DIR}/domtblout/{RUN_ID}.domtblout"
     threads: CPUS
     conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{config["run"]['env_dir']}/hmmer.yaml".format(base_dir=BASE_DIR)
     shell:
         """
             mkdir -p {RESULT_DIR}/domtblout
@@ -334,17 +349,31 @@ rule parse_results:
     output:
         FINAL_CSV
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{config["run"]['env_dir']}/Reg.yaml".format(base_dir=BASE_DIR)
     shell:
         """
         mkdir -p {RESULT_DIR}/hits
         python bin/pipelines/hmmsearch_pipeline/scripts/domtblout_to_csv.py {input} {output}
         """
 
+
+mode = config["inputs"]["mode"]["input"]
+
+if mode == "pfam":
+    FILTER_INPUTS = {
+        "csv": FINAL_CSV,
+        "ascogs": ASCOGS_TSV
+    }
+else:
+    FILTER_INPUTS = {
+        "csv": FINAL_CSV
+    }
+
+
 rule filter_results:
     input:
-        FINAL_CSV,
-        ASCOGS_TSV
+        **FILTER_INPUTS
+
     output:
         filtered = f"{RESULT_DIR}/hits/fitered_hits_{RUN_ID}.csv",
         final = f"{RESULT_DIR}/hits/final_hits_{RUN_ID}.csv"               
@@ -352,7 +381,7 @@ rule filter_results:
         evalue=config.get("params", {}).get("evalue", 1e-3),
         min_coverage=config.get("params", {}).get("min_coverage", 0.7)
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{config["run"]['env_dir']}/Reg.yaml".format(base_dir=BASE_DIR)
     run:
         import pandas as pd
 
@@ -363,54 +392,56 @@ rule filter_results:
         indb["full_evalue"] = pd.to_numeric(indb["full_evalue"], errors="coerce")
         indb["coverage"] = pd.to_numeric(indb["coverage"], errors="coerce")
 
-        # drop stale/placeholder columns that will be replaced by the merge,
-        # so we don't end up with gene_x/gene_y-style suffix collisions
-        stale_cols = ["gene", "ascog_id", "arcog_id", "category", "description"]
-        indb = indb.drop(columns=[c for c in stale_cols if c in indb.columns])
+        if params.mode == "pfam":
 
-        merged = indb.merge(
-            ascogs,
-            left_on="qacc",
-            right_on="ascog",
-            how="left",
-        )
+            # drop stale/placeholder columns that will be replaced by the merge,
+            # so we don't end up with gene_x/gene_y-style suffix collisions
+            stale_cols = ["gene", "ascog_id", "arcog_id", "category", "description"]
+            indb = indb.drop(columns=[c for c in stale_cols if c in indb.columns])
 
-        # standardize naming to match the rest of the table
-        merged = merged.rename(
-            columns={
-                "ascog": "ascog_id",
-                "arcog": "arcog_id",
-                "cat": "category",
-                "desc": "description",
-            }
-        )
+            merged = indb.merge(
+                ascogs,
+                left_on="qacc",
+                right_on="ascog",
+                how="left",
+            )
 
-        n_unmatched = merged["ascog_id"].isna().sum()
-        if n_unmatched:
-            print(f"WARNING: {n_unmatched} rows had no matching ascog for their qacc")
+            # standardize naming to match the rest of the table
+            merged = merged.rename(
+                columns={
+                    "ascog": "ascog_id",
+                    "arcog": "arcog_id",
+                    "cat": "category",
+                    "desc": "description",
+                }
+            )
 
-        # move description to be the second column
-        cols = list(merged.columns)
-        cols.remove("description")
-        cols.insert(1, "description")
-        merged = merged[cols]
+            n_unmatched = merged["ascog_id"].isna().sum()
+            if n_unmatched:
+                print(f"WARNING: {n_unmatched} rows had no matching ascog for their qacc")
 
-        # apply e-value and coverage filters
-        filtered = merged[
-            (merged["full_evalue"] <= float(params.evalue))
-            & (merged["coverage"] >= float(params.min_coverage))
-        ]
+            # move description to be the second column
+            cols = list(merged.columns)
+            cols.remove("description")
+            cols.insert(1, "description")
+            merged = merged[cols]
 
-        filtered.to_csv(output.filtered, index=False)
-                # best hit per protein_id = lowest full_evalue, taken from the filtered set
-        if filtered.empty:
-            print("WARNING: no rows passed filtering; best_hits output will be empty")
-            filtered.to_csv(output.best_hits, index=False)
-        else:
-            best_idx = filtered.groupby("protein_id")["full_evalue"].idxmin()
-            best_hits = filtered.loc[best_idx].sort_values("protein_id")
-            best_hits.to_csv(output.final, index=False)
-    
+            # apply e-value and coverage filters
+            filtered = merged[
+                (merged["full_evalue"] <= float(params.evalue))
+                & (merged["coverage"] >= float(params.min_coverage))
+            ]
+
+            filtered.to_csv(output.filtered, index=False)
+                    # best hit per protein_id = lowest full_evalue, taken from the filtered set
+            if filtered.empty:
+                print("WARNING: no rows passed filtering; best_hits output will be empty")
+                filtered.to_csv(output.best_hits, index=False)
+            else:
+                best_idx = filtered.groupby("protein_id")["full_evalue"].idxmin()
+                best_hits = filtered.loc[best_idx].sort_values("protein_id")
+                best_hits.to_csv(output.final, index=False)
+        
 
 
 
@@ -421,7 +452,7 @@ rule extract_hit_sequences:
     output:
         f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta"
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{config["run"]['env_dir']}/Reg.yaml".format(base_dir=BASE_DIR)
     shell:
         """
         python bin/pipelines/hmmsearch_pipeline/scripts/extract_hits_fasta.py {input.csv} {input.fasta} {output}
@@ -452,7 +483,7 @@ rule extract_genomic_sequences:
     output:
         directory(f"{RESULT_DIR}/sequences")
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{config["run"]['env_dir']}/Reg.yaml".format(base_dir=BASE_DIR)
     shell:
         """
         mkdir -p {output}
