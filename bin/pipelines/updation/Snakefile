@@ -137,7 +137,9 @@ rule all:
         # NEW: master tables + manually-added genomes are always in scope
         f"{MASTER_DIR}/checkm2_quality_report.tsv",
         f"{MASTER_DIR}/gtdbtk_classification.ar53.csv",
-        expand(f"{STORE_DIR}/genomes/{{accession}}.fna", accession=ALL_MANUAL_ACCESSIONS)
+        expand(f"{STORE_DIR}/genomes/{{accession}}.fna", accession=ALL_MANUAL_ACCESSIONS),
+        expand(f"{config['inputs']['out_ips_parquet']}_{{org}}.parquet", org = ORGS)
+
 
 
 
@@ -697,6 +699,13 @@ def filtered_tsv_for_org(wildcards):
                   org=wildcards.org, genome=genomes)
 
 
+def get_interpro_files(wildcards):
+    return expand(
+        f"{BAKTA_OUTDIR}/{{org}}/{{genome}}/{{genome}}_domains.tsv",
+        org=wildcards.org,
+        genome=_get_filtered_genome_list(wildcards)
+    )
+
 
 # 
 rule bakta:
@@ -761,12 +770,23 @@ rule interproscan:
         """
 
 
+rule merge_interproscan:
+    input:
+        get_interpro_files
+    output:
+        parquet=f"{config['inputs']['out_ips_parquet']}_{{org}}.parquet"
+    conda:
+        f"{config['run'].get('env_dir')}/duckdb_handler.yaml"
+    script:
+        "../../units/merge_interproscan.py"""
+
+
 rule all_interproscan:
     input:
-        genomes = filtered_genomes_for_org,
-        flag    = f"{RUN_DIR}/gtdbtk/{{org}}/gtdbtk_done.flag"
+        parquet=f"{config['inputs']['out_ips_parquet']}_{{org}}.parquet",
+        flag=f"{RUN_DIR}/gtdbtk/{{org}}/gtdbtk_done.flag"
     output:
-        done_flag = f"{RUN_DIR}/interproscan/{{org}}/ips_done.flag"
+        done_flag=f"{RUN_DIR}/interproscan/{{org}}/ips_done.flag"
     shell:
         "touch {output.done_flag}"
 
@@ -890,15 +910,16 @@ rule make_protein_csv:
                 text = next(f)
 
             
-            if "bakta" in text:
-                df = pd.read_csv(file, sep="\t", skiprows=5)
-                with open("test", 'a') as f:
-                    f.write("1"+"\n")
+            if "Bakta" in text:
+                df = pd.read_csv(file, sep="\t", skiprows=6, header=None)
+                df.columns = [
+                    "Sequence Id", "Type", "Start", "Stop", "Strand",
+                    "Locus Tag", "Gene", "Product", "DbXrefs"
+                ]
+                
             else:
                 df = pd.read_csv(file, sep = "\t")
-                with open("test", 'a') as f:
-                    f.write("2"+"\n")
-
+               
             # -------------------------
             # Bakta
             # -------------------------

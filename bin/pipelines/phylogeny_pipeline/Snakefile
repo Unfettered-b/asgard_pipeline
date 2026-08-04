@@ -159,7 +159,7 @@ rule cdhit_100:
     input:
         fasta = f"{PARENT_DIR}/{PROTEIN}.final.fasta"
     output:
-        fasta   = f"{PARENT_DIR}/{PROTEIN}.final.nr.fasta"
+        fasta = f"{PARENT_DIR}/{PROTEIN}.final.nr.fasta"
     conda:
         f"{ENV_DIR}/ssn.yaml"
     threads: 8

@@ -1,6 +1,6 @@
 run:
   id: cdpb_run4
-  phyl_id: cdpb_phyl_run_1
+  phyl_id: cdpb_phyl_run_2
   protein_name: cdpb
   pipeline: phylogeny_pipeline
   base_dir: "/home/anirudh/asgard_pipeline"
@@ -93,6 +93,7 @@ phylogeny:
     muscle:
       mode: -align
       threads: 8
+      extra_args: ' '
 
   trimming:
     method: clipkit
@@ -110,7 +111,7 @@ phylogeny:
   tree:
     method: iqtree
     iqtree:
-      model: LG + c60 + F
+      model: MFP
       seqtype: AA
       bootstrap: 1000 # >95% good enough
       bootstrap_method: -B
