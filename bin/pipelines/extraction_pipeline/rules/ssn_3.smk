@@ -330,7 +330,6 @@ if config.get('SSN', {}).get("copy_to_windows", False):
             exec > >(tee "{log}") 2>&1
             set -euxo pipefail
 
-            mkdir -p "{params.outdir}"
 
             # Copy all edge files
             rsync -av --progress \
