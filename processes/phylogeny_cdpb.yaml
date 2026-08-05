@@ -109,7 +109,7 @@ phylogeny:
       mode: smart-gap
       extra_args: ''
   tree:
-    method: iqtree
+    method: iqtree                   #iqtee| fasttree
     iqtree:
       model: MFP
       seqtype: AA

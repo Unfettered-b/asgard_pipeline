@@ -297,32 +297,48 @@ rule run_phylogeny:
     threads:
         config['phylogeny']["tree"]["iqtree"].get("threads", 16)
     params:
+        mode     =config["phylogeny"]['tree']['method'],
         prefix   = f"{RESULT_DIR}/{PROTEIN}_phylo",
         p        = config['phylogeny']["tree"]["iqtree"],
         optional = iqtree_optional_flags(config['phylogeny']["tree"]["iqtree"])
     conda:
         f"{ENV_DIR}/phylogeny.yaml"
     log:
-        f"{LOG_DIR}/{PROTEIN}.iqtree.log"
+        f"{LOG_DIR}/{PROTEIN}.{params.mode}.log"
     shell:
         """
-        iqtree \
-            -s     {input.fasta}        \
-            -m     {params.p[model]}    \
-            -st    {params.p[seqtype]}  \
-            --prefix {params.prefix}    \
-            -seed  {params.p[seed]}     \
-            -ninit {params.p[ninit]}    \
-            -ntop  {params.p[ntop]}     \
-            -nbest {params.p[nbest]}    \
-            -nstop {params.p[nstop]}    \
-            -nt    {threads}            \
-            {params.optional}           \
-            --redo                      \
-            {params.p[extra_args]}      \
-        > {log} 2>&1
+        
+        if["{params.mode}"="iqtree"]; then
+            iqtree \
+                -s     {input.fasta}        \
+                -m     {params.p[model]}    \
+                -st    {params.p[seqtype]}  \
+                --prefix {params.prefix}    \
+                -seed  {params.p[seed]}     \
+                -ninit {params.p[ninit]}    \
+                -ntop  {params.p[ntop]}     \
+                -nbest {params.p[nbest]}    \
+                -nstop {params.p[nstop]}    \
+                -nt    {threads}            \
+                {params.optional}           \
+                --redo                      \
+                {params.p[extra_args]}      \
+            > {log} 2>&1
+            
+        
+        if["{params.mode}"="fastree"]; then
+            modeltest-ng -i {input.fasta} -d aa > {log} 2>&1
+        
+        if grep "Best-fit model: LG" "{log}"; then
+            MODEL='-lg'
+        elif grep "Best-fit model:WAG" "{log}"; then
+            MODEL='-wag'
+        else
+            MODEL=''
+        
+        FastTree $MODEL {input.fasta} > {output.tree} >{log} 2>&1 
+        
         """
-
 
 rule msa_to_itol:
     input: 
