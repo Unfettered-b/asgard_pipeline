@@ -2,29 +2,28 @@
 run:
   
   pipeline: hmmsearch_pipeline
-  id: actin_run5
-  protein_name: actin
-  base_dir: "/home/bhatn/syn_cell_bio/asgard_pipeline"
+  id: ftsz_other_archaea
+  protein_name: ftsz
+  base_dir: "/mnt/Lab_work/sp_lab/asgard_pipeline"
   env_dir: "{base_dir}/bin/envs"
   log_dir: "{base_dir}/logs/pipeline_logs/"
-  reason: to extract proteins using hmm for ESCRTIII proteins in asgard
+  reason: to test for ftsz sequences in archaeal proteins
   cores: 24
 
 inputs: 
 
 #select the mode of running hmmsearch
 
-  mode: 
-    input: "jackhmmer"    #manual | jackhmmer | pfam
+  mode: "pfam"    #manual | jackhmmer | pfam
 
   pfam:
     hmm_db: "{base_dir}/database/pfam/Pfam-A.hmm"
     names:
     ids:
-     - PF01541
+     - PF00091
 
   manual:
-    msa: "path"     #give path to msa file
+    msa: ""  #give path to msa file
   
 
   jackhmmer:
@@ -35,11 +34,12 @@ inputs:
       iterations: 3
 
   database:
-    fasta: "{base_dir}/database/collated/Version1/v1_cp85_con10.fasta"
-    fna: "{base_dir}/database/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.fna"
-    gbff: "{base_dir}/database/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
-    AsCOGs: "{base_dir}/database/database/COG/AsCOGs/ali.8/"
-    ascogs_tsv: "{base_dir}/database/database/COG/AsCOGs/asCOGs.2020-10.def.tab"
+    fasta: "{base_dir}/database/other_sequences/nitrososphaeria_ftsz_ncbi.fasta"
+    fna: "{base_dir}/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.fna"
+    gbff: "{base_dir}/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
+    AsCOGs: "{base_dir}/database/COG/AsCOGs/ali.8/"
+    AsCOGs_dir: "{base_dir}/database/COG/AsCOGs"
+    ascogs_tsv: "{base_dir}/database/COG/AsCOGs/asCOGs.2020-10.def.tab"
     uniprot_db: "{base_dir}/database/uniprot_sprot.fasta"
 
 params:
