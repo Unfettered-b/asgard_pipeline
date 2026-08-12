@@ -59,16 +59,16 @@ EOF
 # Read config values
 # -------------------------------
 
-mapfile -t VALUES < <(read_config_values "$CONFIG_FILE" run.pipeline run.log_dir run.reason run.cores run.id run.parent_dir run.protein_name)
+mapfile -t VALUES < <(read_config_values "$CONFIG_FILE" run.pipeline run.reason run.cores run.id run.parent_dir run.protein_name run.base_dir)
 
 PIPELINE="${VALUES[0]}"
-LOG_DIR="${VALUES[1]}"
-RUN_REASON="${VALUES[2]}"
-CORES="${VALUES[3]}"
-RUN_ID="${VALUES[4]}"
-PARENT_DIR="${VALUES[5]}"
-PROTEIN="${VALUES[6]}"
-
+RUN_REASON="${VALUES[1]}"
+CORES="${VALUES[2]}"
+RUN_ID="${VALUES[3]}"
+PARENT_DIR="${VALUES[4]}"
+PROTEIN="${VALUES[5]}"
+BASE_DIR="${VALUES[6]}"
+LOG_DIR="${BASE_DIR}/logs/pipeline_logs"
 WORKING_DIR="$PWD"
 
 # -------------------------------

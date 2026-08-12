@@ -3,8 +3,8 @@ run:
   protein_name: cdpa
   pipeline: extraction_pipeline
   base_dir: "/home/anirudh/asgard_pipeline"
-  env_dir: "/home/anirudh/asgard_pipeline/bin/envs"
-  log_dir: "/home/anirudh/asgard_pipeline/logs/pipeline_logs/"
+  env_dir: "{base_dir}/bin/envs"
+  log_dir: "{base_dir}/logs/pipeline_logs/"
   reason: creating psiblast pipeline for cdpa
   cores: 24
   taxon_level: phylum
@@ -30,15 +30,15 @@ SSN:
   coverage: 0.6
 
 inputs:
-  database: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/IPS/protein_summary.parquet"
-  raw_database: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/IPS/asgard_ips_results_feb5.parquet"
-  genome_file: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/genome_file/jan2026_85comp10con_gf.csv"
-  protein_file: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/protein_file/jan2026_85comp10con_pf.csv"
-  fasta_file: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/fasta/v1_cp85_con10.fasta"
+  database: "{base_dir}/database/collated/Version1/filtered/85comp10con/IPS/protein_summary.parquet"
+  raw_database: "{base_dir}/database/collated/Version1/filtered/85comp10con/IPS/asgard_ips_results_feb5.parquet"
+  genome_file: "{base_dir}/database/collated/Version1/filtered/85comp10con/genome_file/jan2026_85comp10con_gf.csv"
+  protein_file: "{base_dir}/database/collated/Version1/filtered/85comp10con/protein_file/jan2026_85comp10con_pf.csv"
+  fasta_file: "{base_dir}/database/collated/Version1/filtered/85comp10con/fasta/v1_cp85_con10.fasta"
   arcog:
-    def_tab: "/home/anirudh/asgard_pipeline/database/COG/ArCOGs/arCOGdef.tab"
-    fasta: "/home/anirudh/asgard_pipeline/database/COG/ArCOGs/ar18.fa"
-    csv: "/home/anirudh/asgard_pipeline/database/COG/ArCOGs/ar18.ar14.02.csv"
+    def_tab: "{base_dir}/database/COG/ArCOGs/arCOGdef.tab"
+    fasta: "{base_dir}/database/COG/ArCOGs/ar18.fa"
+    csv: "{base_dir}/database/COG/ArCOGs/ar18.ar14.02.csv"
 
 modes:
   parse_ips:

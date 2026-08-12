@@ -15,18 +15,20 @@ if not config:
 TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 RUN_ID = config.get("run").get("id", TIMESTAMP)
 
-BASE_DIR = os.getcwd()
+BASE_DIR = config["run"]["base_dir"]
 PROJECT_NAME = config['run']['protein_name']
 CURRENT_DIR = config.get("run", {}).get('base_dir', workflow.basedir)
 RESULT_DIR = Path(f"{BASE_DIR}/database/protein_sets/{PROJECT_NAME}/{RUN_ID}")
-
+JACKHMMER_DIR=f"{RESULT_DIR}/jackhmmer"
 RESULT_DIR = RESULT_DIR /"hmmsearch"
 
-PFAM_DB = config["inputs"]["pfam"]["hmm_db"]
+PFAM_DB = config["inputs"]["pfam"]["hmm_db"].format(base_dir=BASE_DIR)
 PFAM_NAMES = config["inputs"]["pfam"]["names"]
-DB = config["inputs"]["database"]["fasta"]
-ASCOGS = config["inputs"]["database"]["AsCOGs"]
-ASCOGS_TSV = config["inputs"]['database']['ascogs_tsv']
+DB = config["inputs"]["database"]["fasta"].format(base_dir=BASE_DIR)
+ASCOGS = config["inputs"]["database"]["AsCOGs"].format(base_dir=BASE_DIR)
+ASCOGS_TSV = config["inputs"]['database']['ascogs_tsv'].format(base_dir=BASE_DIR)
+ENV_DIR = config["run"]["env_dir"].format(base_dir=BASE_DIR)
+DATABASE_DIR = config["inputs"]["database"]["AsCOGs_dir"].format(base_dir=BASE_DIR)
 
 EVALUE = config["params"]["evalue"]
 CPUS = config["params"]["cpus"]
@@ -36,23 +38,42 @@ PFAM_IDS_FILE = f"{RESULT_DIR}/pfam_ids.txt"
 ASCOG_IDS_FILE =  f"{RESULT_DIR}/ascog_ids.txt"
 MAPPING_FILE = f"{RESULT_DIR}/pfam_mapping.tsv"
 
+inclue: "bin/pipelines/hmmsearch_pipeline/rules/jackhmmer.smk"
+
+
+MODE = config["inputs"]["mode"]
+
+
+if MODE == "pfam":
+    hmm_file = f"{RESULT_DIR}/hmms/{RUN_ID}.hmm"
+
+elif MODE == "manual":
+    hmm_file = f"{RESULT_DIR}/hmms/manual/{RUN_ID}.hmm"
+elif MODE == "jackhmmer":
+    hmm_file = f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
+
+else:
+    raise ValueError(
+        f"Unknown mode '{MODE}'"
+    )
+
+
 FINAL_TARGETS = [
-        FINAL_CSV,
-        PFAM_IDS_FILE,
-        f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta"
+       FINAL_CSV,
+       PFAM_IDS_FILE,
+       f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta",
+        hmm_file
 ]
 
-if config.get("Run_full", False):
-    FINAL_TARGETS.append(f"{RESULT_DIR}/sequences"),
-    FINAL_TARGETS.append(f"{RESULT_DIR}/report/sequence_report_{RUN_ID}.pdf")
+#if config.get("Run_full", False):
+ #   FINAL_TARGETS.append(f"{RESULT_DIR}/sequences"),
+  #  FINAL_TARGETS.append(f"{RESULT_DIR}/report/sequence_report_{RUN_ID}.pdf")
 # -------------------------------
 # FINAL TARGET
 # -------------------------------
 rule all:
     input:
         FINAL_TARGETS
-
-
 
 # -------------------------------
 # Download Pfam DB (if missing)
@@ -61,12 +82,134 @@ rule download_pfam:
     output:
         PFAM_DB
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{ENV_DIR}/Reg.yaml"
     shell:
-        """
+        r"""
         mkdir -p $(dirname {output})
-        wget -q https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz
-        gunzip -c Pfam-A.hmm.gz > {output}
+        wget -qO- https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz \
+            | gunzip -c > {output}
+        """
+
+
+rule download_ascogs:
+    output:
+        definitions=f"{DATABASE_DIR}/asCOGs.2020-10.def.tab",
+        alignment=directory(f"{DATABASE_DIR}/ali.8"),
+    params:
+        # Confirmed current filenames (checked in browser, 2026-08-10):
+        # https://ftp.ncbi.nih.gov/pub/wolf/COGs/arCOG/asgard20/
+        #   asCOGs.2020-10.def.tab   <- definitions (unchanged, was already correct)
+        #   asCOG.ali.tgz            <- alignment archive (renamed from ali.8.tar.gz)
+        #   asCOGs.2023-05.csv       <- newer alternative definitions format, unused here
+        #   asgard.seq.tgz           <- raw sequences, unused here
+        urls_alignment=[
+            "https://ftp.ncbi.nih.gov/pub/wolf/COGs/arCOG/asgard20/asCOG.ali.tgz",
+        ],
+        urls_definitions=[
+            "https://ftp.ncbi.nih.gov/pub/wolf/COGs/arCOG/asgard20/asCOGs.2020-10.def.tab",
+        ],
+    shell:
+        r"""
+        set -euo pipefail
+
+        def_out="{output.definitions}"
+        ali_out="{output.alignment}"
+        db_dir=$(dirname "$def_out")
+        tmpdir="${{db_dir}}/.tmp.download_ascogs.$$"
+
+        cleanup() {{ rm -rf "$tmpdir"; }}
+        trap cleanup EXIT
+
+        rm -rf "$tmpdir"
+        mkdir -p "$tmpdir/extracted" "$db_dir"
+
+        # fetch_first_working <output_path> <url1> [url2] [url3] ...
+        # Tries each URL with a HEAD request first (fast, no download) to
+        # confirm it resolves before spending time on the real transfer.
+        fetch_first_working() {{
+            local out="$1"; shift
+            local url ok=0
+            for url in "$@"; do
+                echo "  trying: $url"
+                if curl -fsSL -o /dev/null --head \
+                        --connect-timeout 15 --max-time 20 "$url" 2>/dev/null; then
+                    echo "  -> reachable, downloading"
+                    if curl -fSL --retry 5 --retry-delay 5 --retry-connrefused \
+                            --connect-timeout 30 -o "$out" "$url"; then
+                        ok=1
+                        break
+                    else
+                        echo "  -> HEAD ok but GET failed, trying next candidate"
+                    fi
+                else
+                    echo "  -> not reachable (404 or similar), trying next candidate"
+                fi
+            done
+            if [ "$ok" -ne 1 ]; then
+                echo "ERROR: none of the candidate URLs worked for $out:" >&2
+                printf '  %s\n' "$@" >&2
+                echo "Check https://ftp.ncbi.nih.gov/pub/wolf/COGs/arCOG/asgard20/" >&2
+                echo "and https://ftp.ncbi.nih.gov/pub/wolf/_suppl/asgard20/ in a browser" >&2
+                echo "for the current filenames, then update params.urls_* accordingly." >&2
+                exit 1
+            fi
+        }}
+
+        echo "Downloading AsCOG alignment archive..."
+        fetch_first_working "$tmpdir/asCOG.ali.tgz" {params.urls_alignment}
+
+        echo "Downloading AsCOG definitions..."
+        fetch_first_working "$tmpdir/asCOGs.2020-10.def.tab" {params.urls_definitions}
+
+        echo "Validating archive..."
+        tar -tzf "$tmpdir/asCOG.ali.tgz" > /dev/null
+
+        echo "Validating definitions file..."
+        [ -s "$tmpdir/asCOGs.2020-10.def.tab" ]
+        if head -c 200 "$tmpdir/asCOGs.2020-10.def.tab" | grep -qi '<!DOCTYPE\|<html'; then
+            echo "ERROR: definitions file looks like an HTML error page, not real data" >&2
+            exit 1
+        fi
+
+        echo "Extracting AsCOGs alignment..."
+        tar -xzf "$tmpdir/asCOG.ali.tgz" -C "$tmpdir/extracted"
+
+        # Handle whichever layout the archive actually uses: a top-level
+        # "ali.8/" dir (old naming, may still be used inside the tarball
+        # even though the tarball itself was renamed), files dumped flat,
+        # or some other single top-level directory. We don't hardcode an
+        # assumption here -- if there's exactly one subdirectory, use it;
+        # otherwise assume flat layout.
+        if [ -d "$tmpdir/extracted/ali.8" ]; then
+            ali_src="$tmpdir/extracted/ali.8"
+        else
+            n_subdirs=$(find "$tmpdir/extracted" -mindepth 1 -maxdepth 1 -type d | wc -l)
+            n_topfiles=$(find "$tmpdir/extracted" -mindepth 1 -maxdepth 1 -type f | wc -l)
+            if [ "$n_subdirs" -eq 1 ] && [ "$n_topfiles" -eq 0 ]; then
+                ali_src=$(find "$tmpdir/extracted" -mindepth 1 -maxdepth 1 -type d)
+                echo "  archive has single top-level dir: $(basename "$ali_src")"
+            else
+                ali_src="$tmpdir/extracted"
+            fi
+        fi
+
+        n_files=$(find "$ali_src" -type f | wc -l)
+        if [ "$n_files" -eq 0 ]; then
+            echo "ERROR: extracted alignment directory is empty" >&2
+            echo "Archive layout was unexpected -- inspect $tmpdir/extracted manually" >&2
+            exit 1
+        fi
+        echo "Found $n_files alignment files."
+
+        echo "Installing database (atomic swap)..."
+        rm -rf "$ali_out"
+        mv "$ali_src" "$ali_out"
+       iconv -f WINDOWS-1252 -t UTF-8 "$tmpdir/asCOGs.2020-10.def.tab" -o "$tmpdir/asCOGs.2020-10.def.tab.utf8" \
+    && mv "$tmpdir/asCOGs.2020-10.def.tab.utf8" "$tmpdir/asCOGs.2020-10.def.tab"
+        mv "$tmpdir/asCOGs.2020-10.def.tab" "${{def_out}}.tmp"
+        mv "${{def_out}}.tmp" "$def_out"      
+
+        echo "AsCOG database installed successfully."
         """
 
 # -------------------------------
@@ -78,7 +221,7 @@ rule press_pfam:
     output:
         PFAM_DB + ".h3m"
     conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{ENV_DIR}/hmmer.yaml"
     shell:
         """
         hmmpress {input}
@@ -93,7 +236,7 @@ rule build_pfam_mapping:
     output:
         MAPPING_FILE
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{ENV_DIR}/Reg.yaml"
     shell:
         """
         mkdir -p {RESULT_DIR}
@@ -115,7 +258,7 @@ rule resolve_pfam_ids:
         names=config["inputs"]["pfam"].get("names", []),
         ids=config["inputs"]["pfam"].get("ids", [])
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{ENV_DIR}/Reg.yaml"
     run:
         import pandas as pd
 
@@ -194,7 +337,7 @@ rule make_cog_hmms:
         directory(f"{RESULT_DIR}/temp/{RUN_ID}/"),
         f"{RESULT_DIR}/temp/{RUN_ID}.done"
     conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{ENV_DIR}/hmmer.yaml"
     shell:
         r"""
         mkdir -p {output[0]}
@@ -212,7 +355,6 @@ rule make_cog_hmms:
             if [[ -z "$gene" || "$gene" == "-" ]]; then
                 gene="$ascog"
             fi
-
             hmm_out="{output[0]}/${{ascog}}.hmm"
 
             hmmbuild -n "$gene" "$hmm_out" "$afa"
@@ -245,7 +387,7 @@ rule extract_hmms:
     output:
         f"{RESULT_DIR}/hmms/{RUN_ID}.hmm"
     conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{ENV_DIR}/hmmer.yaml"
     shell:
         r"""
         mkdir -p "{RESULT_DIR}/hmms"
@@ -268,41 +410,63 @@ rule extract_hmms:
         """
 
 
-
-# -------------------------------
-# Press combined HMM
-# -------------------------------
-rule press_combined:
+rule make_hmm_frm_msa:  #make hmm profile from the input msa
     input:
-        f"{RESULT_DIR}/hmms/{RUN_ID}.hmm"
+        config["inputs"]["manual"]["msa"].format(base_dir=BASE_DIR)
     output:
-        f"{RESULT_DIR}/hmms/{RUN_ID}.hmm.h3m"
-    conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{RESULT_DIR}/hmms/manual/{RUN_ID}.hmm"
+    
     shell:
         """
-        hmmpress {input}
+        mkdir -p {RESULT_DIR}/hmms
+        hmmbuild {output} {input}
+
+        """ 
+
+
+
+
+# -------------------------------
+# Normalize Fasta
+# -------------------------------
+
+rule normalize_fasta:
+    input:
+        DB
+    output:
+        f"{RESULT_DIR}/db/{RUN_ID}.fasta"
+    conda:
+        f"{ENV_DIR}/Reg.yaml"
+    shell:
         """
+        mkdir -p {RESULT_DIR}/db
+        seqkit seq {input} -w 80 >  {output}
+        """
+
 
 # -------------------------------
 # Run hmmsearch
 # -------------------------------
+
+
 rule hmmsearch:
     input:
-        hmm=f"{RESULT_DIR}/hmms/{RUN_ID}.hmm",
-        db=DB
+        hmm=hmm_file,
+        db=f"{RESULT_DIR}/db/{RUN_ID}.fasta"
+
     output:
         f"{RESULT_DIR}/domtblout/{RUN_ID}.domtblout"
     threads: CPUS
     conda:
-        f"{config["run"]['env_dir']}/hmmer.yaml"
+        f"{ENV_DIR}/hmmer.yaml"
     shell:
         """
-        mkdir -p {RESULT_DIR}/domtblout
-        hmmsearch --cpu {threads} \
-            --domE {EVALUE} \
-            --domtblout {output} \
-            {input.hmm} {input.db}
+            mkdir -p {RESULT_DIR}/domtblout
+            hmmsearch --cpu {threads} \
+                --domE {EVALUE} \
+                --domtblout {output} \
+                {input.hmm} {input.db}
+        
         """
 
 # -------------------------------
@@ -314,25 +478,39 @@ rule parse_results:
     output:
         FINAL_CSV
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{ENV_DIR}/Reg.yaml"
     shell:
         """
         mkdir -p {RESULT_DIR}/hits
         python bin/pipelines/hmmsearch_pipeline/scripts/domtblout_to_csv.py {input} {output}
         """
 
+
+
+if MODE == "pfam":
+    FILTER_INPUTS = {
+        "csv": FINAL_CSV,
+        "ascogs": ASCOGS_TSV
+    }
+else:
+    FILTER_INPUTS = {
+        "csv": FINAL_CSV
+    }
+
+
 rule filter_results:
     input:
-        FINAL_CSV,
-        ASCOGS_TSV
+        **FILTER_INPUTS
+
     output:
         filtered = f"{RESULT_DIR}/hits/fitered_hits_{RUN_ID}.csv",
         final = f"{RESULT_DIR}/hits/final_hits_{RUN_ID}.csv"               
     params:
+        mode = config.get("inputs", {}).get("mode", "pfam"),
         evalue=config.get("params", {}).get("evalue", 1e-3),
         min_coverage=config.get("params", {}).get("min_coverage", 0.7)
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{ENV_DIR}/Reg.yaml"
     run:
         import pandas as pd
 
@@ -343,65 +521,67 @@ rule filter_results:
         indb["full_evalue"] = pd.to_numeric(indb["full_evalue"], errors="coerce")
         indb["coverage"] = pd.to_numeric(indb["coverage"], errors="coerce")
 
-        # drop stale/placeholder columns that will be replaced by the merge,
-        # so we don't end up with gene_x/gene_y-style suffix collisions
-        stale_cols = ["gene", "ascog_id", "arcog_id", "category", "description"]
-        indb = indb.drop(columns=[c for c in stale_cols if c in indb.columns])
+        if params.mode == "pfam":
 
-        merged = indb.merge(
-            ascogs,
-            left_on="qacc",
-            right_on="ascog",
-            how="left",
-        )
+            # drop stale/placeholder columns that will be replaced by the merge,
+            # so we don't end up with gene_x/gene_y-style suffix collisions
+            stale_cols = ["gene", "ascog_id", "arcog_id", "category", "description"]
+            indb = indb.drop(columns=[c for c in stale_cols if c in indb.columns])
 
-        # standardize naming to match the rest of the table
-        merged = merged.rename(
-            columns={
-                "ascog": "ascog_id",
-                "arcog": "arcog_id",
-                "cat": "category",
-                "desc": "description",
-            }
-        )
+            merged = indb.merge(
+                ascogs,
+                left_on="qacc",
+                right_on="ascog",
+                how="left",
+            )
 
-        n_unmatched = merged["ascog_id"].isna().sum()
-        if n_unmatched:
-            print(f"WARNING: {n_unmatched} rows had no matching ascog for their qacc")
+            # standardize naming to match the rest of the table
+            merged = merged.rename(
+                columns={
+                    "ascog": "ascog_id",
+                    "arcog": "arcog_id",
+                    "cat": "category",
+                    "desc": "description",
+                }
+            )
 
-        # move description to be the second column
-        cols = list(merged.columns)
-        cols.remove("description")
-        cols.insert(1, "description")
-        merged = merged[cols]
+            n_unmatched = merged["ascog_id"].isna().sum()
+            if n_unmatched:
+                print(f"WARNING: {n_unmatched} rows had no matching ascog for their qacc")
 
-        # apply e-value and coverage filters
-        filtered = merged[
-            (merged["full_evalue"] <= float(params.evalue))
-            & (merged["coverage"] >= float(params.min_coverage))
-        ]
+            # move description to be the second column
+            cols = list(merged.columns)
+            cols.remove("description")
+            cols.insert(1, "description")
+            merged = merged[cols]
 
-        filtered.to_csv(output.filtered, index=False)
-                # best hit per protein_id = lowest full_evalue, taken from the filtered set
-        if filtered.empty:
-            print("WARNING: no rows passed filtering; best_hits output will be empty")
-            filtered.to_csv(output.best_hits, index=False)
-        else:
-            best_idx = filtered.groupby("protein_id")["full_evalue"].idxmin()
-            best_hits = filtered.loc[best_idx].sort_values("protein_id")
-            best_hits.to_csv(output.final, index=False)
-    
+            # apply e-value and coverage filters
+            filtered = merged[
+                (merged["full_evalue"] <= float(params.evalue))
+                & (merged["coverage"] >= float(params.min_coverage))
+            ]
+
+            filtered.to_csv(output.filtered, index=False)
+                    # best hit per protein_id = lowest full_evalue, taken from the filtered set
+            if filtered.empty:
+                print("WARNING: no rows passed filtering; best_hits output will be empty")
+                filtered.to_csv(output.best_hits, index=False)
+            else:
+                best_idx = filtered.groupby("protein_id")["full_evalue"].idxmin()
+                best_hits = filtered.loc[best_idx].sort_values("protein_id")
+                best_hits.to_csv(output.final, index=False)
+        
 
 
 
 rule extract_hit_sequences:
     input:
         csv=f"{RESULT_DIR}/hits/final_hits_{RUN_ID}.csv",
-        fasta=DB
+        fasta=f"{RESULT_DIR}/db/{RUN_ID}.fasta"
     output:
         f"{RESULT_DIR}/hits/hit_sequences_{RUN_ID}.fasta"
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{ENV_DIR}/Reg.yaml"
     shell:
         """
         python bin/pipelines/hmmsearch_pipeline/scripts/extract_hits_fasta.py {input.csv} {input.fasta} {output}
@@ -432,7 +612,7 @@ rule extract_genomic_sequences:
     output:
         directory(f"{RESULT_DIR}/sequences")
     conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
+        f"{ENV_DIR}/Reg.yaml"
     shell:
         """
         mkdir -p {output}
@@ -447,8 +627,6 @@ rule generate_pdf_report:
         seq_dir = f"{RESULT_DIR}/sequences"
     output:
         f"{RESULT_DIR}/report/sequence_report_{RUN_ID}.pdf"
-    conda:
-        f"{config["run"]['env_dir']}/Reg.yaml"
     shell:
         """
         mkdir -p {RESULT_DIR}/report

@@ -1,5 +1,7 @@
 from pathlib import Path
 
+BASE_DIR = config["run"]["base_dir"]
+
 
 RUN_ID= config["run"]["id"]
 BASE_DIR = os.getcwd()
@@ -32,7 +34,8 @@ rule download_proteinfile:
 rule jackhmmer:
    input:
       file= f"{JACKHMMER_DIR}/{RUN_ID}.fasta",         
-      database=config["inputs"]["database"]["uniprot_db"]
+      database=config["inputs"]["database"]["uniprot_db"].format(base_dir=BASE_DIR)
+
    output:
       output_hits = f"{JACKHMMER_DIR}/{RUN_ID}_hits.txt",              #hits from jackhmmer
       alignment_file= f"{JACKHMMER_DIR}/{RUN_ID}.aln.sto"              #alignment file
@@ -41,7 +44,6 @@ rule jackhmmer:
       num_iterations= config["inputs"]["jackhmmer"]["params"]["iterations"],
       evalue_cutoff=config["inputs"]["jackhmmer"]["params"]["evalue_cutoff"],
       incE=config["inputs"]["jackhmmer"]["params"]["incE"]
-
 
    shell:
       """
@@ -55,12 +57,22 @@ rule make_hmmerdb:
       alignment_file  = f"{JACKHMMER_DIR}/{RUN_ID}.aln.sto"                        
       
    output:
-      hmm_file= f"{JACKHMMER_DIR}/{RUN_ID}.hmmprofile.hmm"                 
-      
-   #build hmmprofile
+      hmm_file= f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"              
+
    shell:
       """  
-      hmmbuild {output.hmm_file} {input.alignment_file}            
-      
+      hmmbuild {output.hmm_file} {input.alignment_file}   
       """
+   
+rule press:
+    input:
+        f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm"
+    output:
+        f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm.h3m"
+    shell:
+        """
+        hmmpress {input}
+        """
+
+
 

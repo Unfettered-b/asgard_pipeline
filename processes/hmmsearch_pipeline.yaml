@@ -1,26 +1,46 @@
 ---
 run:
+  
   pipeline: hmmsearch_pipeline
-  id: seg_run2
-  protein_name: seg
-  base_dir: "/home/anirudh/asgard_pipeline"
-  env_dir: "/home/anirudh/asgard_pipeline/bin/envs"
-  log_dir: "/home/anirudh/asgard_pipeline/logs/pipeline_logs/"
-  reason: to extract proteins using hmm for ESCRTIII proteins in asgard
+  id: profilin_hc1
+  protein_name: profilin
+  base_dir: "/mnt/Lab_work/sp_lab/asgard_pipeline"
+  env_dir: "{base_dir}/bin/envs"
+  log_dir: "{base_dir}/logs/pipeline_logs/"
+  reason: to find profilin homologs in HC1 genome
   cores: 24
 
 inputs: 
+
+#select the mode of running hmmsearch
+
+  mode: "pfam"    #manual | jackhmmer | pfam
+
   pfam:
-    hmm_db: "/home/anirudh/asgard_pipeline/database/pfam/Pfam-A.hmm"
+    hmm_db: "{base_dir}/database/pfam/Pfam-A.hmm"
     names:
     ids:
-     - PF01541
+     - PF00235
+
+  manual:
+    msa: ""  #give path to msa file
+  
+
+  jackhmmer:
+    params:
+      accession_id: P63261
+      incE: 10e-5
+      evalue_cutoff: 10e-5
+      iterations: 3
+
   database:
-    fasta: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/fasta/v1_cp85_con10.fasta"
-    fna: "/home/anirudh/asgard_pipeline/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.fna"
-    gbff: "/home/anirudh/asgard_pipeline/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
-    AsCOGs: "/home/anirudh/asgard_pipeline/database/COG/AsCOGs/ali.8/"
-    ascogs_tsv: "/home/anirudh/asgard_pipeline/database/COG/AsCOGs/asCOGs.2020-10.def.tab"
+    fasta: "{base_dir}/database/cds_genomes/Promethearchaeati/ncbi_dataset/data/GCA_055385335.1/protein.faa"
+    fna: "{base_dir}/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.fna"
+    gbff: "{base_dir}/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
+    AsCOGs: "{base_dir}/database/COG/AsCOGs/ali.8/"
+    AsCOGs_dir: "{base_dir}/database/COG/AsCOGs"
+    ascogs_tsv: "{base_dir}/database/COG/AsCOGs/asCOGs.2020-10.def.tab"
+    uniprot_db: "{base_dir}/database/uniprot_sprot.fasta"
 
 params:
   get_flanks: false

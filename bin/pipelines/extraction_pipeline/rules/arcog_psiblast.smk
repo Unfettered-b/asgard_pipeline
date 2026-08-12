@@ -2,13 +2,14 @@
 from pathlib import Path
 import os
 
+BASE_DIR = config["run"]["base_dir"]
 
 PROTEIN = config['run']['protein_name']
 RESULT_DIR = Path(config['run']['base_dir'])/"database"/"protein_sets"/ PROTEIN
 RESULT_DIR.mkdir(exist_ok=True)
 PSIBLAST = RESULT_DIR / "PSIBLAST"
 PSIBLAST.mkdir(exist_ok=True )
-ENV_DIR = config['run']['env_dir']
+ENV_DIR = config['run']['env_dir'].format(base_dir=BASE_DIR)
 LOG_DIR = RESULT_DIR / "LOGS"
 
 rule all:
@@ -18,7 +19,7 @@ rule all:
 
 rule create_arcog_id_set:
     input:
-        definition_tsv = config['inputs']['arcog']['def_tab']
+        definition_tsv = config['inputs']['arcog']['def_tab'].format(base_dir=BASE_DIR)
     output:
         arcog_ids = f"{PSIBLAST}/arcog/arcog_ids_{PROTEIN}.csv"
     params:
@@ -52,8 +53,8 @@ rule create_arcog_id_set:
 rule retrieve_proteins_from_ids:
     input:
         arcog_ids = f"{PSIBLAST}/arcog/arcog_ids_{PROTEIN}.csv",
-        fasta = config['inputs']['arcog']['fasta'],
-        arcog_csv = config['inputs']['arcog']['csv']
+        fasta = config['inputs']['arcog']['fasta'].format(base_dir=BASE_DIR),
+        arcog_csv = config['inputs']['arcog']['csv'].format(base_dir=BASE_DIR)
     output:
         fasta_out = f"{PSIBLAST}/arcog/candidate_{PROTEIN}_arcog_proteins.faa",
         candidate_ids = f"{PSIBLAST}/arcog/candidate_{PROTEIN}_arcog_proteins.ids",
@@ -95,17 +96,17 @@ rule retrieve_proteins_from_ids:
 # change to our internal database!!
 rule make_blastdb:
     input:
-        fasta_db = config['inputs']['fasta_file'],
+        fasta_db = config['inputs']['fasta_file'].format(base_dir=BASE_DIR),
         
     output:
         multiext(
-            config['inputs']['fasta_file'].strip(".fasta"),
+            config['inputs']['fasta_file'].format(base_dir=BASE_DIR).strip(".fasta"),
             ".phr",
             ".pin",
             ".psq"
         )
     params:
-        db_path = config['inputs']['fasta_file'].strip(".fasta")
+        db_path = config['inputs']['fasta_file'].format(base_dir=BASE_DIR).strip(".fasta")
     conda:
         f"{ENV_DIR}/ssn.yaml"
 
@@ -122,7 +123,7 @@ rule psiblast:
     input:
         query=f"{PSIBLAST}/arcog/candidate_{PROTEIN}_arcog_proteins.faa",
         db = ancient(multiext(
-            config['inputs']['fasta_file'].strip(".fasta"),
+            config['inputs']['fasta_file'].format(base_dir=BASE_DIR).strip(".fasta"),
             ".phr",
             ".pin",
             ".psq"
@@ -140,7 +141,7 @@ rule psiblast:
         f"{LOG_DIR}/blast/{PROTEIN}.psiblast.log"
 
     params:
-        db_path = config['inputs']['fasta_file'].strip(".fasta")
+        db_path = config['inputs']['fasta_file'].format(base_dir=BASE_DIR).strip(".fasta")
 
     shell:
         """
