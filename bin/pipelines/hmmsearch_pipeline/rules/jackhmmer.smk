@@ -14,11 +14,9 @@ JACKHMMER_DIR=f"{RESULT_DIR}/jackhmmer"
 
 rule all:
    input:
-      f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm",
-      f"{JACKHMMER_DIR}/{RUN_ID}_hits.txt",
-      f"{JACKHMMER_DIR}/{RUN_ID}hmmprofile.hmm.h3m"
-
-#download protein file 
+      f"{JACKHMMER_DIR}/{RUN_ID}.hmmprofile.hmm",
+      f"{JACKHMMER_DIR}/{RUN_ID}_hits.txt"
+#download fasta from uniprot
 
 
 rule download_proteinfile:

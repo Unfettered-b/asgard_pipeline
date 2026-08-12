@@ -137,7 +137,10 @@ rule all:
         # NEW: master tables + manually-added genomes are always in scope
         f"{MASTER_DIR}/checkm2_quality_report.tsv",
         f"{MASTER_DIR}/gtdbtk_classification.ar53.csv",
-        expand(f"{STORE_DIR}/genomes/{{accession}}.fna", accession=ALL_MANUAL_ACCESSIONS)
+        expand(f"{STORE_DIR}/genomes/{{accession}}.fna", accession=ALL_MANUAL_ACCESSIONS),
+        expand(f"{config['inputs']['out_ips_parquet']}_{{org}}.parquet", org = ORGS),
+        expand(f"{config['inputs']['out_ips_parquet']}_{{org}}_summary.parquet", org = ORGS)
+
 
 
 
@@ -697,6 +700,13 @@ def filtered_tsv_for_org(wildcards):
                   org=wildcards.org, genome=genomes)
 
 
+def get_interpro_files(wildcards):
+    return expand(
+        f"{BAKTA_OUTDIR}/{{org}}/{{genome}}/{{genome}}_domains.tsv",
+        org=wildcards.org,
+        genome=_get_filtered_genome_list(wildcards)
+    )
+
 
 # 
 rule bakta:
@@ -761,12 +771,34 @@ rule interproscan:
         """
 
 
+rule merge_interproscan:
+    input:
+        get_interpro_files
+    output:
+        parquet=f"{config['inputs']['out_ips_parquet']}_{{org}}.parquet"
+    conda:
+        f"{config['run'].get('env_dir')}/duckdb_handler.yaml"
+    script:
+        "../../units/merge_interproscan.py"
+
+rule protein_summary_parquet:
+    input: 
+        parquet=f"{config['inputs']['out_ips_parquet']}_{{org}}.parquet"
+    output:
+        parquet=f"{config['inputs']['out_ips_parquet']}_{{org}}_summary.parquet"
+    conda:
+        f"{config['run'].get('env_dir')}/duckdb_handler.yaml"
+    script:
+        "../../units/make_protein_summary_parquet.py"
+        
+
+
 rule all_interproscan:
     input:
-        genomes = filtered_genomes_for_org,
-        flag    = f"{RUN_DIR}/gtdbtk/{{org}}/gtdbtk_done.flag"
+        parquet=f"{config['inputs']['out_ips_parquet']}_{{org}}.parquet",
+        flag=f"{RUN_DIR}/gtdbtk/{{org}}/gtdbtk_done.flag"
     output:
-        done_flag = f"{RUN_DIR}/interproscan/{{org}}/ips_done.flag"
+        done_flag=f"{RUN_DIR}/interproscan/{{org}}/ips_done.flag"
     shell:
         "touch {output.done_flag}"
 
@@ -872,37 +904,64 @@ rule make_genome_csv:
         filtered.to_csv(output.filtered, index=False)
 
 
+
 rule make_protein_csv:
     input:
         genomes = filtered_tsv_for_org,
+        fastas = filtered_faa_for_org,
         done_flag = f"{RUN_DIR}/interproscan/{{org}}/ips_done.flag"
     output:
         f"{config['inputs']['out_protein_csv']}_{{org}}.csv"
+
     run:
         import pandas as pd
+        from pathlib import Path
+        from Bio import SeqIO
 
         dfs = []
 
-        for file in input.genomes:
-            genome = Path(file).stem
+        for tsv_file, faa_file in zip(input.genomes, input.fastas):
 
-            with open(file) as f:
-                text = next(f)
+            genome = Path(tsv_file).stem.replace(".tsv", "")
 
-            
-            if "bakta" in text:
-                df = pd.read_csv(file, sep="\t", skiprows=5)
-                with open("test", 'a') as f:
-                    f.write("1"+"\n")
+            # ---------------------------------------------------------
+            # Parse FASTA once
+            # ---------------------------------------------------------
+            protein_info = {
+                rec.id.split()[0]: {
+                    "protein_length": len(rec.seq),
+                    "protein_header": rec.description,
+                }
+                for rec in SeqIO.parse(faa_file, "fasta")
+            }
+
+            # ---------------------------------------------------------
+            # Read annotation table
+            # ---------------------------------------------------------
+            with open(tsv_file) as f:
+                first = next(f)
+
+            if "Bakta" in first:
+                df = pd.read_csv(tsv_file, sep="\t", skiprows=6, header=None)
+                df.columns = [
+                    "Sequence Id",
+                    "Type",
+                    "Start",
+                    "Stop",
+                    "Strand",
+                    "Locus Tag",
+                    "Gene",
+                    "Product",
+                    "DbXrefs",
+                ]
             else:
-                df = pd.read_csv(file, sep = "\t")
-                with open("test", 'a') as f:
-                    f.write("2"+"\n")
+                df = pd.read_csv(tsv_file, sep="\t")
 
-            # -------------------------
+            # ---------------------------------------------------------
             # Bakta
-            # -------------------------
+            # ---------------------------------------------------------
             if "Locus Tag" in df.columns:
+
                 df = df.rename(columns={
                     "Locus Tag": "locus_tag",
                     "Type": "ftype",
@@ -912,34 +971,57 @@ rule make_protein_csv:
 
                 df["length_bp"] = (df["Stop"] - df["Start"] + 1).abs()
 
-                if "Length AA" in df.columns:
-                    df["protein_length"] = df["Length AA"]
-                elif "Length (aa)" in df.columns:
-                    df["protein_length"] = df["Length (aa)"]
-                else:
-                    df["protein_length"] = ""
-
                 df["EC_number"] = ""
                 df["COG"] = ""
 
-            # -------------------------
+            # ---------------------------------------------------------
             # Prokka
-            # -------------------------
+            # ---------------------------------------------------------
             elif "locus_tag" in df.columns:
-                if "protein_length" not in df.columns:
-                    df["protein_length"] = ""
+
+                if "length_bp" not in df.columns:
+                    df["length_bp"] = (df["end"] - df["start"] + 1).abs()
+
+                if "ftype" not in df.columns:
+                    if "type" in df.columns:
+                        df["ftype"] = df["type"]
+                    else:
+                        df["ftype"] = ""
+
+                if "gene" not in df.columns:
+                    df["gene"] = ""
+
+                if "product" not in df.columns:
+                    df["product"] = ""
+
+                if "EC_number" not in df.columns:
+                    df["EC_number"] = ""
+
+                if "COG" not in df.columns:
+                    df["COG"] = ""
 
             else:
                 raise ValueError(
-                    f"Could not determine annotation format for {file}.\n"
-                    f"Columns: {list(df.columns)}"
+                    f"Could not determine annotation format for {tsv_file}\n"
+                    f"Columns found: {list(df.columns)}"
                 )
+
+            # ---------------------------------------------------------
+            # Add protein information from FASTA
+            # ---------------------------------------------------------
+            df["protein_length"] = df["locus_tag"].map(
+                lambda x: protein_info.get(x, {}).get("protein_length")
+            )
+
+            df["protein_header"] = df["locus_tag"].map(
+                lambda x: protein_info.get(x, {}).get("protein_header")
+            )
 
             out = pd.DataFrame({
                 "locus_tag": df["locus_tag"],
                 "genome_file": genome,
                 "protein_length": df["protein_length"],
-                "protein_header": "",
+                "protein_header": df["protein_header"],
                 "ftype": df["ftype"],
                 "length_bp": df["length_bp"],
                 "gene": df["gene"],
