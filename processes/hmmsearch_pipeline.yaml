@@ -2,12 +2,12 @@
 run:
   
   pipeline: hmmsearch_pipeline
-  id: ftsz_other_archaea
-  protein_name: ftsz
+  id: profilin_hc1
+  protein_name: profilin
   base_dir: "/mnt/Lab_work/sp_lab/asgard_pipeline"
   env_dir: "{base_dir}/bin/envs"
   log_dir: "{base_dir}/logs/pipeline_logs/"
-  reason: to test for ftsz sequences in archaeal proteins
+  reason: to find profilin homologs in HC1 genome
   cores: 24
 
 inputs: 
@@ -20,7 +20,7 @@ inputs:
     hmm_db: "{base_dir}/database/pfam/Pfam-A.hmm"
     names:
     ids:
-     - PF00091
+     - PF00235
 
   manual:
     msa: ""  #give path to msa file
@@ -34,7 +34,7 @@ inputs:
       iterations: 3
 
   database:
-    fasta: "{base_dir}/database/other_sequences/nitrososphaeria_ftsz_ncbi.fasta"
+    fasta: "{base_dir}/database/cds_genomes/Promethearchaeati/ncbi_dataset/data/GCA_055385335.1/protein.faa"
     fna: "{base_dir}/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.fna"
     gbff: "{base_dir}/database/other_organisms/pullulans/GCF_000721785.1_Aureobasidium_pullulans_var._pullulans_EXF-150_assembly_version_1.0_genomic.gbff"
     AsCOGs: "{base_dir}/database/COG/AsCOGs/ali.8/"
