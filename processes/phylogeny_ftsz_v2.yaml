@@ -77,10 +77,12 @@ plot:
   ymin: 0
   ymax: 1500
 phylogeny:
+  cd_hit:
+    identity: 0.95
   extend_phylogeny:
     additional_fasta: '{base_dir}/database/other_sequences/ftsz/collated_ftsz.fasta'
   threads: 12
-  run_itol_upload: false
+  run_itol_upload: true
   itol_project: Asgard
   madroot: false    
   alignment:
@@ -89,7 +91,7 @@ phylogeny:
       threads: 8
       extra_args: ''
     mafft:
-      mode: --auto
+      mode: --localpair
       threads: 8
       extra_args: '--maxiterate 1000'
     muscle:

@@ -170,20 +170,22 @@ rule add_fasta_sequences:
         f"{BASE_DIR}/bin/units/add_fasta_sequences.py"
 
 
-rule cdhit_100:
+rule cdhit:
     input:
         fasta = f"{RESULT_DIR}/{PROTEIN}.final.fasta"
     output:
         fasta = f"{RESULT_DIR}/{PROTEIN}.final.nr.fasta"
     conda:
         f"{ENV_DIR}/ssn.yaml"
+    params:
+        cd_hit_identity = config['phylogeny'].get("cdhit", {}).get("identity", 1.0)
     threads: 8
     shell:
         """
         cd-hit \
             -i {input.fasta} \
             -o {output.fasta} \
-            -c 1.0 \
+            -c {params.cdhit_identity} \
             -n 5 \
             -M 16000 \
             -T {threads} \
@@ -340,7 +342,7 @@ rule run_phylogeny:
                 > {log} 2>&1          
         
         elif [ "{params.mode}" = "fasttree" ]; then
-            modeltest-ng -i {input.fasta} -d aa -p {threads}> {log} 2>&1
+            modeltest-ng -i {input.fasta} -d aa > {log} 2>&1
         
             if grep -q "Best-fit model: LG" "{log}"; then
                 MODEL='-lg'
