@@ -13,8 +13,8 @@ sig_desc column of the collated database
 
 rule parse_ips:
     input:
-        database     = config['inputs']["database"],      # protein_summary parquet (ipr_desc aggregated)
-        raw_database = config['inputs']["raw_database"],  # raw InterPro parquet (all analyses)
+        database     = config['inputs']["database"].format(base_dir=BASE_DIR),      # protein_summary parquet (ipr_desc aggregated)
+        raw_database = config['inputs']["raw_database"].format(base_dir=BASE_DIR),  # raw InterPro parquet (all analyses)
     output:
         outfile     = f"{EXPLORATION_DIR}/{PROTEIN}_domain_proteins.tsv",
         protein_ids = f"{EXPLORATION_DIR}/{PROTEIN}.ids",
@@ -45,10 +45,10 @@ rule parse_ips:
 
 rule merge_file:
     input:
-        protein_file = config['inputs']["protein_file"],
-        fasta = config['inputs']["fasta_file"],
+        protein_file = config['inputs']["protein_file"].format(base_dir=BASE_DIR),
+        fasta = config['inputs']["fasta_file"].format(base_dir=BASE_DIR),
         protein_ids = f"{EXPLORATION_DIR}/{PROTEIN}.ids",
-        genome_file = config['inputs']['genome_file'],
+        genome_file = config['inputs']['genome_file'].format(base_dir=BASE_DIR),
         
     output:
         outfasta = f"{EXPLORATION_DIR}/{PROTEIN}.unr.fasta",

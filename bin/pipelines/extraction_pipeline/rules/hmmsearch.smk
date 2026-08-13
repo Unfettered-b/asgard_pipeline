@@ -1,6 +1,6 @@
 rule ips_acc_parse:
     input:
-        database     = config['inputs']["raw_database"],  # raw InterPro parquet (all analyses)
+        database     = config['inputs']["raw_database"].format(base_dir=BASE_DIR),  # raw InterPro parquet (all analyses)
     output:
         outfile     = f"{EXPLORATION_DIR}/{PROTEIN}.ids",
         itol_dir    = directory(f"{EXPLORATION_DIR}/{PROTEIN}_itol_domains"),
@@ -27,10 +27,10 @@ rule ips_acc_parse:
 
 rule merge_file:
     input:
-        protein_file = config['inputs']["protein_file"],
-        fasta = config['inputs']["fasta_file"],
+        protein_file = config['inputs']["protein_file"].format(base_dir=BASE_DIR),
+        fasta = config['inputs']["fasta_file"].format(base_dir=BASE_DIR),
         protein_ids = f"{EXPLORATION_DIR}/{PROTEIN}.ids",
-        genome_file = config['inputs']['genome_file'],
+        genome_file = config['inputs']['genome_file'].format(base_dir=BASE_DIR),
         
     output:
         outfasta = f"{EXPLORATION_DIR}/{PROTEIN}.unr.fasta",

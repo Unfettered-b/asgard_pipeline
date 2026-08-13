@@ -14,5 +14,6 @@ dependencies:
   - hyphy>=2.5
   - trimal
   - cd-hit
+  - modeltest-ng
   - pal2nal
   - seqkit

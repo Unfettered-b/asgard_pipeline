@@ -13,9 +13,9 @@ rule from_manual:
    
     """
     input:
-        protein_file = config['inputs']['protein_file'],
-        genome_file = config['inputs']['genome_file'],
-        fasta_file = config['inputs']['fasta_file']
+        protein_file = config['inputs']['protein_file'].format(base_dir=BASE_DIR),
+        genome_file = config['inputs']['genome_file'].format(base_dir=BASE_DIR),
+        fasta_file = config['inputs']['fasta_file'].format(base_dir=BASE_DIR)
     params:
         taxonomic_level = config.get("run", []).get('taxon_level', None), # example phylum, class, order etc
         taxon_filter = config.get('run', []).get("taxon_filter", None), # the specific name of the taxa, for eg, if the taxon_level is phylum, this would be asgardarchaeota
@@ -50,7 +50,7 @@ rule parse_ips:
     
     """
     input:
-        raw_database = config["inputs"]["raw_database"],  # raw InterPro parquet (all analyses)
+        raw_database = config["inputs"]["raw_database"].format(base_dir=BASE_DIR),  # raw InterPro parquet (all analyses)
         protein_ids = f"{EXPLORATION_DIR}/{PROTEIN}.ids",
     output:
         outfile     = f"{EXPLORATION_DIR}/{PROTEIN}_domain_proteins.tsv",

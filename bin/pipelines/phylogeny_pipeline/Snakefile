@@ -30,14 +30,24 @@ if not RUN_ID:
 if not EXPLORATION_ID:
     raise ValueError("exploration_id is required.")
 
-BASE_DIR        = os.getcwd()
-CURRENT_DIR = config['run'].get('base_dir', workflow.basedir)
+BASE_DIR = config["run"].get("base_dir", os.getcwd())
+CURRENT_DIR = BASE_DIR
 EXPLORATION_DIR = f"{BASE_DIR}/database/protein_sets/{PROTEIN}/{EXPLORATION_ID}/extraction_exploration"
 PARENT_DIR = f"{BASE_DIR}/database/protein_sets/{PROTEIN}/{EXPLORATION_ID}"
 PHYLO_DIR       = f"{PARENT_DIR}/final_phylogeny"   # pre-existing, input only
 RESULT_DIR      = f"{PARENT_DIR}/{RUN_ID}"          # all new outputs go here
 LOG_DIR         = f"{RESULT_DIR}/Logs"
-ENV_DIR = f"{config['run']['env_dir']}"
+
+
+def resolve_config_path(value):
+    if value is None:
+        return value
+    if isinstance(value, str):
+        return value.format(base_dir=BASE_DIR) if "{base_dir}" in value else value
+    return value
+
+
+ENV_DIR = resolve_config_path(config['run']['env_dir'])
 
 os.makedirs(RESULT_DIR, exist_ok=True)
 os.makedirs(LOG_DIR,    exist_ok=True)
@@ -56,6 +66,14 @@ def get_align_fasta(wildcards):
     if config['phylogeny'].get("extend_phylogeny", {}).get("add_sequences", False):
         return f"{PARENT_DIR}/{PROTEIN}.final.nr.fasta"
     return f"{PARENT_DIR}/{PROTEIN}.final.fasta"
+
+
+def get_additional_fastas(wildcards):
+    raw = config['phylogeny'].get("extend_phylogeny", {}).get("additional_fasta", [])
+    if isinstance(raw, str):
+        raw = [raw]
+    return [resolve_config_path(path) for path in raw]
+
 
 def iqtree_optional_flags(p):
     flags = []
@@ -103,7 +121,7 @@ rule make_rev_csv:
         rev_fasta = f"{PARENT_DIR}/{PROTEIN}.rev.fasta",
         unr_csv = f"{EXPLORATION_DIR}/{PROTEIN}.unr.csv"
     output:
-        rev_csv = f"{PARENT_DIR}/{PROTEIN}.rev.csv"
+        rev_csv = f"{RESULT_DIR}/{PROTEIN}.rev.csv"
     
     conda:
         f"{ENV_DIR}/Reg.yaml"
@@ -143,23 +161,20 @@ rule make_rev_csv:
 rule add_fasta_sequences:
     input:
         rev_fasta         = f"{PARENT_DIR}/{PROTEIN}.rev.fasta",
-        additional_fastas = config['phylogeny'].get('extend_phylogeny', {}).get('additional_fasta', [])
+        additional_fastas = get_additional_fastas
     output:
-        full_fasta = f"{PARENT_DIR}/{PROTEIN}.final.fasta"
+        full_fasta = f"{RESULT_DIR}/{PROTEIN}.final.fasta"
     conda:
         f"{ENV_DIR}/Reg.yaml"
     script:
-        "/home/anirudh/asgard_pipeline/bin/units/add_fasta_sequences.py"
-        
-
-
+        f"{BASE_DIR}/bin/units/add_fasta_sequences.py"
 
 
 rule cdhit_100:
     input:
-        fasta = f"{PARENT_DIR}/{PROTEIN}.final.fasta"
+        fasta = f"{RESULT_DIR}/{PROTEIN}.final.fasta"
     output:
-        fasta = f"{PARENT_DIR}/{PROTEIN}.final.nr.fasta"
+        fasta = f"{RESULT_DIR}/{PROTEIN}.final.nr.fasta"
     conda:
         f"{ENV_DIR}/ssn.yaml"
     threads: 8
@@ -178,14 +193,14 @@ rule cdhit_100:
 
 rule build_final_metadata_csv:
     input:
-        fasta        = f"{PARENT_DIR}/{PROTEIN}.final.nr.fasta",
-        pipeline_csv = f"{PARENT_DIR}/{PROTEIN}.rev.csv"
+        fasta        = f"{RESULT_DIR}/{PROTEIN}.final.nr.fasta",
+        pipeline_csv = f"{RESULT_DIR}/{PROTEIN}.rev.csv"
     output:
-        final_csv = f"{PARENT_DIR}/{PROTEIN}.final.csv"
+        final_csv = f"{RESULT_DIR}/{PROTEIN}.final.csv"
     conda:
         f"{ENV_DIR}/Reg.yaml"
     script:
-        "/home/anirudh/asgard_pipeline/bin/units/build_final_metadata_csv.py"
+        f"{BASE_DIR}/bin/units/build_final_metadata_csv.py"
 
 rule align:
     input:
@@ -297,18 +312,17 @@ rule run_phylogeny:
     threads:
         config['phylogeny']["tree"]["iqtree"].get("threads", 16)
     params:
-        mode     =config["phylogeny"]['tree']['method'],
+        mode     =config['phylogeny']['tree']['method'],
         prefix   = f"{RESULT_DIR}/{PROTEIN}_phylo",
         p        = config['phylogeny']["tree"]["iqtree"],
         optional = iqtree_optional_flags(config['phylogeny']["tree"]["iqtree"])
     conda:
         f"{ENV_DIR}/phylogeny.yaml"
     log:
-        f"{LOG_DIR}/{PROTEIN}.{params.mode}.log"
+        f"{LOG_DIR}/{PROTEIN}.log"
     shell:
-        """
-        
-        if["{params.mode}"="iqtree"]; then
+        """        
+        if [ "{params.mode}" = "iqtree" ]; then
             iqtree \
                 -s     {input.fasta}        \
                 -m     {params.p[model]}    \
@@ -323,21 +337,23 @@ rule run_phylogeny:
                 {params.optional}           \
                 --redo                      \
                 {params.p[extra_args]}      \
-            > {log} 2>&1
-            
+                > {log} 2>&1          
         
-        if["{params.mode}"="fastree"]; then
-            modeltest-ng -i {input.fasta} -d aa > {log} 2>&1
+        elif [ "{params.mode}" = "fasttree" ]; then
+            modeltest-ng -i {input.fasta} -d aa -p {threads}> {log} 2>&1
         
-        if grep "Best-fit model: LG" "{log}"; then
-            MODEL='-lg'
-        elif grep "Best-fit model:WAG" "{log}"; then
-            MODEL='-wag'
+            if grep -q "Best-fit model: LG" "{log}"; then
+                MODEL='-lg'
+            elif grep -q "Best-fit model: WAG" "{log}"; then
+                MODEL='-wag'
+            else
+                MODEL=''
+            fi
+            FastTree $MODEL {input.fasta} > {output.tree} 2>> {log}
         else
-            MODEL=''
-        
-        FastTree $MODEL {input.fasta} > {output.tree} >{log} 2>&1 
-        
+            echo "Unknown tree method: {params.mode}" >&2
+            exit 1
+        fi        
         """
 
 rule msa_to_itol:

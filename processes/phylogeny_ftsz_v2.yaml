@@ -1,19 +1,19 @@
 run:
-  id: cdpb_run4
-  phyl_id: cdpb_phyl_run_2
-  protein_name: cdpb
+  id: ftsz_version2_run2
+  phyl_id: ftsz_with_archaea_run2
+  protein_name: ftsz
   pipeline: phylogeny_pipeline
-  base_dir: "/home/anirudh/asgard_pipeline"
-  env_dir: "/home/anirudh/asgard_pipeline/bin/envs"
-  log_dir: "/home/anirudh/asgard_pipeline/logs/pipeline_logs/"
-  reason: To perform phylogeny of cdpb
+  base_dir: "/mnt/Lab_work/sp_lab/asgard_pipeline"
+  env_dir: "{base_dir}/bin/envs"
+  log_dir: "{base_dir}/logs/pipeline_logs/"
+  reason: To perform phylogeny of ftsz of asgardarchaea with other archaea
   cores: 24
   taxon_level: phylum
   taxon_filter: Asgardarchaeota
   LOCUS_TAG: locus_tag
 
 SSN:
-  RUN_SSN: True
+  RUN_SSN: False
   copy_to_windows: True
   windows_path: "/mnt/e/ssn_outputs"
   SSN_BITSCORES:
@@ -32,11 +32,11 @@ SSN:
   coverage: 0.6
 
 inputs:
-  database: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/IPS/protein_summary.parquet"
-  raw_database: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/IPS/asgard_ips_results_feb5.parquet"
-  genome_file: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/genome_file/jan2026_85comp10con_gf.csv"
-  protein_file: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/protein_file/jan2026_85comp10con_pf.csv"
-  fasta_file: "/home/anirudh/asgard_pipeline/database/collated/Version1/filtered/85comp10con/fasta/v1_cp85_con10.fasta"
+  database: "{base_dir}/database/collated/Version1/filtered/85comp10con/IPS/protein_summary.parquet"
+  raw_database: "{base_dir}/database/collated/Version1/filtered/85comp10con/IPS/asgard_ips_results_feb5.parquet"
+  genome_file: "{base_dir}/database/collated/Version1/filtered/85comp10con/genome_file/jan2026_85comp10con_gf.csv"
+  protein_file: "{base_dir}/database/collated/Version1/filtered/85comp10con/protein_file/jan2026_85comp10con_pf.csv"
+  fasta_file: "{base_dir}/database/collated/Version1/filtered/85comp10con/fasta/v1_cp85_con10.fasta"
 modes:
   parse_ips:
     enabled: false
@@ -78,7 +78,7 @@ plot:
   ymax: 1500
 phylogeny:
   extend_phylogeny:
-    additional_fasta:
+    additional_fasta: '{base_dir}/database/other_sequences/ftsz/collated_ftsz.fasta'
   threads: 12
   run_itol_upload: false
   itol_project: Asgard
@@ -111,7 +111,7 @@ phylogeny:
       mode: smart-gap
       extra_args: ''
   tree:
-    method: iqtree                   #iqtee| fasttree
+    method: fasttree                   #iqtee| fasttree
     iqtree:
       model: MFP
       seqtype: AA

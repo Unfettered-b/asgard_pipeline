@@ -1,8 +1,8 @@
 rule copy_inputs:
     input:
-        csv = config['modes']['from_fasta_csv']['INPUT_CSV'],
-        fasta = config['modes']['from_fasta_csv']['INPUT_FASTA'],
-        domain_files = config['modes']['from_fasta_csv']['INPUT_DOMAINS']
+        csv = config['modes']['from_fasta_csv']['INPUT_CSV'].format(base_dir=BASE_DIR),
+        fasta = config['modes']['from_fasta_csv']['INPUT_FASTA'].format(base_dir=BASE_DIR),
+        domain_files = config['modes']['from_fasta_csv']['INPUT_DOMAINS'].format(base_dir=BASE_DIR)
     output:
         outfasta = f"{EXPLORATION_DIR}/{PROTEIN}.unr.fasta",
         protein_csv = f"{EXPLORATION_DIR}/{PROTEIN}.unr.csv",
@@ -12,7 +12,7 @@ rule copy_inputs:
         f"{env_dir}/Reg.yaml"
     params:
         protein = config['run']['protein_name'],
-        domain_files = config['modes']['from_fasta_csv']['INPUT_DOMAINS']
+        domain_files = config['modes']['from_fasta_csv']['INPUT_DOMAINS'].format(base_dir=BASE_DIR)
     shell:
         """
         cp {input.fasta} {output.outfasta}

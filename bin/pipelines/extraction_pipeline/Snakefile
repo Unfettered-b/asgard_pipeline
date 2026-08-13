@@ -25,15 +25,15 @@ TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 RUN_ID = config.get("run").get("id", TIMESTAMP)
 
 # Define the paths for output
-BASE_DIR = os.getcwd()
-CURRENT_DIR = config.get("run", {}).get('base_dir', workflow.basedir)
+BASE_DIR = config.get("run", {}).get("base_dir", os.getcwd())
+CURRENT_DIR = BASE_DIR
 RESULT_DIR = f"{BASE_DIR}/database/protein_sets/{PROTEIN}/{RUN_ID}"
 EXPLORATION_DIR = f"{RESULT_DIR}/extraction_exploration"
 PHYLO_DIR = f"{RESULT_DIR}/final_phylogeny"
 SSN_DIR =  f"{RESULT_DIR}/Sequence_similarity_network"
 LOG_DIR = f"{RESULT_DIR}/Logs"
 BENCHMARK_DIR = f"{RESULT_DIR}/benchmark_dir"
-ENV_DIR = config.get("run", [])['env_dir']
+ENV_DIR = config.get("run", {}).get("env_dir", "").format(base_dir=BASE_DIR)
 
 # Create directories
 os.makedirs(RESULT_DIR, exist_ok=True)
